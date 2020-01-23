@@ -10,6 +10,7 @@ namespace BlackjackStrategy
     {
         static void Main(string[] args)
         {
+            //Parse args
             Console.WriteLine("Hello Blackjack");
         }
     }
