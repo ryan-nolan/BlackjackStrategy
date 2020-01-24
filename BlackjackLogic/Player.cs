@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
-    public class Player
+    public class Player : Actor
     {
-        public Hand Hand;
+        //public Hand Hand;
         public int Chips;
         public int Stake;
 

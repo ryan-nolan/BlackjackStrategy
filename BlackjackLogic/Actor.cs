@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
-    public class Dealer : Actor
+    public abstract class Actor : IActor
     {
+        public List<Card> Hand = new List<Card>();
+        public int HandValue { get; set; }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
-    public class Dealer : Actor
+    interface IActor
     {
     }
 }
