@@ -6,7 +6,20 @@ using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
-    class Hand
+    public class Hand
     {
+        public List<Card> hand = new List<Card>();
+        public List<int> handValues;
+
+        public Hand()
+        {
+
+        }
+
+        public List<int> GetHandValues()
+        {
+            List<int> handValues = new List<int>();
+            return handValues;
+        }
     }
 }

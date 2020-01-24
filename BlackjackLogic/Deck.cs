@@ -49,11 +49,6 @@ namespace BlackjackLogic
             }
             Shuffle();
 
-
-            //foreach (var c in Cards)
-            //{
-            //    Console.WriteLine(c);
-            //}
             VerifyDeck(Cards);
         }
     }

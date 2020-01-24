@@ -8,5 +8,14 @@ namespace BlackjackLogic
 {
     public class Player
     {
+        public Hand Hand;
+        public int Chips;
+        public int Stake;
+
+        public void AddBet(int bet)
+        {
+            Stake += bet;
+            Chips -= bet;
+        }
     }
 }
