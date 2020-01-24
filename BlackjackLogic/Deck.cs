@@ -15,7 +15,7 @@ namespace BlackjackLogic
             BuildDeck();
         }
 
-        private void Shuffle()
+        public void Shuffle()
         {
             var stackToArray = Cards.ToArray();
             var rnd = new Random();
