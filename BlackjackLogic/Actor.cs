@@ -8,7 +8,8 @@ namespace BlackjackLogic
 {
     public abstract class Actor : IActor
     {
-        public List<Card> Hand = new List<Card>();
+        public Hand hand = new Hand();
+        public bool IsBust;
         public int HandValue { get; set; }
 
     }

@@ -8,7 +8,7 @@ namespace BlackjackLogic
 {
     public class Hand
     {
-        public List<Card> hand = new List<Card>();
+        public List<Card> cards = new List<Card>();
         public List<int> handValues = new List<int>();
 
         public Hand()
@@ -21,8 +21,14 @@ namespace BlackjackLogic
         //    List<int> handValues = new List<int>();
         //    return handValues;
         //}
+        public List<int> GetHandValues()
+        {
+            SetHandValues();
+            return handValues;
+        }
 
-        public void SetHandValue()
+
+        public void SetHandValues()
         {
             if(handValues.Count != 0) handValues.Clear();
             List<int> returnHandValues = new List<int>();
@@ -31,7 +37,7 @@ namespace BlackjackLogic
             int anAceMax = 0;
             bool hasAce = false;
 
-            foreach (var c in hand)
+            foreach (var c in cards)
             {
                 if(c.Face == Face.Ace)
                 {
@@ -40,7 +46,7 @@ namespace BlackjackLogic
             }
             if (!hasAce)
             {
-                foreach (var c in hand)
+                foreach (var c in cards)
                 {
                     if (c.Face != Face.Ace && c.Face != Face.Jack && c.Face != Face.Queen && c.Face != Face.King)
                     {
@@ -56,7 +62,7 @@ namespace BlackjackLogic
             }
             else
             {
-                foreach (var c in hand)
+                foreach (var c in cards)
                 {
                     if (c.Face != Face.Ace && c.Face != Face.Jack && c.Face != Face.Queen && c.Face != Face.King)
                     {

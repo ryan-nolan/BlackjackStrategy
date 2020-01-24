@@ -33,7 +33,12 @@ namespace BlackjackLogic
                 Console.WriteLine("FALSE");
                 return false;
             }
-            Console.WriteLine("TRUE");
+            if (cards.Count != 52)
+            {
+                Console.WriteLine("FALSE");
+                return false;
+            }
+            Console.WriteLine("DECK IS VALID");
             return true;
         }
 

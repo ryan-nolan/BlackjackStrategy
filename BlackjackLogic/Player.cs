@@ -11,6 +11,18 @@ namespace BlackjackLogic
         //public Hand Hand;
         public int Chips;
         public int Stake;
+        public Hand splitHand = new Hand();
+
+        public Player()
+        {
+            IsBust = false;
+            Chips = 500;
+        }
+        public Player(int chips)
+        {
+            IsBust = false;
+            Chips = chips;
+        }
 
         public void AddBet(int bet)
         {
