@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using static BlackjackLogic.Face
 
 namespace BlackjackLogic
 {
@@ -16,7 +17,7 @@ namespace BlackjackLogic
 
     public enum Face
     {
-        Ace,
+        Ace = 1,
         Two,
         Three,
         Four,
@@ -42,48 +43,19 @@ namespace BlackjackLogic
         {
             Suit = suit;
             Face = face;
-            switch (face)
+            switch (Face)
             {
-                case Face.Ace:
-                    Value = 1; // 1 or 11
-                    break;
-                case Face.Two:
-                    Value = 2;
-                    break;
-                case Face.Three:
-                    Value = 3;
-                    break;
-                case Face.Four:
-                    Value = 4;
-                    break;
-                case Face.Five:
-                    Value = 5;
-                    break;
-                case Face.Six:
-                    Value = 6;
-                    break;
-                case Face.Seven:
-                    Value = 7;
-                    break;
-                case Face.Eight:
-                    Value = 8;
-                    break;
-                case Face.Nine:
-                    Value = 9;
-                    break;
                 case Face.Ten:
+                case Face.Jack:
+                case Face.Queen:
+                case Face.King:
                     Value = 10;
                     break;
-                case Face.Jack:
-                    Value = 11; // 10 in Blackjack
-                    break;
-                case Face.Queen:
-                    Value = 12; // 10 in Blackjack
-                    break;
-                case Face.King:
-                    Value = 13; // 10 in Blackjack
+                case Face.Ace:
+                    Value = 11;
                     break;
                 default:
+                    Value = (int)Face;
                     break;
             }
         }
