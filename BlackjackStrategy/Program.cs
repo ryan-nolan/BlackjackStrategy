@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlackjackLogic;
 
 namespace BlackjackStrategy
 {
@@ -11,7 +12,8 @@ namespace BlackjackStrategy
         static void Main(string[] args)
         {
             //Parse args
-            Console.WriteLine("Hello Blackjack");
+            //init game loop and pass parsed args
+            Game _game = new Game();
         }
     }
 }
