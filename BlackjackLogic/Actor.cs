@@ -10,7 +10,6 @@ namespace BlackjackLogic
     {
         public Hand hand = new Hand();
         public bool IsBust;
-        public int HandValue { get; set; }
 
     }
 }
