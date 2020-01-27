@@ -7,15 +7,6 @@ using System.Threading.Tasks;
 namespace BlackjackLogic
 {
 
-    public enum PlayerState
-    {
-        HIT,
-        STAND,
-        SPLIT,
-        DOUBLE_DOWN,
-        BUST,
-
-    }
 
     public class Player : Actor
     {
@@ -39,6 +30,12 @@ namespace BlackjackLogic
         {
             Stake += bet;
             Chips -= bet;
+        }
+
+        //Make decision based of current game state and strategy
+        public PlayerState React(Card DealersUpCard)
+        {
+            return PlayerState.HIT;
         }
     }
 }

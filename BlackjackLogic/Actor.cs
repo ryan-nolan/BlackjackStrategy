@@ -4,6 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+public enum PlayerState
+{
+    HIT,
+    STAND,
+    SPLIT,
+    DOUBLE_DOWN,
+    BUST,
+
+}
+
 namespace BlackjackLogic
 {
     public abstract class Actor : IActor

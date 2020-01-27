@@ -42,6 +42,7 @@ namespace BlackjackLogic
 
 
                     handsPlayed++;
+                    //Perform hand cleanup
                 }
 
                 deck = new Deck();
