@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
+
+    public enum PlayerState
+    {
+        HIT,
+        STAND,
+        SPLIT,
+        DOUBLE_DOWN,
+        BUST,
+
+    }
+
     public class Player : Actor
     {
         //public Hand Hand;

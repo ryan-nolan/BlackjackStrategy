@@ -11,31 +11,60 @@ namespace BlackjackLogic
 
         public int handsPlayed = 0;
         public int turnsPlayed = 0;
+
+        public int handsToBePlayed = 1000;
+        public int cardCountWhenToShuffle = 26;
+
         public Deck deck;
+        public List<Card> burntCards = new List<Card>();
 
         public Player player;
         public Dealer dealer;
         public Game()
         {
+            //Game is initialised   //Parameters are set //Player strategy is chosen here
+            //Deck is made
+            //Cards are shuffled
             InitialiseGame();
 
-            DealHand(dealer, player);
+            //A card is burnt
+            burntCards.Add(deck.Cards.Pop());
 
-            WriteHandAndHandValue(player);
-            WriteHandAndHandValue(dealer);
+            while(handsPlayed >= handsToBePlayed)
+            {
+                for (int j = burntCards.Count; j > cardCountWhenToShuffle; j = burntCards.Count)
+                {
 
-            Console.WriteLine();
-            Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
-            Console.WriteLine();
 
-            HitPlayer(player);
-            HitPlayer(dealer);
 
-            WriteHandAndHandValue(player);
-            WriteHandAndHandValue(dealer);
 
-            Console.WriteLine();
-            Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
+
+
+
+                    handsPlayed++;
+                }
+
+                deck = new Deck();
+                deck.Shuffle();
+                burntCards.Clear();
+                burntCards.Add(deck.Cards.Pop());
+            }
+
+            //foreach hand
+                //for half the deck is used
+                    //hand loop
+                    //Player places bet
+                    //deal 2 cards to player
+                    //deal 2 cards to dealer
+                    //Reveal first dealer card
+                    //Check naturals
+                    //while(player is not bust or stands) Player makes decisions //send player game state and wait for a state return //doubles down or splits here
+                    //If player busts, turn ends
+                    //if not player busts, dealer plays
+                    //Settlement
+                //shuffle
+
+
         }
 
         //Add player(and what strategy it plays) and dealer init
@@ -77,6 +106,28 @@ namespace BlackjackLogic
             Console.WriteLine();
         }
 
+        public void GameTest()
+        {
+            InitialiseGame();
+
+            DealHand(dealer, player);
+
+            WriteHandAndHandValue(player);
+            WriteHandAndHandValue(dealer);
+
+            Console.WriteLine();
+            Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
+            Console.WriteLine();
+
+            HitPlayer(player);
+            HitPlayer(dealer);
+
+            WriteHandAndHandValue(player);
+            WriteHandAndHandValue(dealer);
+
+            Console.WriteLine();
+            Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
+        }
 
 
 
