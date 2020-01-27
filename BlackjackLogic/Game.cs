@@ -32,6 +32,7 @@ namespace BlackjackLogic
 
             DealHand();
 
+
             //DEALER LOGIC, DEALER REACTS AND SETS HIS STATE, SHOULD REACT BEFORE AND AFTER A DECISION IS MADE
             dealer.React();
             dealer.hand.WriteHandAndHandValue();
@@ -196,6 +197,9 @@ namespace BlackjackLogic
                 CleanupHand();
                 Console.WriteLine();
             }
+
+            //TEST DEALER HAND CODE
+            //dealer.hand.cards.Add(new Card(Suit.Club, Face.Ace));
 
             //DealHand();
             //Console.WriteLine($"Dealers cards are {dealer.hand.cards[0].ToString()} and {dealer.hand.cards[1].ToString()} and their value is {dealer.hand.handValues.First()}");

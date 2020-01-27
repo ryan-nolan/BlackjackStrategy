@@ -19,6 +19,14 @@ namespace BlackjackLogic
         public PlayerState React()
         {
             hand.SetHandValues();
+            if (hand.handValues.Count > 1)
+            {
+                if (hand.handValues[1] >= 17)
+                {
+                    CurrentState = PlayerState.STAND;
+                    return PlayerState.STAND;
+                }
+            }
             if (hand.handValues.First() > 21)
             {
                 CurrentState = PlayerState.BUST;
