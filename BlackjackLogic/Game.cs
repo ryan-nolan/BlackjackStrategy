@@ -10,10 +10,8 @@ namespace BlackjackLogic
     {
 
         public int handsPlayed = 0;
-        public int turnsPlayed = 0;
-
         public int handsToBePlayed = 1000;
-        public int cardCountWhenToShuffle = 26;
+        public int cardCountWhenShuffle = 26;
 
         public Deck deck;
         public List<Card> burntCards = new List<Card>();
@@ -29,26 +27,107 @@ namespace BlackjackLogic
 
             //A card is burnt
             burntCards.Add(deck.Cards.Pop());
-
-            DealHand();
-
-
-            //DEALER LOGIC, DEALER REACTS AND SETS HIS STATE, SHOULD REACT BEFORE AND AFTER A DECISION IS MADE
-            dealer.React();
-            dealer.hand.WriteHandAndHandValue();
-            while (dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND)
+            for (int i = 0; i < handsToBePlayed; i++)
             {
-                //dealer.React();
-                if (dealer.React() == PlayerState.HIT)
+                //shuffle check     Shuffles first turn available when cards left are smaller than the number specified
+                if (deck.Cards.Count < cardCountWhenShuffle)
                 {
-                    dealer.WriteCurrentState();
-                    HitPlayer(dealer);
-                    dealer.hand.WriteHandAndHandValue();
+                    deck = new Deck();
+                    deck.Shuffle();
                 }
+
+                //TODO Player places bet
+                //Get Bet function
+
+                //Deal Cards
+                DealHand();
+
+                //Dealer reveals upcard //Reference to first card in hand
+                dealer.upCard = dealer.hand.cards[0];
+
+                //Check naturals
+                UpdateHandValues();
+                if (player.hand.handValues.Contains(21))
+                {
+                    if (!dealer.hand.handValues.Contains(21))
+                    {
+                        //TODO PLAYER WINS
+                    }
+                    //TIE
+                }
+                if (dealer.hand.handValues.Contains(21))
+                {
+                    if (!player.hand.handValues.Contains(21))
+                    {
+                        //TODO DEALER WINS
+                    }
+                    //TIE
+                }
+
+                //TODO Player reacts, can double down or split here
+
+
+
+
+
+                //If player is bust, player loses his bet and hand is over
+                if (player.CurrentState == PlayerState.BUST)
+                {
+                    //PLAYER LOSES
+                }
+                else
+                {
+                    //If not dealer reacts
+                    dealer.hand.WriteHandAndHandValue();
+                    while (dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND)
+                    {
+                        //dealer.React();
+                        if (dealer.CurrentState == PlayerState.HIT)
+                        {
+                            dealer.WriteCurrentState();
+                            HitPlayer(dealer);
+                            dealer.hand.WriteHandAndHandValue();
+                        }
+                        dealer.React();
+                    }
+                    dealer.WriteCurrentState();
+
+                    //If dealer is bust and player is not, player wins
+                    if (dealer.CurrentState == PlayerState.BUST)
+                    {
+                        //Player wins
+                    }
+                    else
+                    {
+                        //COMPARE HANDS
+                    }
+                }
+                handsPlayed++;
+                
             }
-            //If dealer is bust and player is not, player wins
-            dealer.WriteCurrentState();
-            CleanupHand();
+
+
+
+
+            //DealHand();
+
+
+            ////DEALER LOGIC, DEALER REACTS AND SETS HIS STATE, SHOULD REACT BEFORE AND AFTER A DECISION IS MADE
+            //dealer.React();
+            //dealer.hand.WriteHandAndHandValue();
+            //while (dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND)
+            //{
+            //    //dealer.React();
+            //    if (dealer.React() == PlayerState.HIT)
+            //    {
+            //        dealer.WriteCurrentState();
+            //        HitPlayer(dealer);
+            //        dealer.hand.WriteHandAndHandValue();
+            //    }
+            //}
+            ////If dealer is bust and player is not, player wins
+            //dealer.WriteCurrentState();
+            //CleanupHand();
 
 
             //while(handsPlayed >= handsToBePlayed)
@@ -82,6 +161,12 @@ namespace BlackjackLogic
             //shuffle
 
 
+        }
+
+        public void UpdateHandValues()
+        {
+            player.hand.SetHandValues();
+            dealer.hand.SetHandValues();
         }
 
         private void CleanupHand()
