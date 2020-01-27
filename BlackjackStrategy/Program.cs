@@ -23,11 +23,26 @@ namespace BlackjackStrategy
                 {
                     case "--t":
                     case "-hands":
-                        turnsToBePlayed = int.Parse(args[i + 1]);
+                        try
+                        {
+                            turnsToBePlayed = int.Parse(args[i + 1]);
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
                         break;
                     case "--s":
                     case "-shuffle":
-                        cardsBeforeShuffling = int.Parse(args[i + 1]);
+                        try
+                        {
+                            cardsBeforeShuffling = int.Parse(args[i + 1]);
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
                         break;
 
                     default:
