@@ -16,11 +16,6 @@ namespace BlackjackLogic
 
         }
 
-        //public List<int> GetHandValues()
-        //{
-        //    List<int> handValues = new List<int>();
-        //    return handValues;
-        //}
         public List<int> GetHandValues()
         {
             SetHandValues();
@@ -93,6 +88,31 @@ namespace BlackjackLogic
                 returnStr += $"{c.ToString()} ";
             }
             return returnStr;
+        }
+
+        public string HandValuesAsString()
+        {
+            SetHandValues();
+            string returnStr = "";
+            if (handValues.Count == 1)
+            {
+                returnStr += handValues.First().ToString();
+            }
+            else if (handValues.Count > 1)
+            {
+                foreach (var handVal in handValues)
+                {
+                    returnStr += $"{handVal.ToString()}, ";
+                }
+            }
+            return returnStr;
+        }
+
+        public void WriteHandAndHandValue()
+        {
+            Console.Write(ToString());
+            Console.WriteLine($"\t{HandValuesAsString()}");
+            //Console.WriteLine();
         }
     }
 }

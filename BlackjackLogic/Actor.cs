@@ -22,5 +22,7 @@ namespace BlackjackLogic
         public Hand hand = new Hand();
         public bool IsBust;
 
+
+        public abstract void WriteCurrentState();
     }
 }

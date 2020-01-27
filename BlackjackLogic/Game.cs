@@ -34,17 +34,19 @@ namespace BlackjackLogic
 
             //DEALER LOGIC, DEALER REACTS AND SETS HIS STATE, SHOULD REACT BEFORE AND AFTER A DECISION IS MADE
             dealer.React();
+            dealer.hand.WriteHandAndHandValue();
             while (dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND)
             {
                 //dealer.React();
                 if (dealer.React() == PlayerState.HIT)
                 {
+                    dealer.WriteCurrentState();
                     HitPlayer(dealer);
-                    Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
+                    dealer.hand.WriteHandAndHandValue();
                 }
             }
-
-
+            //If dealer is bust and player is not, player wins
+            dealer.WriteCurrentState();
             CleanupHand();
 
 
@@ -104,6 +106,22 @@ namespace BlackjackLogic
             player = new Player();
             dealer = new Dealer();
         }
+        private void InitialiseGame(string strategy)
+        {
+            deck = new Deck();
+            deck.Shuffle();
+
+            switch (strategy)
+            {
+                default:
+                    player = new Player();
+                    break;
+            }
+
+
+
+            dealer = new Dealer();
+        }
 
 
         public void DealHand(/*Dealer dealer, Player player*/)
@@ -124,19 +142,6 @@ namespace BlackjackLogic
             actor.hand.SetHandValues();
         }
 
-        public void WriteHandAndHandValue(Actor actor)
-        {
-            foreach (var c in actor.hand.cards)
-            {
-                Console.WriteLine(c);
-            }
-
-            foreach (var hv in actor.hand.GetHandValues())
-            {
-                Console.WriteLine($"Player hand value:\t{hv}");
-            }
-            Console.WriteLine();
-        }
 
         public void RepopulateDeck()
         {
@@ -152,8 +157,8 @@ namespace BlackjackLogic
 
             DealHand();
 
-            WriteHandAndHandValue(player);
-            WriteHandAndHandValue(dealer);
+            player.hand.WriteHandAndHandValue();
+            dealer.hand.WriteHandAndHandValue();
 
             Console.WriteLine();
             Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
@@ -162,8 +167,8 @@ namespace BlackjackLogic
             HitPlayer(player);
             HitPlayer(dealer);
 
-            WriteHandAndHandValue(player);
-            WriteHandAndHandValue(dealer);
+            player.hand.WriteHandAndHandValue();
+            dealer.hand.WriteHandAndHandValue();
 
             Console.WriteLine();
             Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");

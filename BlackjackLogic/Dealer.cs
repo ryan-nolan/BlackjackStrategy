@@ -36,5 +36,7 @@ namespace BlackjackLogic
             }
         }
 
+        public override void WriteCurrentState() { Console.WriteLine($"DEALER REACTS: {CurrentState.ToString()}"); }
+
     }
 }

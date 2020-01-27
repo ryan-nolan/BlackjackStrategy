@@ -37,5 +37,7 @@ namespace BlackjackLogic
         {
             return PlayerState.HIT;
         }
+
+        public override void WriteCurrentState() { Console.WriteLine($"PLAYER REACTS: {CurrentState.ToString()}"); }
     }
 }
