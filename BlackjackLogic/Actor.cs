@@ -18,6 +18,7 @@ namespace BlackjackLogic
 {
     public abstract class Actor : IActor
     {
+        public PlayerState CurrentState;
         public Hand hand = new Hand();
         public bool IsBust;
 

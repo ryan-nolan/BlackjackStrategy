@@ -85,5 +85,14 @@ namespace BlackjackLogic
             }
             handValues = returnHandValues;
         }
+        public override string ToString()
+        {
+            string returnStr = "";
+            foreach (var c in cards)
+            {
+                returnStr += $"{c.ToString()} ";
+            }
+            return returnStr;
+        }
     }
 }

@@ -30,46 +30,73 @@ namespace BlackjackLogic
             //A card is burnt
             burntCards.Add(deck.Cards.Pop());
 
-            while(handsPlayed >= handsToBePlayed)
+            DealHand();
+
+            //DEALER LOGIC, DEALER REACTS AND SETS HIS STATE, SHOULD REACT BEFORE AND AFTER A DECISION IS MADE
+            dealer.React();
+            while (dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND)
             {
-                for (int j = burntCards.Count; j > cardCountWhenToShuffle; j = burntCards.Count)
+                //dealer.React();
+                if (dealer.React() == PlayerState.HIT)
                 {
-
-
-
-
-
-
-
-                    handsPlayed++;
-                    //Perform hand cleanup
+                    HitPlayer(dealer);
+                    Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
                 }
-
-                deck = new Deck();
-                deck.Shuffle();
-                burntCards.Clear();
-                burntCards.Add(deck.Cards.Pop());
             }
 
+
+            CleanupHand();
+
+
+            //while(handsPlayed >= handsToBePlayed)
+            //{
+            //    for (int j = burntCards.Count; j > cardCountWhenToShuffle; j = burntCards.Count)
+            //    {
+
+
+            //        handsPlayed++;
+            //        //Perform hand cleanup
+            //    }
+
+            //    deck = new Deck();
+            //    deck.Shuffle();
+            //    burntCards.Clear();
+            //    burntCards.Add(deck.Cards.Pop());
+            //}
+
             //foreach hand
-                //for half the deck is used
-                    //hand loop
-                    //Player places bet
-                    //deal 2 cards to player
-                    //deal 2 cards to dealer
-                    //Reveal first dealer card
-                    //Check naturals
-                    //while(player is not bust or stands) Player makes decisions //send player game state and wait for a state return //doubles down or splits here
-                    //If player busts, turn ends
-                    //if not player busts, dealer plays
-                    //Settlement
-                //shuffle
+            //for half the deck is used
+            //hand loop
+            //Player places bet
+            //deal 2 cards to player
+            //deal 2 cards to dealer
+            //Reveal first dealer card
+            //Check naturals
+            //while(player is not bust or stands) Player makes decisions //send player game state and wait for a state return //doubles down or splits here
+            //If player busts, turn ends
+            //if not player busts, dealer plays
+            //Settlement
+            //shuffle
 
 
         }
 
+        private void CleanupHand()
+        {
+            foreach(var c in player.hand.cards)
+            {
+                burntCards.Add(c);
+            }
+            player.hand.cards.Clear();
+            foreach (var c in dealer.hand.cards)
+            {
+                burntCards.Add(c);
+            }
+            dealer.hand.cards.Clear();
+        }
+
         //Add player(and what strategy it plays) and dealer init
-        public void InitialiseGame()
+        private void InitialiseGame()
         {
             deck = new Deck();
             deck.Shuffle();
@@ -79,18 +106,22 @@ namespace BlackjackLogic
         }
 
 
-        public void DealHand(Dealer dealer, Player player)
+        public void DealHand(/*Dealer dealer, Player player*/)
         {
             //TODO MAYBE BURN CARDS!!!!
             player.hand.cards.Add(deck.Cards.Pop());
-            dealer.hand.cards.Add(deck.Cards.Pop());
             player.hand.cards.Add(deck.Cards.Pop());
             dealer.hand.cards.Add(deck.Cards.Pop());
+            dealer.hand.cards.Add(deck.Cards.Pop());
+
+            player.hand.SetHandValues();
+            dealer.hand.SetHandValues();
         }
 
         public void HitPlayer(Actor actor)//, Deck deck)
         {
             actor.hand.cards.Add(deck.Cards.Pop());
+            actor.hand.SetHandValues();
         }
 
         public void WriteHandAndHandValue(Actor actor)
@@ -111,7 +142,7 @@ namespace BlackjackLogic
         {
             InitialiseGame();
 
-            DealHand(dealer, player);
+            DealHand();
 
             WriteHandAndHandValue(player);
             WriteHandAndHandValue(dealer);
@@ -131,7 +162,43 @@ namespace BlackjackLogic
         }
 
 
+        public void DealerTest()
+        {
+            CleanupHand();
+            for (int i = 0; i < 5; i++)
+            {
+                DealHand();
+                Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
+                Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
+                dealer.React();
+                while ((dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND))
+                {
+                    if (dealer.React() == PlayerState.HIT)
+                    {
+                        HitPlayer(dealer);
+                        Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
+                    }
+                }
+                Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
+                CleanupHand();
+                Console.WriteLine();
+            }
 
+            //DealHand();
+            //Console.WriteLine($"Dealers cards are {dealer.hand.cards[0].ToString()} and {dealer.hand.cards[1].ToString()} and their value is {dealer.hand.handValues.First()}");
+            //Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
+            //CleanupHand();
+
+            //DealHand();
+            //Console.WriteLine($"Dealers cards are {dealer.hand.cards[0].ToString()} and {dealer.hand.cards[1].ToString()} and their value is {dealer.hand.handValues.First()}");
+            //Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
+            //CleanupHand();
+
+            //DealHand();
+            //Console.WriteLine($"Dealers cards are {dealer.hand.cards[0].ToString()} and {dealer.hand.cards[1].ToString()} and their value is {dealer.hand.handValues.First()}");
+            //Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
+            //CleanupHand();
+        }
 
 
 
