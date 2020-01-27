@@ -138,6 +138,14 @@ namespace BlackjackLogic
             Console.WriteLine();
         }
 
+        public void RepopulateDeck()
+        {
+            deck = new Deck();
+            deck.Shuffle();
+            burntCards.Clear();
+            burntCards.Add(deck.Cards.Pop());
+        }
+
         public void GameTest()
         {
             InitialiseGame();
