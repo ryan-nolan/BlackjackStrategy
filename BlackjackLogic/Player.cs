@@ -33,10 +33,10 @@ namespace BlackjackLogic
         }
 
         //Make decision based of current game state and strategy
-        public PlayerState React(Card DealersUpCard)
-        {
-            return PlayerState.HIT;
-        }
+        //public PlayerState React(Card DealersUpCard)
+        //{
+        //    return PlayerState.HIT;
+        //}
 
         public override void WriteCurrentState() { Console.WriteLine($"PLAYER REACTS: {CurrentState.ToString()}"); }
     }
