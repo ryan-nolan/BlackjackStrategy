@@ -34,7 +34,7 @@ namespace BlackjackLogic
 
         //Make decision based of current game state and strategy
         public abstract PlayerState React(Card DealersUpCard);
-        public abstract int CalculateBet();
+        public abstract int CalculateBet(int minBet, int maxBet);
 
         public override void WriteCurrentState() { Console.WriteLine($"PLAYER REACTS: {CurrentState.ToString()}"); }
     }

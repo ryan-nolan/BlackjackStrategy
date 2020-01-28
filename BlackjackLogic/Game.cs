@@ -14,6 +14,9 @@ namespace BlackjackLogic
         public int handsToBePlayed = 1000;
         public int cardCountWhenShuffle = 26;
 
+        public int minBet = 20;
+        public int maxBet = 500;
+
         public Deck deck;
         public List<Card> burntCards = new List<Card>();
 
@@ -39,13 +42,15 @@ namespace BlackjackLogic
 
                 //TODO Player places bet
                 //Get Bet function
-                player.AddBet(player.CalculateBet());
+                player.AddBet(player.CalculateBet(minBet, maxBet));
 
                 //Deal Cards
                 DealHand();
 
                 //Dealer reveals upcard //Reference to first card in hand
                 dealer.upCard = dealer.hand.cards[0];
+                Console.WriteLine($"Dealer's Up Card is: {dealer.upCard.ToString()}");
+                Console.WriteLine($"Player's cards are: {player.hand.ToString()}");
 
                 //Check naturals
                 UpdateHandValues();
@@ -54,56 +59,96 @@ namespace BlackjackLogic
                     if (!dealer.hand.handValues.Contains(21))
                     {
                         //TODO PLAYER WINS
-                    }
-                    //TIE
-                }
-                if (dealer.hand.handValues.Contains(21))
-                {
-                    if (!player.hand.handValues.Contains(21))
-                    {
-                        //TODO DEALER WINS
-                    }
-                    //TIE
-                }
-
-                //TODO Player reacts, can double down or split here
-
-
-
-
-
-                //If player is bust, player loses his bet and hand is over
-                if (player.CurrentState == PlayerState.BUST)
-                {
-                    //PLAYER LOSES
-                }
-                else
-                {
-                    //If not dealer reacts
-                    dealer.hand.WriteHandAndHandValue();
-                    while (dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND)
-                    {
-                        //dealer.React();
-                        if (dealer.CurrentState == PlayerState.HIT)
-                        {
-                            dealer.WriteCurrentState();
-                            HitPlayer(dealer);
-                            dealer.hand.WriteHandAndHandValue();
-                        }
-                        dealer.React();
-                    }
-                    dealer.WriteCurrentState();
-
-                    //If dealer is bust and player is not, player wins
-                    if (dealer.CurrentState == PlayerState.BUST)
-                    {
-                        //Player wins
+                        Console.WriteLine("Player Has a Natural");
+                        Console.WriteLine("Game Result: Player Wins");
+                        player.Chips += player.Stake * 2;
+                        player.Stake = 0;
                     }
                     else
                     {
-                        //COMPARE HANDS
+                        Console.WriteLine("Dealer Has a natural");
+                        Console.WriteLine("Game Result: TIE");
+                        player.Chips += player.Stake;
+                        //TIE
+                    }
+
+                }
+                else if (dealer.hand.handValues.Contains(21))
+                {
+                    if (!player.hand.handValues.Contains(21))
+                    {
+                        Console.WriteLine("Dealer Has a natural");
+                        Console.WriteLine("Game Result: Dealer Wins");
+                        player.Stake = 0;
+                        //TODO DEALER WINS
+                    }
+                    else
+                    {
+
+                    
+                        Console.WriteLine("Player Has a Natural");
+                        Console.WriteLine("Game Result: TIE");
+                        player.Chips += player.Stake;
+                        //TIE
                     }
                 }
+                else
+                {
+
+                    //TODO Player reacts, can double down or split here
+                    player.React(dealer.upCard);
+                    while (player.CurrentState != PlayerState.BUST && player.CurrentState != PlayerState.STAND)
+                    {
+                        //dealer.React();
+                        if (player.CurrentState == PlayerState.HIT)
+                        {
+                            player.WriteCurrentState();
+                            HitPlayer(player);
+                            //dealer.hand.WriteHandAndHandValue();
+                        }
+                        player.React(dealer.upCard);
+                    }
+                    player.WriteCurrentState();
+                    //If player is bust, player loses his bet and hand is over
+                    if (player.CurrentState == PlayerState.BUST)
+                    {
+                        //PLAYER LOSES
+                        Console.WriteLine("Game Result: Dealer Wins");
+                        player.Stake = 0;
+                    }
+                    else
+                    {
+                        Console.Write("Dealer has: ");
+                        dealer.hand.WriteHandAndHandValue();
+                        //If not dealer reacts
+                        dealer.React();
+                        while (dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND)
+                        {
+                            //dealer.React();
+                            if (dealer.CurrentState == PlayerState.HIT)
+                            {
+                                dealer.WriteCurrentState();
+                                HitPlayer(dealer);
+                                Console.WriteLine(dealer.hand.cards.Last());
+                                //dealer.hand.WriteHandAndHandValue();
+                            }
+                            dealer.React();
+                        }
+                        dealer.WriteCurrentState();
+
+                        //If dealer is bust and player is not, player wins
+                        if (dealer.CurrentState == PlayerState.BUST)
+                        {
+                            
+                            //Player wins
+                        }
+                        else
+                        {
+                            //COMPARE HANDS
+                        }
+                    }
+                }
+                CleanupHand();
                 handsPlayed++;
                 
             }
