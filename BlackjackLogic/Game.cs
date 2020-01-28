@@ -139,16 +139,37 @@ namespace BlackjackLogic
                         //If dealer is bust and player is not, player wins
                         if (dealer.CurrentState == PlayerState.BUST)
                         {
+                            Console.WriteLine("Game Result: Player Wins");
+                            player.Chips += player.Stake * 2;
                             
                             //Player wins
                         }
                         else
                         {
-                            //COMPARE HANDS
+                            player.hand.SetHandValues();
+                            dealer.hand.SetHandValues();
+                            if (player.hand.handValues.Last() > dealer.hand.handValues.Last())
+                            {
+                                Console.WriteLine("Game Result: Player Wins");
+                                player.Chips += player.Stake * 2;
+                                //Player Wins
+                            }
+                            else if (player.hand.handValues.Last() < dealer.hand.handValues.Last())
+                            {
+                                Console.WriteLine("Game Result: Dealer Wins");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Game Result: TIE");
+                                player.Chips += player.Stake;
+                            }
+                            
                         }
                     }
                 }
                 CleanupHand();
+                Console.ReadKey();
+                Console.Clear();
                 handsPlayed++;
                 
             }
@@ -228,6 +249,8 @@ namespace BlackjackLogic
                 burntCards.Add(c);
             }
             dealer.hand.cards.Clear();
+
+            player.Stake = 0;
         }
 
         //Add player(and what strategy it plays) and dealer init

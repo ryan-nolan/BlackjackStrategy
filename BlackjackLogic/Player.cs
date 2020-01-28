@@ -13,6 +13,7 @@ namespace BlackjackLogic
         //public Hand Hand;
         public int Chips;
         public int Stake;
+        public bool isDoublingDown;
         public Hand splitHand = new Hand();
 
         public Player()
