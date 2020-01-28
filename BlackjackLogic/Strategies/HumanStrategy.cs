@@ -17,7 +17,7 @@ namespace BlackjackLogic.Strategies
             {
                 try
                 {
-                    int.Parse(Console.ReadLine());
+                    stake = int.Parse(Console.ReadLine());
                 }
                 catch (Exception)
                 {
