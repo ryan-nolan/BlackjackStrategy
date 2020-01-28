@@ -8,7 +8,12 @@ namespace BlackjackLogic.Strategies
 {
     public class DealerStrategy : Player
     {
-        public PlayerState React(Card DealersUpCard)
+        public override int CalculateBet()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override PlayerState React(Card DealersUpCard)
         {
 
             hand.SetHandValues();

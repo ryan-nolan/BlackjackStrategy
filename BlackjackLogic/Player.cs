@@ -8,7 +8,7 @@ namespace BlackjackLogic
 {
 
 
-    public class Player : Actor
+    public abstract class Player : Actor
     {
         //public Hand Hand;
         public int Chips;
@@ -33,11 +33,10 @@ namespace BlackjackLogic
         }
 
         //Make decision based of current game state and strategy
-        //public PlayerState React(Card DealersUpCard)
-        //{
-        //    return PlayerState.HIT;
-        //}
+        public abstract PlayerState React(Card DealersUpCard);
+        public abstract int CalculateBet();
 
         public override void WriteCurrentState() { Console.WriteLine($"PLAYER REACTS: {CurrentState.ToString()}"); }
     }
+
 }

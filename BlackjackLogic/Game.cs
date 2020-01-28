@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlackjackLogic.Strategies;
 
 namespace BlackjackLogic
 {
@@ -23,7 +24,7 @@ namespace BlackjackLogic
             //Game is initialised   //Parameters are set //Player strategy is chosen here
             //Deck is made
             //Cards are shuffled
-            InitialiseGame();
+            InitialiseGameAsPlayer();
 
             //A card is burnt
             burntCards.Add(deck.Cards.Pop());
@@ -38,6 +39,7 @@ namespace BlackjackLogic
 
                 //TODO Player places bet
                 //Get Bet function
+                player.AddBet(player.CalculateBet());
 
                 //Deal Cards
                 DealHand();
@@ -189,7 +191,15 @@ namespace BlackjackLogic
             deck = new Deck();
             deck.Shuffle();
 
-            player = new Player();
+            player = new PlayerStrategy();
+            dealer = new Dealer();
+        }
+        private void InitialiseGameAsPlayer()
+        {
+            deck = new Deck();
+            deck.Shuffle();
+
+            player = new HumanStrategy();
             dealer = new Dealer();
         }
         private void InitialiseGame(string strategy)
@@ -200,7 +210,7 @@ namespace BlackjackLogic
             switch (strategy)
             {
                 default:
-                    player = new Player();
+                    player = new PlayerStrategy();
                     break;
             }
 

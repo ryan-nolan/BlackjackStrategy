@@ -51,6 +51,8 @@
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strategies\DealerStrategy.cs" />
+    <Compile Include="Strategies\HumanStrategy.cs" />
+    <Compile Include="Strategies\PlayerStrategy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
