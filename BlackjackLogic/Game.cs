@@ -13,6 +13,7 @@ namespace BlackjackLogic
         public int handsPlayed = 0;
         public int handsToBePlayed = 1000;
         public int cardCountWhenShuffle = 26;
+        public bool humanPlayer = false;
 
         public int minBet = 20;
         public int maxBet = 500;
@@ -168,8 +169,11 @@ namespace BlackjackLogic
                     }
                 }
                 CleanupHand();
-                Console.ReadKey();
-                Console.Clear();
+                if (humanPlayer)
+                {
+                    Console.ReadKey();
+                    Console.Clear();
+                }
                 handsPlayed++;
                 
             }
@@ -269,6 +273,7 @@ namespace BlackjackLogic
 
             player = new HumanStrategy();
             dealer = new Dealer();
+            humanPlayer = true;
         }
         private void InitialiseGame(string strategy)
         {
