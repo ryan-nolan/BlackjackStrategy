@@ -12,7 +12,7 @@ namespace BlackjackLogic.Strategies
         {
 
             int stake = 0;
-            Console.WriteLine(Chips.ToString());
+            Console.WriteLine($"Chips: {Chips.ToString()}");
             //Console.Write("Enter Amount you want to bet: ");
             while (stake == 0)
             {

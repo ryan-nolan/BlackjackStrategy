@@ -39,6 +39,7 @@ namespace BlackjackLogic
                 {
                     deck = new Deck();
                     deck.Shuffle();
+                    burntCards.Clear();
                 }
 
                 //TODO Player places bet
@@ -98,6 +99,21 @@ namespace BlackjackLogic
 
                     //TODO Player reacts, can double down or split here
                     player.React(dealer.upCard);
+                    if (player.CurrentState == PlayerState.DOUBLE_DOWN)
+                    {
+                        player.AddBet(player.Stake);
+                        HitPlayer(player);
+                        Console.WriteLine(player.hand.cards.Last());
+                        if (player.hand.handValues.First() < 21)
+                        {
+                            player.CurrentState = PlayerState.STAND;
+                        }
+                        else
+                        {
+                            player.CurrentState = PlayerState.BUST;
+                        }
+
+                    }
                     while (player.CurrentState != PlayerState.BUST && player.CurrentState != PlayerState.STAND)
                     {
                         //dealer.React();
@@ -105,6 +121,7 @@ namespace BlackjackLogic
                         {
                             player.WriteCurrentState();
                             HitPlayer(player);
+                            Console.WriteLine(player.hand.cards.Last());
                             //dealer.hand.WriteHandAndHandValue();
                         }
                         player.React(dealer.upCard);
