@@ -13,8 +13,10 @@ namespace BlackjackLogic
         //public Hand Hand;
         public int Chips;
         public int Stake;
+        public int SplitHandStake;
         public bool isDoublingDown;
         public Hand splitHand = null;
+        public PlayerState splitHandState;
 
         public Player()
         {
@@ -32,9 +34,15 @@ namespace BlackjackLogic
             Stake += bet;
             Chips -= bet;
         }
+        public void AddSplitBet(int bet)
+        {
+            SplitHandStake += bet;
+            Chips -= bet;
+        }
 
         //Make decision based of current game state and strategy
-        public abstract PlayerState React(Card DealersUpCard);
+        public abstract PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand);
+        //public abstract PlayerState React(Card DealersUpCard, Hand hand);
         public abstract int CalculateBet(int minBet, int maxBet);
 
         public override void WriteCurrentState() { Console.WriteLine($"PLAYER REACTS: {CurrentState.ToString()}"); }

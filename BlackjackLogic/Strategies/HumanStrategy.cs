@@ -31,7 +31,7 @@ namespace BlackjackLogic.Strategies
             return stake;
         }
 
-        public override PlayerState React(Card DealersUpCard)
+        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand)
         {
             Console.Write("Player's Cards: ");
             hand.WriteHandAndHandValue();
@@ -52,17 +52,17 @@ namespace BlackjackLogic.Strategies
                     switch (action)
                     {
                         case "HIT":
-                            CurrentState = PlayerState.HIT;
+                            stateToChange = PlayerState.HIT;
                             return PlayerState.HIT;
                         case "STAND":
-                            CurrentState = PlayerState.STAND;
+                            stateToChange = PlayerState.STAND;
                             return PlayerState.STAND;
                         case "SPLIT":
                             if (hand.cards.Count == 2)
                             {
                                 if (hand.cards.First().Value == hand.cards.Last().Value)
                                 {
-                                    CurrentState = PlayerState.SPLIT;
+                                    stateToChange = PlayerState.SPLIT;
                                     return PlayerState.SPLIT;
                                 }
                             }
@@ -72,7 +72,7 @@ namespace BlackjackLogic.Strategies
                             Console.WriteLine("Invalid Action: Can't split with two different values");
                             break;
                         case "DOUBLE_DOWN":
-                            CurrentState = PlayerState.DOUBLE_DOWN;
+                            stateToChange = PlayerState.DOUBLE_DOWN;
                             return PlayerState.DOUBLE_DOWN;
                         default:
                             Console.WriteLine("Invalid Action: Possible actions are HIT, STAND, SPLIT and DOUBLE_DOWN");
@@ -80,9 +80,10 @@ namespace BlackjackLogic.Strategies
                             break;
                     }
                 }
-                CurrentState = PlayerState.BUST;
+                stateToChange = PlayerState.BUST;
                 return PlayerState.BUST;
             }
         }
+
     }
 }

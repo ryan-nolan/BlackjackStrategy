@@ -13,7 +13,7 @@ namespace BlackjackLogic.Strategies
             throw new NotImplementedException();
         }
 
-        public override PlayerState React(Card DealersUpCard)
+        public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand)
         {
             throw new NotImplementedException();
         }
