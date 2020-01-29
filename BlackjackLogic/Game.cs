@@ -99,6 +99,16 @@ namespace BlackjackLogic
 
                     //TODO Player reacts, can double down or split here
                     player.React(dealer.upCard);
+                    if (player.CurrentState == PlayerState.SPLIT)
+                    {
+                        player.splitHand = new Hand();
+                        player.splitHand.cards.Add(player.hand.cards.Last());
+                        player.hand.cards.Remove(player.splitHand.cards.First());
+                        HitPlayer(player);
+                        HitPlayer(player.splitHand);
+                        Console.WriteLine(player.hand.ToString());
+                        Console.WriteLine(player.splitHand.ToString());
+                    }
                     if (player.CurrentState == PlayerState.DOUBLE_DOWN)
                     {
                         player.AddBet(player.Stake);
@@ -265,6 +275,7 @@ namespace BlackjackLogic
                 burntCards.Add(c);
             }
             player.hand.cards.Clear();
+            player.splitHand = null;
             foreach (var c in dealer.hand.cards)
             {
                 burntCards.Add(c);
@@ -326,6 +337,11 @@ namespace BlackjackLogic
         {
             actor.hand.cards.Add(deck.Cards.Pop());
             actor.hand.SetHandValues();
+        }
+        public void HitPlayer(Hand hand)//, Deck deck)
+        {
+            hand.cards.Add(deck.Cards.Pop());
+            hand.SetHandValues();
         }
 
 

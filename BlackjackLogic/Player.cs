@@ -14,7 +14,7 @@ namespace BlackjackLogic
         public int Chips;
         public int Stake;
         public bool isDoublingDown;
-        public Hand splitHand = new Hand();
+        public Hand splitHand = null;
 
         public Player()
         {

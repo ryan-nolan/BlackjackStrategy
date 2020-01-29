@@ -58,8 +58,19 @@ namespace BlackjackLogic.Strategies
                             CurrentState = PlayerState.STAND;
                             return PlayerState.STAND;
                         case "SPLIT":
-                            CurrentState = PlayerState.SPLIT;
-                            return PlayerState.SPLIT;
+                            if (hand.cards.Count == 2)
+                            {
+                                if (hand.cards.First().Value == hand.cards.Last().Value)
+                                {
+                                    CurrentState = PlayerState.SPLIT;
+                                    return PlayerState.SPLIT;
+                                }
+                            }
+                            //CurrentState = PlayerState.SPLIT;
+                            //return PlayerState.SPLIT;
+                            action = null;
+                            Console.WriteLine("Invalid Action: Can't split with two different values");
+                            break;
                         case "DOUBLE_DOWN":
                             CurrentState = PlayerState.DOUBLE_DOWN;
                             return PlayerState.DOUBLE_DOWN;
