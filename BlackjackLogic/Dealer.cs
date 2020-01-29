@@ -32,7 +32,7 @@ namespace BlackjackLogic
                 CurrentState = PlayerState.BUST;
                 return PlayerState.BUST;
             }
-            else if (hand.handValues.First() < 16)
+            else if (hand.handValues.First() < 17)
             {
                 CurrentState = PlayerState.HIT;
                 return PlayerState.HIT;
