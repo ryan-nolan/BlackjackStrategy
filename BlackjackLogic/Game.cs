@@ -40,11 +40,12 @@ namespace BlackjackLogic
                     deck = new Deck();
                     deck.Shuffle();
                     burntCards.Clear();
+                    burntCards.Add(deck.Cards.Pop());
                 }
 
                 //TODO Player places bet
                 //Get Bet function
-                player.AddBet(player.CalculateBet(minBet, maxBet));
+                player.AddBet(player.CalculateBet(minBet, maxBet), ref player.Stake);
 
                 //Deal Cards
                 DealHand();
@@ -110,7 +111,7 @@ namespace BlackjackLogic
                         Console.WriteLine(player.hand.ToString());
                         Console.WriteLine(player.splitHand.ToString());
 
-                        player.AddSplitBet(player.Stake);
+                        player.AddBet(player.Stake, ref player.SplitHandStake);
 
                         //Playing the split hand
                         player.React(dealer.upCard, ref player.splitHandState, player.splitHand);
@@ -134,7 +135,7 @@ namespace BlackjackLogic
                     }
                     if (player.CurrentState == PlayerState.DOUBLE_DOWN)
                     {
-                        player.AddBet(player.Stake);
+                        player.AddBet(player.Stake, ref player.Stake);
                         HitPlayer(player);
                         Console.WriteLine(player.hand.cards.Last());
                         if (player.hand.handValues.First() < 21)
