@@ -23,6 +23,15 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,true,true },//(A,A)
         };
 
+        bool[,] HardDoubleDown = new bool[4, 10]
+        {
+            //2   3    4    5    6    7    8    9    10   A
+            {false,false,false,false,false,false,false,false,false,false},//8
+            {true,true,true,true,true,false,false,false,false,false },//9
+            {true,true,true,true,true,true,true,true,false,false},//10
+            {true,true,true,true,true,true,true,true,true,true },//11
+        };
+
         //Dictionary<Face, bool[]> PairSplit2 = new Dictionary<Face, bool[]>()
         //{
         //    {
@@ -31,37 +40,37 @@ namespace BlackjackLogic.Strategies
         //    }
         //};
 
-        Dictionary<Face, Dictionary<Face, bool>> PairSplit = new Dictionary<Face, Dictionary<Face, bool>>()
-        {
-            {
-                Face.Two,
-                new Dictionary<Face, bool>
-                {
-                    { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-                    { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-                    { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-                }
-            },
-            {
-                Face.Three,
-                new Dictionary<Face, bool>
-                {
-                    { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-                    { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-                    { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-                }
-            },
-            {
-                Face.Four,
-                new Dictionary<Face, bool>
-                {
-                    { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-                    { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-                    { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-                }
-            }
+        //Dictionary<Face, Dictionary<Face, bool>> PairSplit = new Dictionary<Face, Dictionary<Face, bool>>()
+        //{
+        //    {
+        //        Face.Two,
+        //        new Dictionary<Face, bool>
+        //        {
+        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
+        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
+        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
+        //        }
+        //    },
+        //    {
+        //        Face.Three,
+        //        new Dictionary<Face, bool>
+        //        {
+        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
+        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
+        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
+        //        }
+        //    },
+        //    {
+        //        Face.Four,
+        //        new Dictionary<Face, bool>
+        //        {
+        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
+        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
+        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
+        //        }
+        //    }
 
-        };
+        //};
 
         public override int CalculateBet(int minBet, int maxBet)
         {
@@ -84,6 +93,35 @@ namespace BlackjackLogic.Strategies
             //double down
             //yes
             //stand
+            if (hand.cards.Count == 2)
+            {
+                //SOFT HAND
+                if (hand.handValues.Count > 1)
+                {
+                }
+                //HARD HAND
+                else
+                {
+                    if (hand.handValues.First() >= 8 && hand.handValues.First() <= 11)
+                    {
+                        //Check the (6,2) exception
+                        if ((hand.handValues.First() == 8) && (dealersUpCard.Value == 5 || dealersUpCard.Value == 6))
+                        {
+                            if (!(hand.cards.Any(x => x.Value == 6) && hand.cards.Any(x => x.Value == 2)))
+                            {
+                                stateToChange = PlayerState.DOUBLE_DOWN;
+                                return PlayerState.DOUBLE_DOWN;
+                            }
+                        }
+                        if (HardDoubleDown[hand.handValues.First()-8,dealersUpCard.Value - 2])
+                        {
+                            stateToChange = PlayerState.DOUBLE_DOWN;
+                            return PlayerState.DOUBLE_DOWN;
+                        }
+                    }
+                }
+            }
+            
 
             //no 
             //draw? check table

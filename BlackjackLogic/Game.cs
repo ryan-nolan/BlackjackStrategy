@@ -98,7 +98,7 @@ namespace BlackjackLogic
                 else
                 {
 
-                    //TODO Player reacts, can double down or split here
+                    //Player reacts, can double down or split here
                     player.React(dealer.upCard, ref player.CurrentState, player.hand);
                     if (player.CurrentState == PlayerState.SPLIT)
                     {
@@ -118,10 +118,25 @@ namespace BlackjackLogic
                         if (player.hand.cards.First().Face == Face.Ace && player.splitHand.cards.First().Face == Face.Ace)
                         {
                             player.CurrentState = PlayerState.STAND;
+                            player.splitHandState = PlayerState.STAND;
                         }
                         else
                         { 
                             player.React(dealer.upCard, ref player.splitHandState, player.splitHand);
+                        }
+                        if (player.splitHandState == PlayerState.DOUBLE_DOWN)
+                        {
+                            player.AddBet(player.Stake, ref player.SplitHandStake);
+                            HitPlayer(player.splitHand);
+                            Console.WriteLine(player.splitHand.cards.Last());
+                            if (player.hand.handValues.First() <= 21)
+                            {
+                                player.splitHandState = PlayerState.STAND;
+                            }
+                            else
+                            {
+                                player.splitHandState = PlayerState.BUST;
+                            }
                         }
                         while (player.splitHandState != PlayerState.BUST && player.splitHandState != PlayerState.STAND)
                         {
@@ -141,12 +156,13 @@ namespace BlackjackLogic
                         }
 
                     }
+                    player.React(dealer.upCard, ref player.CurrentState, player.hand);
                     if (player.CurrentState == PlayerState.DOUBLE_DOWN)
                     {
                         player.AddBet(player.Stake, ref player.Stake);
                         HitPlayer(player);
                         Console.WriteLine(player.hand.cards.Last());
-                        if (player.hand.handValues.First() < 21)
+                        if (player.hand.handValues.First() <= 21)
                         {
                             player.CurrentState = PlayerState.STAND;
                         }
@@ -201,6 +217,12 @@ namespace BlackjackLogic
                         {
                             Console.WriteLine("Game Result: Player Wins");
                             player.Chips += player.Stake * 2;
+                            if (player.splitHand != null)
+                            {
+                                Console.WriteLine("Game Result: Player Wins Split Hand");
+                                player.Chips += player.SplitHandStake * 2;
+                            }
+                            
                             
                             //Player wins
                         }
@@ -255,6 +277,8 @@ namespace BlackjackLogic
                 handsPlayed++;
                 
             }
+            Console.WriteLine(handsPlayed);
+            Console.WriteLine(player.Chips);
 
         }
 
