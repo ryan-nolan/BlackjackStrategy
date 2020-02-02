@@ -28,7 +28,7 @@ namespace BlackjackLogic
             //Game is initialised   //Parameters are set //Player strategy is chosen here
             //Deck is made
             //Cards are shuffled
-            InitialiseGameAsPlayer();
+            InitialiseGame();
 
             //A card is burnt
             burntCards.Add(deck.Cards.Pop());
@@ -268,7 +268,7 @@ namespace BlackjackLogic
         {
             foreach(var c in player.hand.cards)
             {
-                burntCards.Add(c);
+                burntCards.Add(c.Clone());
             }
             player.hand.cards.Clear();
             player.splitHand = null;
@@ -288,7 +288,7 @@ namespace BlackjackLogic
             deck = new Deck();
             deck.Shuffle();
 
-            player = new PlayerStrategy();
+            player = new BasicStrategy();
             dealer = new Dealer();
         }
         private void InitialiseGameAsPlayer()

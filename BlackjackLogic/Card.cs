@@ -60,6 +60,11 @@ namespace BlackjackLogic
             }
         }
 
+        public Card Clone()
+        {
+            return new Card(Suit, Face);
+        }
+
         public override string ToString()
         {
             return $"{Face} of {Suit}s";
