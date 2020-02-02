@@ -34,11 +34,6 @@ namespace BlackjackLogic
             stake += bet;
             Chips -= bet;
         }
-        //public void AddSplitBet(int bet)
-        //{
-        //    SplitHandStake += bet;
-        //    Chips -= bet;
-        //}
 
         //Make decision based of current game state and strategy
         public abstract PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand);

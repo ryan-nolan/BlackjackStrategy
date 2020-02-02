@@ -108,13 +108,21 @@ namespace BlackjackLogic
                         player.hand.cards.Remove(player.splitHand.cards.First());
                         HitPlayer(player);
                         HitPlayer(player.splitHand);
+                        
                         Console.WriteLine(player.hand.ToString());
                         Console.WriteLine(player.splitHand.ToString());
 
                         player.AddBet(player.Stake, ref player.SplitHandStake);
 
                         //Playing the split hand
-                        player.React(dealer.upCard, ref player.splitHandState, player.splitHand);
+                        if (player.hand.cards.First().Face == Face.Ace && player.splitHand.cards.First().Face == Face.Ace)
+                        {
+                            player.CurrentState = PlayerState.STAND;
+                        }
+                        else
+                        { 
+                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand);
+                        }
                         while (player.splitHandState != PlayerState.BUST && player.splitHandState != PlayerState.STAND)
                         {
                             //dealer.React();

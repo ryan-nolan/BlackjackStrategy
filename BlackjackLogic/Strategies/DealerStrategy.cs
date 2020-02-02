@@ -10,7 +10,7 @@ namespace BlackjackLogic.Strategies
     {
         public override int CalculateBet(int minBet, int maxBet)
         {
-            throw new NotImplementedException();
+            return minBet;
         }
 
         public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand)
