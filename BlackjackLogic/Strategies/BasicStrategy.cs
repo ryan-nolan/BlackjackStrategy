@@ -8,7 +8,7 @@ namespace BlackjackLogic.Strategies
 {
     public class BasicStrategy : Player
     {
-        bool[,] PairSplitting = new bool[10, 10]
+        readonly bool[,] PairSplitting = new bool[10, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
             {true,true,true,true,true,true,false,false,false,false },//(2,2)
@@ -22,14 +22,25 @@ namespace BlackjackLogic.Strategies
             {false,false,false,false,false,false,false,false,false,false},//(10,10)
             {true,true,true,true,true,true,true,true,true,true },//(A,A)
         };
-
-        bool[,] HardDoubleDown = new bool[4, 10]
+        readonly bool[,] HardDoubleDown = new bool[4, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
             {false,false,false,false,false,false,false,false,false,false},//8
             {true,true,true,true,true,false,false,false,false,false },//9
             {true,true,true,true,true,true,true,true,false,false},//10
             {true,true,true,true,true,true,true,true,true,true },//11
+        };
+
+        readonly bool[,] SoftDoubleDown = new bool[7, 5]
+        {
+            //2    3     4     5     6    
+            {false,false,false,true,true},//(A,A)
+            {false,false,true,true,true},//(A,2)
+            {false,false,true,true,true},//(A,3)
+            {false,false,true,true,true},//(A,4)
+            {false,false,true,true,true},//(A,5)
+            {true,true,true,true,true},//(A,6)
+            {false,true,true,true,true}//(A,7)
         };
 
         //Dictionary<Face, bool[]> PairSplit2 = new Dictionary<Face, bool[]>()
@@ -98,6 +109,21 @@ namespace BlackjackLogic.Strategies
                 //SOFT HAND
                 if (hand.handValues.Count > 1)
                 {
+                    //Always split aces
+                    //if (hand.cards.First().Face == Face.Ace && hand.cards.Last().Face == Face.Ace)
+                    //{
+                    //    stateToChange = PlayerState.DOUBLE_DOWN;
+                    //    return PlayerState.DOUBLE_DOWN;
+                    //}
+                    var cardNotAceInHand = hand.cards.Find(x => x.Face != Face.Ace);
+                    if (cardNotAceInHand.Value <= 7 && dealersUpCard.Value <= 6)
+                    {
+                        if (SoftDoubleDown[cardNotAceInHand.Value - 2, dealersUpCard.Value - 2])
+                        {
+                            stateToChange = PlayerState.DOUBLE_DOWN;
+                            return PlayerState.DOUBLE_DOWN;
+                        }
+                    }
                 }
                 //HARD HAND
                 else
