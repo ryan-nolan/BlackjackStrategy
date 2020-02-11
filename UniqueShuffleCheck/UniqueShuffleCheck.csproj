@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F9334013-3A70-4240-9C96-BAA43C075BF8}</ProjectGuid>
+    <ProjectGuid>{D6544F93-4411-42FB-91F9-D92B4E64B965}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>BlackjackStrategy</RootNamespace>
-    <AssemblyName>BlackjackStrategy</AssemblyName>
+    <RootNamespace>UniqueShuffleCheck</RootNamespace>
+    <AssemblyName>UniqueShuffleCheck</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.11.18.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.11.18\lib\Net45\HtmlAgilityPack.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,11 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlackjackLogic\BlackjackLogic.csproj">
-      <Project>{c137cbae-1e51-4219-bbf9-a990236d50a4}</Project>
+      <Project>{C137CBAE-1E51-4219-BBF9-A990236D50A4}</Project>
       <Name>BlackjackLogic</Name>
     </ProjectReference>
   </ItemGroup>

@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy", "Blackj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackLogic", "BlackjackLogic\BlackjackLogic.csproj", "{C137CBAE-1E51-4219-BBF9-A990236D50A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackTestConsole", "BlackjackTestConsole\BlackjackTestConsole.csproj", "{C66DDC5C-EC0C-4556-BE1D-3784440A8835}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniqueShuffleCheck", "UniqueShuffleCheck\UniqueShuffleCheck.csproj", "{D6544F93-4411-42FB-91F9-D92B4E64B965}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{C137CBAE-1E51-4219-BBF9-A990236D50A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C137CBAE-1E51-4219-BBF9-A990236D50A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C137CBAE-1E51-4219-BBF9-A990236D50A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C66DDC5C-EC0C-4556-BE1D-3784440A8835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C66DDC5C-EC0C-4556-BE1D-3784440A8835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C66DDC5C-EC0C-4556-BE1D-3784440A8835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C66DDC5C-EC0C-4556-BE1D-3784440A8835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6544F93-4411-42FB-91F9-D92B4E64B965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6544F93-4411-42FB-91F9-D92B4E64B965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6544F93-4411-42FB-91F9-D92B4E64B965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6544F93-4411-42FB-91F9-D92B4E64B965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
