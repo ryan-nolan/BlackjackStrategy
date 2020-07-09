@@ -145,6 +145,10 @@ namespace BlackjackLogic
                             {
                                 player.WriteCurrentState();
                                 HitPlayer(player.splitHand);
+                                if (player.hand.handValues.First() > 21)
+                                {
+                                    player.splitHandState = PlayerState.BUST;
+                                }
                                 Console.WriteLine(player.splitHand.ToString());
                                 //dealer.hand.WriteHandAndHandValue();
                             }
@@ -177,10 +181,13 @@ namespace BlackjackLogic
                         //dealer.React();
                         if (player.CurrentState == PlayerState.HIT)
                         {
-                            player.WriteCurrentState();
                             HitPlayer(player);
-                            Console.WriteLine(player.hand.cards.Last());
-                            //dealer.hand.WriteHandAndHandValue();
+                            Console.WriteLine($"Player Hits:\t{player.hand.cards.Last()}");
+                            if (player.hand.handValues.First() > 21)
+                            {
+                                player.CurrentState = PlayerState.BUST;
+                            }
+                            player.WriteCurrentState();
                         }
                         player.React(dealer.upCard, ref player.CurrentState, player.hand);
                     }
