@@ -44,6 +44,18 @@ namespace BlackjackStrategy
                             throw;
                         }
                         break;
+                    case "--sh":
+                    case "-startingHand":
+                        try
+                        {
+                            //
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+                        break;
 
                     default:
                         break;

@@ -182,7 +182,7 @@ namespace BlackjackLogic
                         if (player.CurrentState == PlayerState.HIT)
                         {
                             HitPlayer(player);
-                            Console.WriteLine($"Player Hits:\t{player.hand.cards.Last()}");
+                            Console.WriteLine($"Player Hits:\t{player.hand.cards.Last()}\t{player.hand.handValues.Last()}");
                             if (player.hand.handValues.First() > 21)
                             {
                                 player.CurrentState = PlayerState.BUST;
@@ -191,7 +191,7 @@ namespace BlackjackLogic
                         }
                         player.React(dealer.upCard, ref player.CurrentState, player.hand);
                     }
-                    player.WriteCurrentState();
+                    Console.WriteLine($"PLAYER REACTS:\t{player.CurrentState}\t{player.hand.handValues.Last()}");
                     //If player is bust, player loses his bet and hand is over
                     if (player.CurrentState == PlayerState.BUST)
                     {
@@ -217,8 +217,7 @@ namespace BlackjackLogic
                             }
                             dealer.React();
                         }
-                        dealer.WriteCurrentState();
-
+                        Console.WriteLine($"DEALER REACTS:\t{dealer.CurrentState}\t{dealer.hand.handValues.Last()}");
                         //If dealer is bust and player is not, player wins
                         if (dealer.CurrentState == PlayerState.BUST)
                         {
