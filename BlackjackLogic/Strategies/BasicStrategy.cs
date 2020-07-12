@@ -54,7 +54,7 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,false,false,false,false,false},//14
             {true,true,true,true,true,false,false,false,false,false},//15
             {true,true,true,true,true,false,false,false,false,false},//16
-            {false,false,false,false,false,true,true,true,true,true},//17
+            {true,true,true,true,true,true,true,true,true,true},//17
 
         };
         //Soft Stand on true, hit on false
@@ -63,7 +63,7 @@ namespace BlackjackLogic.Strategies
         {
             //2   3    4    5    6    7    8    9    10   A
             {false,false,false,false,false,false,false,true,true,false },//18
-            {false,false,false,false,false,false,false,false,false,false},//19
+            {true,true,true,true,true,true,true,true,true,true},//19
 
         };
 
