@@ -8,7 +8,7 @@ namespace BlackjackLogic.Strategies
 {
     public class PlayerStrategy : Player
     {
-        public override int CalculateBet(int minBet, int maxBet)
+        public override int CalculateBet(int minBet, int maxBet, int count)
         {
             throw new NotImplementedException();
         }

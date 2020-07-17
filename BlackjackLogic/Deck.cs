@@ -12,7 +12,7 @@ namespace BlackjackLogic
     public class Deck
     {
         public Stack<Card> Cards = new Stack<Card>();
-
+        public static int deckSize = 52;
         public Deck()
         {
             BuildDeck();

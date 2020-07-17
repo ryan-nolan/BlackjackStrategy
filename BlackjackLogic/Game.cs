@@ -83,7 +83,7 @@ namespace BlackjackLogic
                 //TODO Player places bet
                 //Get Bet function
                 playerStartingChips = player.Chips;
-                player.AddBet(player.CalculateBet(minBet, maxBet), ref player.Stake);
+                player.AddBet(player.CalculateBet(minBet, maxBet, count), ref player.Stake);
                 playerStakeForFile = player.Stake; //FILE
 
                 //Deal Cards
@@ -453,7 +453,8 @@ namespace BlackjackLogic
             deck = new Deck();
             deck.Shuffle();
 
-            player = new BasicStrategy();
+            player = new FiveCountStrategy();
+            //player = new BasicStrategy();
             //player = new DealerStrategy();
             player.Chips = startChips;
             dealer = new Dealer();
