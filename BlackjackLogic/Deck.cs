@@ -13,22 +13,40 @@ namespace BlackjackLogic
     {
         public Stack<Card> Cards = new Stack<Card>();
         public static int deckSize = 52;
+        static Random rand = new Random();
         public Deck()
         {
             BuildDeck();
         }
 
+        //public void Shuffle()
+        //{
+        //    var stackToArray = Cards.ToArray();
+        //    var rnd = new Random();
+        //    Cards.Clear();
+        //    foreach (var card in stackToArray.OrderBy(x => rnd.Next()))
+        //    {
+        //        Cards.Push(card);
+        //    }
+        //}
+ 
         public void Shuffle()
         {
-            var stackToArray = Cards.ToArray();
-            var rnd = new Random();
+            Card[] deck = Cards.ToArray();
+            for (int n = deck.Length - 1; n > 0; --n)
+            {
+                int k = rand.Next(n + 1);
+                Card temp = deck[n];
+                deck[n] = deck[k];
+                deck[k] = temp;
+            }
             Cards.Clear();
-            foreach (var card in stackToArray.OrderBy(x => rnd.Next()))
+            foreach (var card in deck)
             {
                 Cards.Push(card);
             }
         }
-
+        
         public void TrueShuffle()
         {
             int[] randNums = GetTrueRandNumsIntArray();
@@ -84,12 +102,14 @@ namespace BlackjackLogic
         {
             if (cards.Count != cards.Distinct().Count())
             {
-                Console.WriteLine("FALSE");
+                Console.WriteLine("FALSE DECK IS INVALID");
+                throw new Exception { };
                 return false;
             }
             if (cards.Count != 52)
             {
                 Console.WriteLine("FALSE");
+                throw new Exception { };
                 return false;
             }
             Console.WriteLine("DECK IS VALID");

@@ -12,10 +12,10 @@ namespace BlackjackLogic
     {
 
         public int handsPlayed = 0;
-        public int handsToBePlayed = 10000;
+        public int handsToBePlayed = 50000;
         public int cardCountWhenShuffle = 13;
         public bool humanPlayer = false;
-        public int minBet = 1;
+        public int minBet = 2;
         public int maxBet = 50;
 
         public int startChips = 500;
@@ -66,11 +66,19 @@ namespace BlackjackLogic
 
             for (int i = 0; i < handsToBePlayed; i++)
             {
-                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");//CONSOLE HAND SEPERATOR
+                Console.WriteLine($"-------------------------------------------------Hand Number:\t{handsPlayed}---------------------------------------------------------------");//CONSOLE HAND SEPERATOR
                 //shuffle check     Shuffles first turn available when cards left are smaller than the number specified
                 if (deck.Cards.Count < cardCountWhenShuffle)
                 {
-                    deck = new Deck();
+                    try
+                    {
+                        deck = new Deck();
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw e;
+                    }
                     deck.Shuffle();
                     burntCards.Clear();
                     burntCards.Add(deck.Cards.Pop());
@@ -78,6 +86,7 @@ namespace BlackjackLogic
                 }
                 Console.WriteLine($"Pre hand count:\t{count}");
 
+                string currentTurnDeckHash = deck.GetDeckHash();
                 amountOfCardsInDeckBeforeTurn = deck.Cards.Count;
 
                 playersDecisions = "";
@@ -88,6 +97,7 @@ namespace BlackjackLogic
                 playerStartingChips = player.Chips;//FOR FILE
                 //Get Bet function
                 player.AddBet(player.CalculateBet(minBet, maxBet, count), ref player.Stake);
+                Console.WriteLine($"Player's starting stake:\t{player.Stake}");
                 playerStakeForFile = player.Stake; //FOR FILE
 
                 //Deal Cards
@@ -177,6 +187,7 @@ namespace BlackjackLogic
 
                         //TODO Maybe document the different stakes, e.g. splitHandStake
                         player.AddBet(player.Stake, ref player.SplitHandStake);
+                        Console.WriteLine($"Player Split Hand Stake:\t{player.SplitHandStake}");
                         
                         //Playing the split hand
                         if (player.hand.cards.First().Face == Face.Ace && player.splitHand.cards.First().Face == Face.Ace)
@@ -194,6 +205,7 @@ namespace BlackjackLogic
                         if (player.splitHandState == PlayerState.DOUBLE_DOWN)
                         {
                             player.AddBet(player.SplitHandStake, ref player.SplitHandStake);
+                            Console.WriteLine($"Player's split stake after double down:\t{player.SplitHandStake}");
                             HitPlayer(player.splitHand);
                             Console.WriteLine($"Player split double downs with:\t{player.splitHand.cards.Last()}");
                             if (player.hand.handValues.First() <= 21)
@@ -244,6 +256,7 @@ namespace BlackjackLogic
                         player.AddBet(player.Stake, ref player.Stake);
                         HitPlayer(player);
                         Console.WriteLine($"Player DOUBLES DOWN:\t{player.hand.cards.Last()}");
+                        Console.WriteLine($"Player's stake after DD:\t{player.Stake}");
                         Console.WriteLine($"Player's Hand:\t{player.hand.ToString()}\t{player.hand.handValues.Max()}");
                         if (player.hand.handValues.First() <= 21)
                         {
@@ -396,7 +409,7 @@ namespace BlackjackLogic
                     $"{playersStartingHardHandValueForFile},{playersStartingSoftHandValueForFile},{player.hand},{player.hand.handValues.Last()},{playersDecisions}," +
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
                     $"{dealer.hand.handValues.Last().ToString()},{dealersDecisions},{doesPlayerSplit},{playersStartingSplitHandForfile},{playersStartingHardHandValueForFile},{playersStartingSplitSoftHandValueForFile}," +
-                    $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit},{fiveCount}"
+                    $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit},{count},{currentTurnDeckHash}"
                     );
 
                 CleanupHand();
@@ -449,7 +462,7 @@ namespace BlackjackLogic
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
                 "DoesPlayerSplit,PlayersStartingSplitHand,PlayerStartingSplitHardHandValue,PlayerStartingSplitSoftHandValue,PlayersEndSplitHand,PlayersSplitEndHandValue,PlayersSplitHandDecisions" +
-                ",PlayersHandPreSplit,FiveCount");
+                ",PlayersHandPreSplit,Count,DeckHash");
             return file;
         }
 
