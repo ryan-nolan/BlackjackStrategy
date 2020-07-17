@@ -15,7 +15,7 @@ namespace BlackjackLogic
         public int handsToBePlayed = 10000;
         public int cardCountWhenShuffle = 13;
         public bool humanPlayer = false;
-        public int minBet = 10;
+        public int minBet = 1;
         public int maxBet = 50;
 
         public int startChips = 500;
@@ -307,7 +307,7 @@ namespace BlackjackLogic
                             Console.WriteLine("Game Result: Player Wins");
                             player.Chips += player.Stake * 2;
                             gameResult = "W";
-                            if (player.splitHand != null)
+                            if (player.splitHand != null && player.splitHandState != PlayerState.BUST)
                             {
                                 Console.WriteLine("Game Result: Player Wins Split Hand");
                                 player.Chips += player.SplitHandStake * 2;
