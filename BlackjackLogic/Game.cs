@@ -12,12 +12,11 @@ namespace BlackjackLogic
     {
 
         public int handsPlayed = 0;
-        public int handsToBePlayed = 1000;
+        public int handsToBePlayed = 25000;
         public int cardCountWhenShuffle = 13;
         public bool humanPlayer = false;
-
         public int minBet = 10;
-        public int maxBet = 500;
+        public int maxBet = 50;
 
         public int startChips = 500;
 
@@ -39,7 +38,7 @@ namespace BlackjackLogic
             InitialiseGame();
 
             //Create file and write first line
-            string filename = $"blackjackStrategy_hands({handsToBePlayed})shuffleFrequency({cardCountWhenShuffle}).csv";
+            string filename = $"{player.StrategyName}_hands({handsToBePlayed})shuffleFrequency({cardCountWhenShuffle}).csv";
             StreamWriter f = InitialiseFile(filename);
 
 
@@ -61,12 +60,13 @@ namespace BlackjackLogic
             string playersEndSplitHandValue = "";
             string playersStartingHandPreSplit = "";
             string gameResult = "";
+            string splitGameResult = "";
             //A card is burnt
             burntCards.Add(deck.Cards.Pop());
 
             for (int i = 0; i < handsToBePlayed; i++)
             {
-
+                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");//CONSOLE HAND SEPERATOR
                 //shuffle check     Shuffles first turn available when cards left are smaller than the number specified
                 if (deck.Cards.Count < cardCountWhenShuffle)
                 {
@@ -75,24 +75,27 @@ namespace BlackjackLogic
                     burntCards.Clear();
                     burntCards.Add(deck.Cards.Pop());
                 }
+
                 amountOfCardsInDeckBeforeTurn = deck.Cards.Count;
+
                 playersDecisions = "";
                 playersSplitHandDecisions = "";
                 dealersDecisions = "";
                 doesPlayerSplit = "N";
-                //TODO Player places bet
+
+                playerStartingChips = player.Chips;//FOR FILE
                 //Get Bet function
-                playerStartingChips = player.Chips;
                 player.AddBet(player.CalculateBet(minBet, maxBet, count), ref player.Stake);
-                playerStakeForFile = player.Stake; //FILE
+                playerStakeForFile = player.Stake; //FOR FILE
 
                 //Deal Cards
                 DealHand();
-                playersStartingHandPreSplit = player.hand.ToString();
+                playersStartingHandPreSplit = player.hand.ToString();//FOR FILE
+
                 //Set Starting Hand Values for file
-                playersStartingHardHandValueForFile = player.hand.handValues.First();
-                if (player.hand.handValues.Count > 1) { playersStartingSoftHandValueForFile = player.hand.handValues.Last(); }
-                else { playersStartingSoftHandValueForFile = 0; }
+                playersStartingHardHandValueForFile = player.hand.handValues.First();//FOR FILE
+                if (player.hand.handValues.Count > 1) { playersStartingSoftHandValueForFile = player.hand.handValues.Last(); }//FOR FILE
+                else { playersStartingSoftHandValueForFile = 0; }//FOR FILE
 
                 //Dealer reveals upcard //Reference to first card in hand
                 dealer.upCard = dealer.hand.cards[0];
@@ -105,12 +108,12 @@ namespace BlackjackLogic
                 {
                     if (!dealer.hand.handValues.Contains(21))
                     {
-                        //TODO PLAYER WINS
                         Console.WriteLine("Player Has a Natural");
                         playersDecisions = "PLAYER_NATURAL";
                         Console.WriteLine("Game Result: Player Wins");
-                        player.Chips += player.Stake * 2;
+                        player.Chips += (int)(player.Stake * 2.5);
                         player.Stake = 0;
+                        gameResult = "W_N";
                     }
                     else
                     {
@@ -120,6 +123,7 @@ namespace BlackjackLogic
                         Console.WriteLine("Game Result: TIE");
                         player.Chips += player.Stake;
                         //TIE
+                        gameResult = "D_N";
                     }
 
                 }
@@ -131,18 +135,18 @@ namespace BlackjackLogic
                         dealersDecisions = "DEALER_NATURAL";
                         Console.WriteLine("Game Result: Dealer Wins");
                         player.Stake = 0;
-                        //TODO DEALER WINS
+                        gameResult = "L_N";
                     }
                     else
                     {
 
-                    
                         Console.WriteLine("Player Has a Natural");
                         Console.WriteLine("Game Result: TIE");
                         playersDecisions = "PLAYER_NATURAL";
                         dealersDecisions = "DEALER_NATURAL";
                         player.Chips += player.Stake;
                         //TIE
+                        gameResult = "D_N";
                     }
                 }
                 else
@@ -150,11 +154,13 @@ namespace BlackjackLogic
 
                     //Player reacts, can double down or split here
                     player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
-                    //playersDecisions += player.CurrentState+"/";
+
+                    //PLAY SPLIT HANDS
                     if (player.CurrentState == PlayerState.SPLIT)
                     {
-                        playersDecisions += player.CurrentState + "/";
-                        doesPlayerSplit = "Y";
+                        playersDecisions += player.CurrentState + "/";//FOR FILE
+                        doesPlayerSplit = "Y";//FOR FILE
+
                         //Splitting the hands
                         player.splitHand = new Hand();
                         player.splitHand.cards.Add(player.hand.cards.Last());
@@ -162,38 +168,39 @@ namespace BlackjackLogic
                         HitPlayer(player);
                         HitPlayer(player.splitHand);
                         
-                        Console.WriteLine(player.hand.ToString());
-                        Console.WriteLine(player.splitHand.ToString());
+                        Console.WriteLine($"Player's Hand:\t{player.hand.ToString()}");
+                        Console.WriteLine($"Player's Split Hand:\t{player.splitHand.ToString()}");
 
+                        //TODO Maybe document the different stakes, e.g. splitHandStake
                         player.AddBet(player.Stake, ref player.SplitHandStake);
-
+                        
                         //Playing the split hand
                         if (player.hand.cards.First().Face == Face.Ace && player.splitHand.cards.First().Face == Face.Ace)
                         {
                             player.CurrentState = PlayerState.STAND;
                             player.splitHandState = PlayerState.STAND;
-                            playersDecisions += player.CurrentState+ "/";
-                            playersSplitHandDecisions += player.splitHandState + "/";
+                            playersDecisions += player.CurrentState+ "/";//FOR FILE
+                            playersSplitHandDecisions += player.splitHandState + "/";//FOR FILE
                         }
                         else
                         { 
                             player.React(dealer.upCard, ref player.splitHandState, player.splitHand, count);
-                            playersSplitHandDecisions += player.splitHandState + "/";
+                            playersSplitHandDecisions += player.splitHandState + "/";//FOR FILE
                         }
                         if (player.splitHandState == PlayerState.DOUBLE_DOWN)
                         {
-                            player.AddBet(player.Stake, ref player.SplitHandStake);
+                            player.AddBet(player.SplitHandStake, ref player.SplitHandStake);
                             HitPlayer(player.splitHand);
-                            Console.WriteLine(player.splitHand.cards.Last());
+                            Console.WriteLine($"Player split double downs with:\t{player.splitHand.cards.Last()}");
                             if (player.hand.handValues.First() <= 21)
                             {
                                 player.splitHandState = PlayerState.STAND;
-                                playersSplitHandDecisions += player.splitHandState + "/";
+                                playersSplitHandDecisions += player.splitHandState + "/";//FOR FILE
                             }
                             else
                             {
                                 player.splitHandState = PlayerState.BUST;
-                                playersSplitHandDecisions += player.splitHandState + "/";
+                                playersSplitHandDecisions += player.splitHandState + "/";//FOR FILE
                             }
                         }
                         while (player.splitHandState != PlayerState.BUST && player.splitHandState != PlayerState.STAND)
@@ -202,11 +209,11 @@ namespace BlackjackLogic
                             {
                                 player.WriteCurrentState();
                                 HitPlayer(player.splitHand);
-                                if (player.hand.handValues.First() > 21)
+                                if (player.splitHand.handValues.First() > 21)
                                 {
                                     player.splitHandState = PlayerState.BUST;
                                 }
-                                Console.WriteLine(player.splitHand.ToString());
+                                Console.WriteLine($"Player's split hand:\t{player.splitHand.ToString()}\t{player.splitHand.handValues.Last()}");
                             }
                             player.React(dealer.upCard, ref player.splitHandState, player.splitHand, count);
                             playersSplitHandDecisions += player.splitHandState + "/";
@@ -214,20 +221,26 @@ namespace BlackjackLogic
                         if (player.splitHandState == PlayerState.BUST)
                         {
                             player.SplitHandStake = 0;
+                            splitGameResult = "L";
                         }
 
                     }
+                    //PLAY HAND
                     player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
+                    //IF PLAYER SPLIT ACES, STAND
                     if (player.splitHand != null && player.splitHand.cards.First().Face == Face.Ace)
                     {
                         player.CurrentState = PlayerState.STAND;
                     }
-                    playersDecisions += player.CurrentState+"/";
+                    playersDecisions += player.CurrentState+"/";//FOR FILE
+
+                    //IF PLAYER DOUBLE DOWNS, STAND OR BUST
                     if (player.CurrentState == PlayerState.DOUBLE_DOWN)
                     {
                         player.AddBet(player.Stake, ref player.Stake);
                         HitPlayer(player);
                         Console.WriteLine($"Player DOUBLES DOWN:\t{player.hand.cards.Last()}");
+                        Console.WriteLine($"Player's Hand:\t{player.hand.cards}\t{player.hand.handValues.Max()}");
                         if (player.hand.handValues.First() <= 21)
                         {
                             player.CurrentState = PlayerState.STAND;
@@ -238,6 +251,8 @@ namespace BlackjackLogic
                         }
 
                     }
+
+                    //WHILE PLAYER ISN'T BUST OR STANDING
                     while (player.CurrentState != PlayerState.BUST && player.CurrentState != PlayerState.STAND)
                     {
                         if (player.CurrentState == PlayerState.HIT)
@@ -251,7 +266,7 @@ namespace BlackjackLogic
                             player.WriteCurrentState();
                         }
                         player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
-                        playersDecisions += player.CurrentState + "/";
+                        playersDecisions += player.CurrentState + "/";//FOR FILE
                     }
                     Console.WriteLine($"PLAYER REACTS:\t{player.CurrentState}\t{player.hand.handValues.Last()}");
                     //If player is bust, player loses his bet and hand is over
@@ -260,6 +275,7 @@ namespace BlackjackLogic
                         //PLAYER LOSES
                         Console.WriteLine("Game Result: Dealer Wins");
                         player.Stake = 0;
+                        gameResult = "L";
                     }
                     else
                     {
@@ -267,17 +283,17 @@ namespace BlackjackLogic
                         dealer.hand.WriteHandAndHandValue();
                         //If not dealer reacts
                         dealer.React();
-                        dealersDecisions += dealer.CurrentState + "/";
+                        dealersDecisions += dealer.CurrentState + "/";//FOR FILE
                         while (dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND)
                         {
                             if (dealer.CurrentState == PlayerState.HIT)
                             {
                                 dealer.WriteCurrentState();
                                 HitPlayer(dealer);
-                                Console.WriteLine(dealer.hand.cards.Last());
+                                Console.WriteLine($"Dealer draws: {dealer.hand.cards.Last()}\t{dealer.hand.handValues.Max()}");
                             }
                             dealer.React();
-                            dealersDecisions += dealer.CurrentState + "/";
+                            dealersDecisions += dealer.CurrentState + "/";//FOR FILE
                         }
                         Console.WriteLine($"DEALER REACTS:\t{dealer.CurrentState}\t{dealer.hand.handValues.Last()}");
                         //If dealer is bust and player is not, player wins
@@ -285,37 +301,42 @@ namespace BlackjackLogic
                         {
                             Console.WriteLine("Game Result: Player Wins");
                             player.Chips += player.Stake * 2;
+                            gameResult = "W";
                             if (player.splitHand != null)
                             {
                                 Console.WriteLine("Game Result: Player Wins Split Hand");
                                 player.Chips += player.SplitHandStake * 2;
+                                splitGameResult = "W";
                             }
-
-
                             //Player wins
                             Console.WriteLine($"Player Chips:\t{player.Chips}");
+
                         }
                         //SETTLEMENT
                         else
                         {
                             player.hand.SetHandValues();
                             dealer.hand.SetHandValues();
+                            //SETTLE SPLIT HAND
                             if (player.splitHand != null)
                             {
                                 if (player.splitHand.handValues.Last() > dealer.hand.handValues.Last())
                                 {
                                     Console.WriteLine("Game Result: Player Wins Split Hand");
                                     player.Chips += player.SplitHandStake * 2;
-                                    //Player Wins
+                                    //Player Wins Split Hand
+                                    splitGameResult = "W";
                                 }
                                 else if (player.splitHand.handValues.Last() < dealer.hand.handValues.Last())
                                 {
                                     Console.WriteLine("Game Result: Dealer Wins Split Hand");
+                                    splitGameResult = "L";
                                 }
                                 else
                                 {
                                     Console.WriteLine("Game Result: TIE Split Hand");
                                     player.Chips += player.SplitHandStake;
+                                    splitGameResult = "D";
                                 }
                             }
                             if (player.hand.handValues.Last() > dealer.hand.handValues.Last())
@@ -323,18 +344,19 @@ namespace BlackjackLogic
                                 Console.WriteLine("Game Result: Player Wins");
                                 player.Chips += player.Stake * 2;
                                 //Player Wins
+                                gameResult = "W";
                             }
                             else if (player.hand.handValues.Last() < dealer.hand.handValues.Last())
                             {
                                 Console.WriteLine("Game Result: Dealer Wins");
+                                gameResult = "L";
                             }
                             else
                             {
                                 Console.WriteLine("Game Result: TIE");
                                 player.Chips += player.Stake;
+                                gameResult = "D";
                             }
-
-                            //DO FILE STUFF
                             Console.WriteLine($"Player Chips:\t{player.Chips}");
                         }
                     }
@@ -362,8 +384,9 @@ namespace BlackjackLogic
                     playersEndSplitHandValue = "N/A";
                     playersSplitHandDecisions = "N/A";
                     playersStartingHandPreSplit = "N/A";
+                    splitGameResult = "N/A";
                 }
-                f.WriteLine($"{handsPlayed+1},{playerStartingChips},{player.Chips},{player.Chips - playerStartingChips},{amountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
+                f.WriteLine($"{handsPlayed+1},{playerStartingChips},{gameResult},{splitGameResult},{player.Chips},{player.Chips - playerStartingChips},{amountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
                     $"{playerStakeForFile},{player.hand.cards[0].ToString()} {player.hand.cards[1].ToString()}," +
                     $"{playersStartingHardHandValueForFile},{playersStartingSoftHandValueForFile},{player.hand},{player.hand.handValues.Last()},{playersDecisions}," +
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
@@ -415,7 +438,7 @@ namespace BlackjackLogic
                 File.Delete(filename);
             }
             StreamWriter file = new StreamWriter(filename, false);
-            file.WriteLine("HandNumber,PlayersStartingChips,EndChips,ChipsWon,CardsInDeckBeforeTurn,CardsInDeckAfterTurn," +
+            file.WriteLine("HandNumber,GameResult,SplitGameResult,PlayersStartingChips,EndChips,ChipsWon,CardsInDeckBeforeTurn,CardsInDeckAfterTurn," +
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
                 "DoesPlayerSplit,PlayersStartingSplitHand,PlayerStartingSplitHardHandValue,PlayerStartingSplitSoftHandValue,PlayersEndSplitHand,PlayersSplitEndHandValue,PlayersSplitHandDecisions" +
@@ -453,10 +476,12 @@ namespace BlackjackLogic
             deck = new Deck();
             deck.Shuffle();
 
-            player = new FiveCountStrategy();
             //player = new BasicStrategy();
             //player = new DealerStrategy();
-            player.Chips = startChips;
+            player = new FiveCountStrategy
+            {
+                Chips = startChips
+            };
             dealer = new Dealer();
         }
         private void InitialiseGameAsPlayer()

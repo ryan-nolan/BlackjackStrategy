@@ -8,6 +8,8 @@ namespace BlackjackLogic.Strategies
 {
     public class BasicStrategy : Player
     {
+        public override string StrategyName { get => base.StrategyName; protected set => base.StrategyName = "BaiscStrategy"; }
+
         readonly bool[,] PairSplitting = new bool[10, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
@@ -62,7 +64,7 @@ namespace BlackjackLogic.Strategies
         readonly bool[,] SoftHitOrStand = new bool[2, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
-            {false,false,false,false,false,false,false,true,true,false },//18
+            {true,true,true,true,true,true,true,false,false,true},//18
             {true,true,true,true,true,true,true,true,true,true},//19
 
         };

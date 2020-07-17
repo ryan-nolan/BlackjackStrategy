@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace BlackjackLogic
         public bool isDoublingDown;
         public Hand splitHand = null;
         public PlayerState splitHandState;
+        public virtual string StrategyName { get; protected set; }
 
         public Player()
         {
