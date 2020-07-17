@@ -244,6 +244,16 @@ namespace BlackjackLogic.Strategies
                     return PlayerState.STAND;
                 }
                 //if hand is hard and is between 12-17, check basic strategy table whether to hit or stand
+                if (hand.handValues.First() == 16 && hand.cards.Count > 2 && dealersUpCard.Value == 10)
+                {
+                    stateToChange = PlayerState.STAND;
+                    return PlayerState.STAND;
+                }
+                if (hand.handValues.First() == 16 && hand.cards.Count == 2 && dealersUpCard.Value == 10)
+                {
+                    stateToChange = PlayerState.HIT;
+                    return PlayerState.HIT;
+                }
                 if (HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.STAND;
@@ -258,6 +268,7 @@ namespace BlackjackLogic.Strategies
                 stateToChange = PlayerState.STAND;
                 return PlayerState.STAND;
             }
+            //NO FIVES -----------------------------------------------------------------------------------------------------------
             else
             {
                 //Bust if hand is over 21
@@ -351,7 +362,7 @@ namespace BlackjackLogic.Strategies
                     }
                 }
 
-                //Hard
+                //Hard NO FIVES
                 //Always hit on 11 or less
                 if (hand.handValues.First() <= 11)
                 {
@@ -365,6 +376,17 @@ namespace BlackjackLogic.Strategies
                     return PlayerState.STAND;
                 }
                 //if hand is hard and is between 12-17, check basic strategy table whether to hit or stand
+                //Hard 16 exception
+                if (hand.handValues.First() == 16 && hand.cards.Count > 2)
+                {
+                    stateToChange = PlayerState.STAND;
+                    return PlayerState.STAND;
+                }
+                if (hand.handValues.First() == 16 && hand.cards.Count == 2)
+                {
+                    stateToChange = PlayerState.HIT;
+                    return PlayerState.HIT;
+                }
                 if (HardHitOrStandNoFives[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.STAND;

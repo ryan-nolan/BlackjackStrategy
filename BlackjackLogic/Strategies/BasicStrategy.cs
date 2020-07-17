@@ -224,6 +224,18 @@ namespace BlackjackLogic.Strategies
                 return PlayerState.STAND;
             }
 
+            //HARD 16 against a 10 exception
+            if (hand.handValues.First() == 16 && hand.cards.Count > 2 && dealersUpCard.Value == 10)
+            {
+                stateToChange = PlayerState.STAND;
+                return PlayerState.STAND;
+            }
+            if (hand.handValues.First() == 16 && hand.cards.Count == 2 && dealersUpCard.Value == 10)
+            {
+                stateToChange = PlayerState.HIT;
+                return PlayerState.HIT;
+            }
+
             if (HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
             {
                 stateToChange = PlayerState.STAND;

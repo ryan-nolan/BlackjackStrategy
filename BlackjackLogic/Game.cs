@@ -12,7 +12,7 @@ namespace BlackjackLogic
     {
 
         public int handsPlayed = 0;
-        public int handsToBePlayed = 25000;
+        public int handsToBePlayed = 10000;
         public int cardCountWhenShuffle = 13;
         public bool humanPlayer = false;
         public int minBet = 10;
@@ -74,7 +74,9 @@ namespace BlackjackLogic
                     deck.Shuffle();
                     burntCards.Clear();
                     burntCards.Add(deck.Cards.Pop());
+                    UpdateCounts();
                 }
+                Console.WriteLine($"Pre hand count:\t{count}");
 
                 amountOfCardsInDeckBeforeTurn = deck.Cards.Count;
 
@@ -117,6 +119,7 @@ namespace BlackjackLogic
                     }
                     else
                     {
+                        Console.WriteLine("Player Has a natural");
                         Console.WriteLine("Dealer Has a natural");
                         playersDecisions = "PLAYER_NATURAL";
                         dealersDecisions = "DEALER_NATURAL";
@@ -141,6 +144,7 @@ namespace BlackjackLogic
                     {
 
                         Console.WriteLine("Player Has a Natural");
+                        Console.WriteLine("Dealer Has a natural");
                         Console.WriteLine("Game Result: TIE");
                         playersDecisions = "PLAYER_NATURAL";
                         dealersDecisions = "DEALER_NATURAL";
@@ -240,7 +244,7 @@ namespace BlackjackLogic
                         player.AddBet(player.Stake, ref player.Stake);
                         HitPlayer(player);
                         Console.WriteLine($"Player DOUBLES DOWN:\t{player.hand.cards.Last()}");
-                        Console.WriteLine($"Player's Hand:\t{player.hand.cards}\t{player.hand.handValues.Max()}");
+                        Console.WriteLine($"Player's Hand:\t{player.hand.ToString()}\t{player.hand.handValues.Max()}");
                         if (player.hand.handValues.First() <= 21)
                         {
                             player.CurrentState = PlayerState.STAND;
@@ -263,7 +267,7 @@ namespace BlackjackLogic
                             {
                                 player.CurrentState = PlayerState.BUST;
                             }
-                            player.WriteCurrentState();
+                            //player.WriteCurrentState();
                         }
                         player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
                         playersDecisions += player.CurrentState + "/";//FOR FILE
@@ -273,9 +277,11 @@ namespace BlackjackLogic
                     if (player.CurrentState == PlayerState.BUST)
                     {
                         //PLAYER LOSES
+                        Console.WriteLine($"Dealer's Hand:\t{dealer.hand}\t{dealer.hand.handValues.Max()}");
                         Console.WriteLine("Game Result: Dealer Wins");
                         player.Stake = 0;
                         gameResult = "L";
+                        Console.WriteLine($"Player Chips:\t{player.Chips}");
                     }
                     else
                     {
@@ -288,7 +294,6 @@ namespace BlackjackLogic
                         {
                             if (dealer.CurrentState == PlayerState.HIT)
                             {
-                                dealer.WriteCurrentState();
                                 HitPlayer(dealer);
                                 Console.WriteLine($"Dealer draws: {dealer.hand.cards.Last()}\t{dealer.hand.handValues.Max()}");
                             }
@@ -408,8 +413,10 @@ namespace BlackjackLogic
                 
             }
             f.Close();
-            Console.WriteLine(handsPlayed);
-            Console.WriteLine(player.Chips);
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");//CONSOLE HAND SEPERATOR
+            Console.WriteLine($"Hands Played:\t{handsPlayed}");
+            Console.WriteLine($"Final Chip Count:\t{player.Chips}");
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");//CONSOLE HAND SEPERATOR
 
         }
 
