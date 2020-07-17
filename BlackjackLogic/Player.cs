@@ -18,6 +18,8 @@ namespace BlackjackLogic
         public bool isDoublingDown;
         public Hand splitHand = null;
         public PlayerState splitHandState;
+
+        public virtual string CountType { get; protected set; }
         public virtual string StrategyName { get; protected set; }
 
         public Player()

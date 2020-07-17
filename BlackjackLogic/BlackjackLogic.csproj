@@ -53,6 +53,7 @@
     <Compile Include="IActor.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strategies\AceToFiveStrategy.cs" />
     <Compile Include="Strategies\BasicStrategy.cs" />
     <Compile Include="Strategies\DealerStrategy.cs" />
     <Compile Include="Strategies\FiveCountStrategy.cs" />

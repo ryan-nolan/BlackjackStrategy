@@ -12,7 +12,7 @@ namespace BlackjackLogic
     {
 
         public int handsPlayed = 0;
-        public int handsToBePlayed = 50000;
+        public int handsToBePlayed = 10000;
         public int cardCountWhenShuffle = 13;
         public bool humanPlayer = false;
         public int minBet = 2;
@@ -21,9 +21,9 @@ namespace BlackjackLogic
         public int startChips = 500;
 
         //Counts
-        int fiveCount = 0;
         int count = 0;
-        string countType = "five";
+        //string countType = "five";
+        
 
         public Deck deck;
         public List<Card> burntCards = new List<Card>();
@@ -436,19 +436,30 @@ namespace BlackjackLogic
         private void UpdateCounts()
         {
             count = 0;
-            fiveCount = 0;
-            if (countType == "five")
+            if (player.CountType == "five")
             {
                 foreach (var c in burntCards)
                 {
                     if (c.Face == Face.Five)
                     {
                         count++;
-                        fiveCount++;
                     }
                 }
             }
-            
+            if (player.CountType == "acetofive")
+            {
+                foreach (var c in burntCards)
+                {
+                    if (c.Face == Face.Five)
+                    {
+                        count++;
+                    }
+                    if (c.Face == Face.Ace)
+                    {
+                        count--;
+                    }
+                }
+            }
         }
 
         private StreamWriter InitialiseFile(string filename)
@@ -499,6 +510,7 @@ namespace BlackjackLogic
             //player = new BasicStrategy();
             //player = new DealerStrategy();
             player = new FiveCountStrategy
+            //player = new AceToFiveStrategy
             {
                 Chips = startChips
             };
