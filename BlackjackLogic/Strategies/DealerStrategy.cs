@@ -13,7 +13,7 @@ namespace BlackjackLogic.Strategies
             return minBet;
         }
 
-        public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand)
+        public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand, int count)
         {
 
             hand.SetHandValues();

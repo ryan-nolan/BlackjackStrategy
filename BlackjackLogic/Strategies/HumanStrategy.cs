@@ -31,7 +31,7 @@ namespace BlackjackLogic.Strategies
             return stake;
         }
 
-        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand)
+        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, int count)
         {
             Console.Write("Player's Cards: ");
             hand.WriteHandAndHandValue();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
-    public class BasicStrategy : Player
+    public class FiveCountStrategy : Player
     {
         readonly bool[,] PairSplitting = new bool[10, 10]
         {
@@ -67,52 +67,12 @@ namespace BlackjackLogic.Strategies
 
         };
 
-        //Dictionary<Face, bool[]> PairSplit2 = new Dictionary<Face, bool[]>()
-        //{
-        //    {
-        //        { Face.Two, new bool[] {true,true,true,true,true,true,false,false,false,false } },
-        //        { Face.Three, new bool[] {true,true,true,true,true,true,false,false,false,false } }
-        //    }
-        //};
-
-        //Dictionary<Face, Dictionary<Face, bool>> PairSplit = new Dictionary<Face, Dictionary<Face, bool>>()
-        //{
-        //    {
-        //        Face.Two,
-        //        new Dictionary<Face, bool>
-        //        {
-        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-        //        }
-        //    },
-        //    {
-        //        Face.Three,
-        //        new Dictionary<Face, bool>
-        //        {
-        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-        //        }
-        //    },
-        //    {
-        //        Face.Four,
-        //        new Dictionary<Face, bool>
-        //        {
-        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-        //        }
-        //    }
-
-        //};
-
         public override int CalculateBet(int minBet, int maxBet)
         {
             return minBet;
         }
 
-        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, int count)
+        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, int fiveCount)
         {
             if (hand.handValues.First() > 21)
             {
@@ -124,7 +84,7 @@ namespace BlackjackLogic.Strategies
             //yes, split?
             if (((hand.cards.First().Face == hand.cards.Last().Face) && splitHand == null) && hand.cards.Count == 2)
             {
-                if(PairSplitting[hand.cards.First().Value - 2,dealersUpCard.Value - 2])
+                if (PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.SPLIT;
                     return PlayerState.SPLIT;
@@ -169,7 +129,7 @@ namespace BlackjackLogic.Strategies
                                 return PlayerState.DOUBLE_DOWN;
                             }
                         }
-                        if (HardDoubleDown[hand.handValues.First()-8,dealersUpCard.Value - 2])
+                        if (HardDoubleDown[hand.handValues.First() - 8, dealersUpCard.Value - 2])
                         {
                             stateToChange = PlayerState.DOUBLE_DOWN;
                             return PlayerState.DOUBLE_DOWN;
@@ -196,7 +156,7 @@ namespace BlackjackLogic.Strategies
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;
                 }
-                if (SoftHitOrStand[hand.handValues.Max() - 18 , dealersUpCard.Value-2])
+                if (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;

@@ -13,13 +13,18 @@ namespace BlackjackLogic
 
         public int handsPlayed = 0;
         public int handsToBePlayed = 1000;
-        public int cardCountWhenShuffle = 26;
+        public int cardCountWhenShuffle = 13;
         public bool humanPlayer = false;
 
         public int minBet = 10;
         public int maxBet = 500;
 
         public int startChips = 500;
+
+        //Counts
+        int fiveCount = 0;
+        int count = 0;
+        string countType = "five";
 
         public Deck deck;
         public List<Card> burntCards = new List<Card>();
@@ -144,7 +149,7 @@ namespace BlackjackLogic
                 {
 
                     //Player reacts, can double down or split here
-                    player.React(dealer.upCard, ref player.CurrentState, player.hand);
+                    player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
                     //playersDecisions += player.CurrentState+"/";
                     if (player.CurrentState == PlayerState.SPLIT)
                     {
@@ -172,7 +177,7 @@ namespace BlackjackLogic
                         }
                         else
                         { 
-                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand);
+                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand, count);
                             playersSplitHandDecisions += player.splitHandState + "/";
                         }
                         if (player.splitHandState == PlayerState.DOUBLE_DOWN)
@@ -203,7 +208,7 @@ namespace BlackjackLogic
                                 }
                                 Console.WriteLine(player.splitHand.ToString());
                             }
-                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand);
+                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand, count);
                             playersSplitHandDecisions += player.splitHandState + "/";
                         }
                         if (player.splitHandState == PlayerState.BUST)
@@ -212,7 +217,7 @@ namespace BlackjackLogic
                         }
 
                     }
-                    player.React(dealer.upCard, ref player.CurrentState, player.hand);
+                    player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
                     if (player.splitHand != null && player.splitHand.cards.First().Face == Face.Ace)
                     {
                         player.CurrentState = PlayerState.STAND;
@@ -245,7 +250,7 @@ namespace BlackjackLogic
                             }
                             player.WriteCurrentState();
                         }
-                        player.React(dealer.upCard, ref player.CurrentState, player.hand);
+                        player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
                         playersDecisions += player.CurrentState + "/";
                     }
                     Console.WriteLine($"PLAYER REACTS:\t{player.CurrentState}\t{player.hand.handValues.Last()}");
@@ -363,10 +368,14 @@ namespace BlackjackLogic
                     $"{playersStartingHardHandValueForFile},{playersStartingSoftHandValueForFile},{player.hand},{player.hand.handValues.Last()},{playersDecisions}," +
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
                     $"{dealer.hand.handValues.Last().ToString()},{dealersDecisions},{doesPlayerSplit},{playersStartingSplitHandForfile},{playersStartingHardHandValueForFile},{playersStartingSplitSoftHandValueForFile}," +
-                    $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit}"
+                    $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit},{fiveCount}"
                     );
 
                 CleanupHand();
+                //UpdateCount(ref int count, Face face);
+                //UpdateCount(ref int count, int value);
+                UpdateCounts();
+
                 if (humanPlayer)
                 {
                     Console.ReadKey();
@@ -381,6 +390,24 @@ namespace BlackjackLogic
 
         }
 
+        private void UpdateCounts()
+        {
+            count = 0;
+            fiveCount = 0;
+            if (countType == "five")
+            {
+                foreach (var c in burntCards)
+                {
+                    if (c.Face == Face.Five)
+                    {
+                        count++;
+                        fiveCount++;
+                    }
+                }
+            }
+            
+        }
+
         private StreamWriter InitialiseFile(string filename)
         {
             if (File.Exists(filename))
@@ -392,7 +419,7 @@ namespace BlackjackLogic
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
                 "DoesPlayerSplit,PlayersStartingSplitHand,PlayerStartingSplitHardHandValue,PlayerStartingSplitSoftHandValue,PlayersEndSplitHand,PlayersSplitEndHandValue,PlayersSplitHandDecisions" +
-                ",PlayersHandPreSplit");
+                ",PlayersHandPreSplit,FiveCount");
             return file;
         }
 
