@@ -8,6 +8,7 @@ namespace BlackjackLogic.Strategies
 {
     public class DealerStrategy : Player
     {
+        public override string StrategyName { get { return "DealerStrategy"; } }
         public override int CalculateBet(int minBet, int maxBet, int count)
         {
             return minBet;

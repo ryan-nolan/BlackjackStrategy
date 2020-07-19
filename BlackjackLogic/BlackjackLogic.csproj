@@ -59,6 +59,7 @@
     <Compile Include="Strategies\FiveCountStrategy.cs" />
     <Compile Include="Strategies\HumanStrategy.cs" />
     <Compile Include="Strategies\PlayerStrategy.cs" />
+    <Compile Include="Strategies\SimplePointCountStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

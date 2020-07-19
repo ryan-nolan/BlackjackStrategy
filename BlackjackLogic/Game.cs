@@ -12,7 +12,7 @@ namespace BlackjackLogic
     {
 
         public int handsPlayed = 0;
-        public int handsToBePlayed = 10000;
+        public int handsToBePlayed = 50000;
         public int cardCountWhenShuffle = 13;
         public bool humanPlayer = false;
         public int minBet = 2;
@@ -38,8 +38,9 @@ namespace BlackjackLogic
             InitialiseGame();
 
             //Create file and write first line
+            string path = @"C:\Users\Ryan\Desktop\Dissertation\Data";
             string filename = $"{player.StrategyName}_hands({handsToBePlayed})shuffleFrequency({cardCountWhenShuffle}).csv";
-            StreamWriter f = InitialiseFile(filename);
+            StreamWriter f = InitialiseFile(filename, path);
 
 
             //Console.WriteLine($"Player's starting chips {player.Chips}");
@@ -66,7 +67,7 @@ namespace BlackjackLogic
 
             for (int i = 0; i < handsToBePlayed; i++)
             {
-                Console.WriteLine($"-------------------------------------------------Hand Number:\t{handsPlayed}---------------------------------------------------------------");//CONSOLE HAND SEPERATOR
+                Console.WriteLine($"-------------------------------------------------Hand Number:\t{handsPlayed}---------------------------------------------------");//CONSOLE HAND SEPERATOR
                 //shuffle check     Shuffles first turn available when cards left are smaller than the number specified
                 if (deck.Cards.Count < cardCountWhenShuffle)
                 {
@@ -404,7 +405,7 @@ namespace BlackjackLogic
                     playersStartingHandPreSplit = "N/A";
                     splitGameResult = "N/A";
                 }
-                f.WriteLine($"{handsPlayed+1},{playerStartingChips},{gameResult},{splitGameResult},{player.Chips},{player.Chips - playerStartingChips},{amountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
+                f.WriteLine($"{handsPlayed+1},{playerStartingChips},{player.Chips},{player.Chips - playerStartingChips},{gameResult},{splitGameResult},{amountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
                     $"{playerStakeForFile},{player.hand.cards[0].ToString()} {player.hand.cards[1].ToString()}," +
                     $"{playersStartingHardHandValueForFile},{playersStartingSoftHandValueForFile},{player.hand},{player.hand.handValues.Last()},{playersDecisions}," +
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
@@ -448,6 +449,32 @@ namespace BlackjackLogic
             }
             if (player.CountType == "acetofive")
             {
+                if (player.hand != null)
+                {
+                    foreach (var c in player.hand.cards)
+                    {
+                        if (c.Face == Face.Five)
+                        {
+                            count++;
+                        }
+                        if (c.Face == Face.Ace)
+                        {
+                            count--;
+                        }
+                    }
+                }
+                if (dealer.upCard != null)
+                {
+                    if (dealer.upCard.Face == Face.Five)
+                    {
+                        count++;
+                    }
+                    if (dealer.upCard.Face == Face.Ace)
+                    {
+                        count--;
+                    }
+                    
+                }
                 foreach (var c in burntCards)
                 {
                     if (c.Face == Face.Five)
@@ -460,16 +487,37 @@ namespace BlackjackLogic
                     }
                 }
             }
+            if (player.CountType == "simplepointcount")
+            {
+                //if (player.hand != null)
+                //{
+                //    foreach (var c in player.hand.cards)
+                //    {
+                        
+                //    }
+                //}
+                foreach (var c in burntCards)
+                {
+                    if (c.Face == Face.Two || c.Face == Face.Three|| c.Face == Face.Four|| c.Face == Face.Five || c.Face == Face.Six)
+                    {
+                        count++;
+                    }
+                    if (c.Face == Face.Ace || c.Value == 10)
+                    {
+                        count--;
+                    }
+                }
+            }
         }
 
-        private StreamWriter InitialiseFile(string filename)
+        private StreamWriter InitialiseFile(string filename, string path)
         {
-            if (File.Exists(filename))
+            if (File.Exists(path+ "\\" + filename))
             {
-                File.Delete(filename);
+                File.Delete(path + "\\" + filename);
             }
-            StreamWriter file = new StreamWriter(filename, false);
-            file.WriteLine("HandNumber,GameResult,SplitGameResult,PlayersStartingChips,EndChips,ChipsWon,CardsInDeckBeforeTurn,CardsInDeckAfterTurn," +
+            StreamWriter file = new StreamWriter(path+"\\"+filename, false);
+            file.WriteLine("HandNumber,PlayersStartingChips,EndChips,ChipsWon,GameResult,SplitGameResult,CardsInDeckBeforeTurn,CardsInDeckAfterTurn," +
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
                 "DoesPlayerSplit,PlayersStartingSplitHand,PlayerStartingSplitHardHandValue,PlayerStartingSplitSoftHandValue,PlayersEndSplitHand,PlayersSplitEndHandValue,PlayersSplitHandDecisions" +
@@ -507,9 +555,10 @@ namespace BlackjackLogic
             deck = new Deck();
             deck.Shuffle();
 
-            //player = new BasicStrategy();
-            //player = new DealerStrategy();
-            player = new FiveCountStrategy
+            //player = new BasicStrategy
+            //player = new DealerStrategy
+            //player = new FiveCountStrategy
+            player = new SimplePointCountStrategy
             //player = new AceToFiveStrategy
             {
                 Chips = startChips
@@ -564,6 +613,7 @@ namespace BlackjackLogic
         {
             hand.cards.Add(deck.Cards.Pop());
             hand.SetHandValues();
+            UpdateCounts();
         }
 
 
