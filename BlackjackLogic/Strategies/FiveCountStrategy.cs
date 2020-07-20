@@ -124,7 +124,7 @@ namespace BlackjackLogic.Strategies
 
         public override int CalculateBet(int minBet, int maxBet, int count)
         {
-            if (count == Deck.deckSize/13)
+            if (count == Deck.DeckSize/13)
             {
                 return maxBet;
             }
@@ -136,7 +136,7 @@ namespace BlackjackLogic.Strategies
 
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, int fiveCount)
         {
-            if (fiveCount != Deck.deckSize / 13)
+            if (fiveCount != Deck.DeckSize / 13)
             {
                 //Bust if hand is over 21
                 if (hand.handValues.First() > 21)

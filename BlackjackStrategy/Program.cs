@@ -20,6 +20,7 @@ namespace BlackjackStrategy
             int minBet = 2;
             int startChips = 500;
             string strategyName = "acetofive";
+            int deckSize = 52;
 
             for (int i = 0; i<args.Length;i++)
             {
@@ -97,6 +98,18 @@ namespace BlackjackStrategy
                             throw e;
                         }
                         break;
+                    case "--ds":
+                    case "-DeckSize":
+                        try
+                        {
+                            deckSize = int.Parse(args[i + 1]);
+                        }
+                        catch (Exception e)
+                        {
+
+                            throw e;
+                        }
+                        break;
                     case "--sh":
                     case "-startingHand":
                         try
@@ -123,7 +136,8 @@ namespace BlackjackStrategy
                 MinBet = minBet,
                 MaxBet = maxBet,
                 StrategyName = strategyName,
-                StartChips = startChips
+                StartChips = startChips,
+                DeckSize = deckSize
         };
             _game.RunGame();
         }

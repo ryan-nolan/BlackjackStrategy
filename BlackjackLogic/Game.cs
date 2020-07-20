@@ -17,8 +17,9 @@ namespace BlackjackLogic
         public bool humanPlayer = false;
         public int MinBet = 2;
         public int MaxBet = 50;
-        public string StrategyName = "dealer";
+        public string StrategyName = "simplepointcount";
         public int StartChips = 500;
+        public int DeckSize = 104;
 
         //Counts
         int count = 0;
@@ -31,7 +32,7 @@ namespace BlackjackLogic
         public Player player;
         public Dealer dealer;
 
-        public Game(string strategyName = null, int handsToBePlayed = 50000, int cardCountWhenToShuffle = 13, int minBet = 2, int maxBet = 50, int startChips = 500)
+        public Game(string strategyName = null, int handsToBePlayed = 50000, int cardCountWhenToShuffle = 13, int minBet = 2, int maxBet = 50, int startChips = 500, int deckSize = 52)
         {
             HandsToBePlayed = handsToBePlayed;
             CardCountWhenToShuffle = cardCountWhenToShuffle;
@@ -42,6 +43,7 @@ namespace BlackjackLogic
                 StrategyName = strategyName;
             }
             StartChips = startChips;
+            DeckSize = deckSize;
         }
         public void RunGame()
         {
@@ -52,7 +54,7 @@ namespace BlackjackLogic
 
             //Create file and write first line
             string path = @"C:\Users\Ryan\Desktop\Dissertation\Data";
-            string filename = $"{player.StrategyName}_hands({HandsToBePlayed})shuffleFrequency({CardCountWhenToShuffle}).csv";
+            string filename = $"{player.StrategyName}_hands({HandsToBePlayed})shuffleFrequency({CardCountWhenToShuffle})deckSize({DeckSize}).csv";
             StreamWriter f = InitialiseFile(filename, path);
 
 
@@ -86,7 +88,7 @@ namespace BlackjackLogic
                 {
                     try
                     {
-                        deck = new Deck();
+                        deck = new Deck(DeckSize);
                     }
                     catch (Exception e)
                     {
@@ -442,6 +444,7 @@ namespace BlackjackLogic
             f.Close();
             Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");//CONSOLE HAND SEPERATOR
             Console.WriteLine($"Strategy:\t{StrategyName}");
+            Console.WriteLine($"Deck Size:\t{DeckSize}");
             Console.WriteLine($"Hands Played:\t{HandsPlayed}");
             Console.WriteLine($"Final Chip Count:\t{player.Chips}");
             Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");//CONSOLE HAND SEPERATOR
@@ -566,7 +569,7 @@ namespace BlackjackLogic
         //Add player(and what strategy it plays) and dealer init
         private void InitialiseGame()
         {
-            deck = new Deck();
+            deck = new Deck(DeckSize);
             deck.Shuffle();
 
             //player = new BasicStrategy
@@ -581,7 +584,7 @@ namespace BlackjackLogic
         }
         private void InitialiseGameAsPlayer()
         {
-            deck = new Deck();
+            deck = new Deck(DeckSize);
             deck.Shuffle();
 
             player = new HumanStrategy();
@@ -590,7 +593,7 @@ namespace BlackjackLogic
         }
         private void InitialiseGame(string strategy)
         {
-            deck = new Deck();
+            deck = new Deck(DeckSize);
             deck.Shuffle();
             switch (strategy.ToLower())
             {
@@ -662,7 +665,7 @@ namespace BlackjackLogic
 
         public void RepopulateDeck()
         {
-            deck = new Deck();
+            deck = new Deck(DeckSize);
             deck.Shuffle();
             burntCards.Clear();
             burntCards.Add(deck.Cards.Pop());

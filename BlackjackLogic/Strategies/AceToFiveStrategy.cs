@@ -72,7 +72,7 @@ namespace BlackjackLogic.Strategies
 
         public override int CalculateBet(int minBet, int maxBet, int count)
         {
-            if (count >= 2)
+            if (count >= (Deck.DeckSize/52)*2)
             {
                 return maxBet;
             }

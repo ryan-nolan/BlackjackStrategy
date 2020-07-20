@@ -12,11 +12,39 @@ namespace BlackjackLogic
     public class Deck
     {
         public Stack<Card> Cards = new Stack<Card>();
-        public static int deckSize = 52;
+        public static int DeckSize = 52;
         static Random rand = new Random();
-        public Deck()
+        public Deck(int deckSize)
         {
-            BuildDeck();
+            if (deckSize%52 != 0)
+            {
+                deckSize = 52;
+                Console.WriteLine("InvalidDeckValue: 52 Card Deck Used");
+                BuildDeck();
+            }
+            else
+            {
+                DeckSize = deckSize;
+                BuildDeck(DeckSize);
+            }
+
+        }
+
+        private void BuildDeck(int deckSize)
+        {
+            for (int i = 0; i < deckSize/52; i++)
+            {
+                foreach (Suit s in Enum.GetValues(typeof(Suit)))
+                {
+                    foreach (Face f in Enum.GetValues(typeof(Face)))
+                    {
+                        Cards.Push(new Card(s, f));
+                    }
+                }
+            }
+            Shuffle();
+
+            VerifyDeck(Cards);
         }
 
         //public void Shuffle()
@@ -29,7 +57,7 @@ namespace BlackjackLogic
         //        Cards.Push(card);
         //    }
         //}
- 
+
         public void Shuffle()
         {
             Card[] deck = Cards.ToArray();
@@ -100,13 +128,13 @@ namespace BlackjackLogic
 
         private bool VerifyDeck(Stack<Card> cards)
         {
-            if (cards.Count != cards.Distinct().Count())
+            if (cards.Count % cards.Distinct().Count() != 0)
             {
                 Console.WriteLine("FALSE DECK IS INVALID");
                 throw new Exception { };
                 return false;
             }
-            if (cards.Count != 52)
+            if (cards.Count % 52 != 0)
             {
                 Console.WriteLine("FALSE");
                 throw new Exception { };

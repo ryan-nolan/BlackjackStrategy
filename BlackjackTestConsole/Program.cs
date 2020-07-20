@@ -11,7 +11,7 @@ namespace BlackjackTestConsole
     {
         static void Main(string[] args)
         {
-            Deck deck = new Deck();
+            Deck deck = new Deck(104);
             Console.WriteLine(deck.GetDeckHash());
             deck.TrueShuffle();
             Console.WriteLine(deck.GetDeckHash());

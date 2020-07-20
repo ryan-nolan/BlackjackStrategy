@@ -11,7 +11,7 @@ namespace UniqueShuffleCheck
     {
         static void Main(string[] args)
         {
-            Deck deck = new Deck();
+            Deck deck = new Deck(52);
             deck.TrueShuffle();
             List<string> shuffleHashes = new List<string>();
             while(true)
