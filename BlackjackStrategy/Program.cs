@@ -14,34 +14,87 @@ namespace BlackjackStrategy
             //Parse args
             //init game loop and pass parsed args
 
-            int turnsToBePlayed = 200;
-            int cardsBeforeShuffling = 26;
+            int handsToBePlayed = 50000;
+            int cardsBeforeShuffling = 13;
+            int maxBet = 50;
+            int minBet = 2;
+            int startChips = 500;
+            string strategyName = "acetofive";
 
             for (int i = 0; i<args.Length;i++)
             {
                 switch (args[i])
                 {
-                    case "--t":
+                    case "--h":
                     case "-hands":
                         try
                         {
-                            turnsToBePlayed = int.Parse(args[i + 1]);
+                            handsToBePlayed = int.Parse(args[i + 1]);
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
-                            throw;
+                            Console.WriteLine(e);
+                            throw e;
                         }
                         break;
                     case "--s":
-                    case "-shuffle":
+                    case "-shuffleFreq":
                         try
                         {
                             cardsBeforeShuffling = int.Parse(args[i + 1]);
                         }
-                        catch (Exception)
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            throw e;
+                        }
+                        break;
+                    case "--min":
+                    case "-MinBet":
+                        try
+                        {
+                            minBet = int.Parse(args[i + 1]);
+                        }
+                        catch (Exception e)
                         {
 
-                            throw;
+                            throw e;
+                        }
+                        break;
+                    case "--max":
+                    case "-MaxBet":
+                        try
+                        {
+                            maxBet = int.Parse(args[i + 1]);
+                        }
+                        catch (Exception e)
+                        {
+
+                            throw e;
+                        }
+                        break;
+                    case "--strat":
+                    case "-StrategyName":
+                        try
+                        {
+                            strategyName = args[i + 1].ToLower();
+                        }
+                        catch (Exception e)
+                        {
+
+                            throw e;
+                        }
+                        break;
+                    case "--c":
+                    case "-StartChips":
+                        try
+                        {
+                            startChips = int.Parse(args[i + 1]);
+                        }
+                        catch (Exception e)
+                        {
+
+                            throw e;
                         }
                         break;
                     case "--sh":
@@ -63,7 +116,16 @@ namespace BlackjackStrategy
             }
             //Game _game = new Game(turnsToBePlayed, cardsBeforeShuffling);
 
-            Game _game = new Game();
+            Game _game = new Game
+            {
+                HandsToBePlayed = handsToBePlayed,
+                CardCountWhenToShuffle = cardsBeforeShuffling,
+                MinBet = minBet,
+                MaxBet = maxBet,
+                StrategyName = strategyName,
+                StartChips = startChips
+        };
+            _game.RunGame();
         }
     }
 }
