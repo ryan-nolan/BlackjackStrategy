@@ -12,19 +12,21 @@ namespace BlackjackLogic.Strategies
         public override string StrategyName { get { return "TenCount"; } }
         public override string CountType { get { return "tencount"; } }
 
-        readonly bool[,] PairSplitting = new bool[10, 10]
+        //Split if ratio < number in matrix
+        //* indicated number should be read in reverse (ratio > num in matrix)
+        readonly float[,] PairSplitting = new float[10, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
-            {true,true,true,true,true,true,false,false,false,false },//(2,2)
-            {true,true,true,true,true,true,false,false,false,false },//(3,3)
-            {false,false,false,false,true,false,false,false,false,false },//(4,4)
-            {false,false,false,false,false,false,false,false,false,false },//(5,5)
-            {true,true,true,true,true,true,false,false,false,false},//(6,6)
-            {true,true,true,true,true,true,true,false,false,false },//(7,7)
-            {true,true,true,true,true,true,true,true,true,true },//(8,8)
-            {true,true,true,true,true,false,true,true,false,false},//(9,9)
-            {false,false,false,false,false,false,false,false,false,false},//(10,10)
-            {true,true,true,true,true,true,true,true,true,true },//(A,A)
+            {3.1f,3.8f,50,50,50,1.1f,3.8f,0,0,0 },//(2,2) //Last 2 numbers are asterisk*
+            {50,50,50,50,50,1.1f,2.4f,4.2f,5.3f,0 },//(3,3) //Every number bar 50 & 0 is asterisk*
+            {1.3f,1.6f,1.9f,2.4f,2.1f,0,0,0,0,0 },//(4,4) //Always double down 4,4 against 6
+            {0,0,0,0,0,0,0,0,0,0 },//(5,5)
+            {2.4f,2.6f,3,3.6f,4.1f,3.4f,0,0,0,0},//(6,6)
+            {50,50,50,50,50,50,50,0,0,1.4f },//(7,7)
+            {50,50,50,50,50,50,50,50,1.6f,4.8f },//(8,8) //1.6*
+            {2.4f,2.8f,3.1f,3.7f,3.2f,1.6f,50,4.2f,0,1.5f},//(9,9)
+            {1.4f,1.5f,1.7f,1.9f,1.8f,0,0,0,0,0},//(10,10)
+            {4.0f,4.1f,4.5f,4.9f,5.0f,3.8f,3.3f,3.1f,3.2f,2.6f },//(A,A)
         };
         readonly bool[,] HardDoubleDown = new bool[4, 10]
         {
@@ -35,16 +37,18 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,true,true },//11
         };
 
-        readonly bool[,] SoftDoubleDown = new bool[7, 5]
+        readonly float[,] SoftDoubleDown = new float[8, 6]
         {
             //2    3     4     5     6    
-            {false,false,false,true,true},//(A,A)
-            {false,false,true,true,true},//(A,2)
-            {false,false,true,true,true},//(A,3)
-            {false,false,true,true,true},//(A,4)
-            {false,false,true,true,true},//(A,5)
-            {true,true,true,true,true},//(A,6)
-            {false,true,true,true,true}//(A,7)
+            {1.5f,1.7f,2.1f,2.6f,2.7f,0},//(A,2)
+            {1.5f,1.8f,2.3f,2.9f,3.0f,0},//(A,3)
+            {1.6f,1.9f,2.4f,3.0f,3.2f,0},//(A,4)
+            {1.6f,1.9f,2.5f,3.1f,4.0f,0},//(A,5)
+            {2.1f,2.5f,3.2f,4.8f,4.8f,1.1f},//(A,6)
+            {2.0f,2.2f,3.3f,3.8f,3.5f,0},//(A,7)
+            {1.4f,1.7f,1.8f,2,2,0},//(A,8)
+            {1.3f,1.3f,1.5f,1.6f,1.6f,0}//(A,9)
+
         };
 
         //Hard Stand on true, hit on false
@@ -61,6 +65,15 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,true,true},//17
 
         };
+        ////50 = SHADED = STAND
+        ////0 = NOT SHADED = HIT
+        //readonly float[,] SoftHitOrStand = new float[2, 10]
+        //{
+        //   //2 3 4 5 6 7 8 9 10 A
+        //    {50,50,50,50,50,50,50,0,0,2.2f},//18 soft standing number for 18 is any ratio < 2.2
+        //    {50,50,50,50,50,50,50,50,50,2.2f},//19 soft standing number for 19 is any ratio > 2.2
+
+        //};
         //Soft Stand on true, hit on false
         //Hit on anything >= 17, stand on anything 19 or more
         readonly bool[,] SoftHitOrStand = new bool[2, 10]
@@ -113,6 +126,7 @@ namespace BlackjackLogic.Strategies
                 }
             }
             UpdateOthersOverTenRatio();
+            Console.WriteLine($"The Others / Ten ratio is now:\t{othersOverTenRatio}");
             return Count;
         }
 
@@ -123,12 +137,35 @@ namespace BlackjackLogic.Strategies
                 stateToChange = PlayerState.BUST;
                 return PlayerState.BUST;
             }
-
             //Do you have pair
             //yes, split?
             if (((hand.cards.First().Face == hand.cards.Last().Face) && splitHand == null) && hand.cards.Count == 2)
             {
-                if (PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                if ((hand.cards.First().Face == Face.Eight && dealersUpCard.Value == 10))
+                {
+                    if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                    {
+                        stateToChange = PlayerState.SPLIT;
+                        return PlayerState.SPLIT;
+                    }
+                }
+                if ((hand.cards.First().Face == Face.Three && (dealersUpCard.Value == 7 || dealersUpCard.Value == 8 )))
+                {
+                    if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                    {
+                        stateToChange = PlayerState.SPLIT;
+                        return PlayerState.SPLIT;
+                    }
+                }
+                if ((hand.cards.First().Face == Face.Two && (dealersUpCard.Value == 7 || dealersUpCard.Value == 8 || dealersUpCard.Value == 9 || dealersUpCard.Value == 10)))
+                {
+                    if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                    {
+                        stateToChange = PlayerState.SPLIT;
+                        return PlayerState.SPLIT;
+                    }
+                }
+                else if(othersOverTenRatio <= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.SPLIT;
                     return PlayerState.SPLIT;
@@ -140,7 +177,7 @@ namespace BlackjackLogic.Strategies
             //stand
             if (hand.cards.Count == 2)
             {
-                //SOFT HAND
+                //SOFT HAND DOUBLE
                 if (hand.handValues.Count > 1)
                 {
                     //Always split aces
@@ -150,9 +187,9 @@ namespace BlackjackLogic.Strategies
                         return PlayerState.DOUBLE_DOWN;
                     }
                     var cardNotAceInHand = hand.cards.Find(x => x.Face != Face.Ace);
-                    if (cardNotAceInHand.Value <= 7 && dealersUpCard.Value <= 6)
+                    if (dealersUpCard.Value < 8 && cardNotAceInHand.Value != 10)
                     {
-                        if (SoftDoubleDown[cardNotAceInHand.Value - 2, dealersUpCard.Value - 2])
+                        if (othersOverTenRatio <= SoftDoubleDown[cardNotAceInHand.Value - 2, dealersUpCard.Value - 2])
                         {
                             stateToChange = PlayerState.DOUBLE_DOWN;
                             return PlayerState.DOUBLE_DOWN;
