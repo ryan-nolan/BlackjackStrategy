@@ -9,8 +9,8 @@ namespace BlackjackLogic.Strategies
     public class TenCountStrategy : Player
     {
         public float othersOverTenRatio;
-        public override string StrategyName { get { return "BasicStrategy"; } }
-        public override string CountType { get { return "basic"; } }
+        public override string StrategyName { get { return "TenCount"; } }
+        public override string CountType { get { return "tencount"; } }
 
         readonly bool[,] PairSplitting = new bool[10, 10]
         {
@@ -74,10 +74,26 @@ namespace BlackjackLogic.Strategies
 
         public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
-            UpdateOtherOverTenRatio();
+            UpdateOthersOverTenRatio();
+            if (othersOverTenRatio>=2)
+            {
+                return minBet;
+            }
+            else if (othersOverTenRatio < 2 && othersOverTenRatio >= 1.75)
+            {
+                return minBet * 2;
+            }
+            else if (othersOverTenRatio < 1.75 && othersOverTenRatio > 1.65)
+            {
+                return minBet * 4;
+            }
+            else if (othersOverTenRatio <= 1.65)
+            {
+                return minBet * 5;
+            }
             return minBet;
         }
-        public void UpdateOtherOverTenRatio()
+        public void UpdateOthersOverTenRatio()
         {
             othersOverTenRatio = ((float)Count[0]) / ((float)Count[1]);
         }
@@ -96,7 +112,7 @@ namespace BlackjackLogic.Strategies
                     Count[0]++;
                 }
             }
-            UpdateOtherOverTenRatio();
+            UpdateOthersOverTenRatio();
             return Count;
         }
 

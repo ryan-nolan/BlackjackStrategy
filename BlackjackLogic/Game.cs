@@ -435,7 +435,7 @@ namespace BlackjackLogic
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
                     $"{dealer.hand.handValues.Last().ToString()},{dealersDecisions},{doesPlayerSplit},{playersStartingSplitHandForfile},{playersStartingHardHandValueForFile},{playersStartingSplitSoftHandValueForFile}," +
                     $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit}," +
-                    $"{firstCountBeforeHandForFile},{firstCountAfterHandForFile},{currentTurnDeckHash}"
+                    $"{firstCountBeforeHandForFile},{firstCountAfterHandForFile},{count[1]},{currentTurnDeckHash}"
                     );
 
                 CleanupHand();
@@ -459,83 +459,6 @@ namespace BlackjackLogic
 
         }
 
-        //private void UpdateCounts()
-        //{
-        //    count[0] = 0; //Original count
-        //    count[1] = 0; //Tens count for TenCountStrategy
-        //    if (player.CountType == "five")
-        //    {
-        //        foreach (var c in burntCards)
-        //        {
-        //            if (c.Face == Face.Five)
-        //            {
-        //                count[0]++;
-        //            }
-        //        }
-        //    }
-        //    if (player.CountType == "acetofive")
-        //    {
-        //        if (player.hand != null)
-        //        {
-        //            foreach (var c in player.hand.cards)
-        //            {
-        //                if (c.Face == Face.Five)
-        //                {
-        //                    count[0]++;
-        //                }
-        //                if (c.Face == Face.Ace)
-        //                {
-        //                    count[0]--;
-        //                }
-        //            }
-        //        }
-        //        if (dealer.upCard != null)
-        //        {
-        //            if (dealer.upCard.Face == Face.Five)
-        //            {
-        //                count[0]++;
-        //            }
-        //            if (dealer.upCard.Face == Face.Ace)
-        //            {
-        //                count[0]--;
-        //            }
-
-        //        }
-        //        foreach (var c in burntCards)
-        //        {
-        //            if (c.Face == Face.Five)
-        //            {
-        //                count[0]++;
-        //            }
-        //            if (c.Face == Face.Ace)
-        //            {
-        //                count[0]--;
-        //            }
-        //        }
-        //    }
-        //    if (player.CountType == "simplepointcount")
-        //    {
-        //        //if (player.hand != null)
-        //        //{
-        //        //    foreach (var c in player.hand.cards)
-        //        //    {
-
-        //        //    }
-        //        //}
-        //        foreach (var c in burntCards)
-        //        {
-        //            if (c.Face == Face.Two || c.Face == Face.Three|| c.Face == Face.Four|| c.Face == Face.Five || c.Face == Face.Six)
-        //            {
-        //                count[0]++;
-        //            }
-        //            if (c.Face == Face.Ace || c.Value == 10)
-        //            {
-        //                count[0]--;
-        //            }
-        //        }
-        //    }
-        //}
-
         private StreamWriter InitialiseFile(string filename, string path)
         {
             if (File.Exists(path+ "\\" + filename))
@@ -547,7 +470,7 @@ namespace BlackjackLogic
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
                 "DoesPlayerSplit,PlayersStartingSplitHand,PlayerStartingSplitHardHandValue,PlayerStartingSplitSoftHandValue,PlayersEndSplitHand,PlayersSplitEndHandValue,PlayersSplitHandDecisions" +
-                ",PlayersHandPreSplit,CountBeforeHand,CountDuringHand,DeckHash");
+                ",PlayersHandPreSplit,CountBeforeHand,CountDuringHand,Count[1],DeckHash");
             return file;
         }
 
