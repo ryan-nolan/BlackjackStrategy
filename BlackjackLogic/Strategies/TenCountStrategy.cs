@@ -28,13 +28,17 @@ namespace BlackjackLogic.Strategies
             {1.4f,1.5f,1.7f,1.9f,1.8f,0,0,0,0,0},//(10,10)
             {4.0f,4.1f,4.5f,4.9f,5.0f,3.8f,3.3f,3.1f,3.2f,2.6f },//(A,A)
         };
-        readonly bool[,] HardDoubleDown = new bool[4, 10]
+        //DOUBLE CHECK ALL VALUES
+        readonly float[,] HardDoubleDown = new float[7, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
-            {false,false,false,false,false,false,false,false,false,false},//8
-            {true,true,true,true,true,false,false,false,false,false },//9
-            {true,true,true,true,true,true,true,true,false,false},//10
-            {true,true,true,true,true,true,true,true,true,true },//11
+            {0,0,1.0f,1.1f,1.1f,0,0,0,0,0 },//3,2
+            {0,0,1.0f,1.2f,1.1f,0,0,0,0,0 },//4,2
+            {0.9f,1.1f,1.2f,1.4f,1.4f,0,0,0,0,0 },//7
+            {1.3f,1.5f,1.7f,2.0f,2.1f,1.0f,0,0,0,0 },//8
+            {2.2f,2.4f,2.8f,3.3f,3.4f,2.0f,1.6f,0,0,0.9f },//9
+            {3.7f,4.2f,4.8f,5.6f,5.7f,3.8f,3.0f,2.6f,2.8f,2.2f},//10
+            {3.9f,4.2f,4.8f,5.5f,5.5f,3.7f,3.0f,2.6f,2.8f,2.2f } //11
         };
 
         readonly float[,] SoftDoubleDown = new float[8, 6]
@@ -199,18 +203,17 @@ namespace BlackjackLogic.Strategies
                 //HARD HAND
                 else
                 {
-                    if (hand.handValues.First() >= 8 && hand.handValues.First() <= 11)
+                    if (hand.handValues.First() >= 5 && hand.handValues.First() <= 11)
                     {
-                        //Check the (6,2) exception
-                        if ((hand.handValues.First() == 8) && (dealersUpCard.Value == 5 || dealersUpCard.Value == 6))
+                        if ((hand.handValues.First() == 6 || hand.handValues.First() == 5) && (hand.cards.First().Value != hand.cards.Last().Value))
                         {
-                            if (!(hand.cards.Any(x => x.Value == 6) && hand.cards.Any(x => x.Value == 2)))
+                            if (othersOverTenRatio <= HardDoubleDown[hand.handValues.First() - 5, dealersUpCard.Value - 2])
                             {
                                 stateToChange = PlayerState.DOUBLE_DOWN;
                                 return PlayerState.DOUBLE_DOWN;
                             }
                         }
-                        if (HardDoubleDown[hand.handValues.First() - 8, dealersUpCard.Value - 2])
+                        if ((othersOverTenRatio <= HardDoubleDown[hand.handValues.First() - 5, dealersUpCard.Value - 2]) && hand.handValues.First() > 6)
                         {
                             stateToChange = PlayerState.DOUBLE_DOWN;
                             return PlayerState.DOUBLE_DOWN;
