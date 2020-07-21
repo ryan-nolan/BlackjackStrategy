@@ -9,12 +9,12 @@ namespace BlackjackLogic.Strategies
     public class DealerStrategy : Player
     {
         public override string StrategyName { get { return "DealerStrategy"; } }
-        public override int CalculateBet(int minBet, int maxBet, int count)
+        public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
             return minBet;
         }
 
-        public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand, int count)
+        public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
 
             hand.SetHandValues();

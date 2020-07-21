@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
-    public class SimplePointCountStrategy : Player
+    public class TenCountStrategy : Player
     {
-        public override string StrategyName { get { return "SimplePointCount"; } }
-        public override string CountType { get { return "simplepointcount"; } }
+        public float othersOverTenRatio;
+        public override string StrategyName { get { return "BasicStrategy"; } }
+        public override string CountType { get { return "basic"; } }
 
         readonly bool[,] PairSplitting = new bool[10, 10]
         {
@@ -73,14 +74,6 @@ namespace BlackjackLogic.Strategies
 
         public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
-            if (count[0] <= 0)
-            {
-                return minBet;
-            }
-            else if (count[0] >= 1)
-            {
-                return minBet * count[0];
-            }
             return minBet;
         }
 
@@ -221,5 +214,4 @@ namespace BlackjackLogic.Strategies
             return PlayerState.STAND;
         }
     }
-
 }

@@ -8,7 +8,7 @@ namespace BlackjackLogic.Strategies
 {
     public class HumanStrategy : Player
     {
-        public override int CalculateBet(int minBet, int maxBet, int count)
+        public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
 
             int stake = 0;
@@ -31,7 +31,7 @@ namespace BlackjackLogic.Strategies
             return stake;
         }
 
-        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, int count)
+        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             Console.Write("Player's Cards: ");
             hand.WriteHandAndHandValue();

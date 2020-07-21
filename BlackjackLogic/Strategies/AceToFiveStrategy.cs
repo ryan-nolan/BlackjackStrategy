@@ -70,16 +70,16 @@ namespace BlackjackLogic.Strategies
 
         };
 
-        public override int CalculateBet(int minBet, int maxBet, int count)
+        public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
-            if (count >= (Deck.DeckSize/52)*2)
+            if (count[0] >= (Deck.DeckSize/52)*2)
             {
                 return maxBet;
             }
             return minBet;
         }
 
-        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, int count)
+        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)
             {

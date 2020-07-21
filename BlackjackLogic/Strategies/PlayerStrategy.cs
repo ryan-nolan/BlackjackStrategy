@@ -8,12 +8,12 @@ namespace BlackjackLogic.Strategies
 {
     public class PlayerStrategy : Player
     {
-        public override int CalculateBet(int minBet, int maxBet, int count)
+        public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
             throw new NotImplementedException();
         }
 
-        public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand, int count)
+        public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             throw new NotImplementedException();
         }

@@ -19,10 +19,10 @@ namespace BlackjackLogic
         public int MaxBet = 50;
         public string StrategyName = "simplepointcount";
         public int StartChips = 500;
-        public int DeckSize = 104;
+        public int DeckSize = 52;
 
         //Counts
-        int count = 0;
+        List<int> count = new List<int>() { 0, 0 };
         //string countType = "five";
         
 
@@ -100,7 +100,12 @@ namespace BlackjackLogic
                     burntCards.Add(deck.Cards.Pop());
                     UpdateCounts();
                 }
-                Console.WriteLine($"Pre hand count:\t{count}");
+                Console.Write($"Pre hand counts:\t");
+                for(int j = 0; j < count.Count; j++)
+                {
+                    Console.Write($"{count[j]}\t");
+                }
+                Console.WriteLine();
 
                 string currentTurnDeckHash = deck.GetDeckHash();
                 amountOfCardsInDeckBeforeTurn = deck.Cards.Count;
@@ -453,14 +458,15 @@ namespace BlackjackLogic
 
         private void UpdateCounts()
         {
-            count = 0;
+            count[0] = 0; //Original count
+            count[1] = 0; //Tens count for TenCountStrategy
             if (player.CountType == "five")
             {
                 foreach (var c in burntCards)
                 {
                     if (c.Face == Face.Five)
                     {
-                        count++;
+                        count[0]++;
                     }
                 }
             }
@@ -472,11 +478,11 @@ namespace BlackjackLogic
                     {
                         if (c.Face == Face.Five)
                         {
-                            count++;
+                            count[0]++;
                         }
                         if (c.Face == Face.Ace)
                         {
-                            count--;
+                            count[0]--;
                         }
                     }
                 }
@@ -484,11 +490,11 @@ namespace BlackjackLogic
                 {
                     if (dealer.upCard.Face == Face.Five)
                     {
-                        count++;
+                        count[0]++;
                     }
                     if (dealer.upCard.Face == Face.Ace)
                     {
-                        count--;
+                        count[0]--;
                     }
                     
                 }
@@ -496,11 +502,11 @@ namespace BlackjackLogic
                 {
                     if (c.Face == Face.Five)
                     {
-                        count++;
+                        count[0]++;
                     }
                     if (c.Face == Face.Ace)
                     {
-                        count--;
+                        count[0]--;
                     }
                 }
             }
@@ -517,11 +523,11 @@ namespace BlackjackLogic
                 {
                     if (c.Face == Face.Two || c.Face == Face.Three|| c.Face == Face.Four|| c.Face == Face.Five || c.Face == Face.Six)
                     {
-                        count++;
+                        count[0]++;
                     }
                     if (c.Face == Face.Ace || c.Value == 10)
                     {
-                        count--;
+                        count[0]--;
                     }
                 }
             }
