@@ -58,33 +58,24 @@ namespace BlackjackLogic.Strategies
         //Hard Stand on true, hit on false
         //Always draw on less than or equal to 11
         //Account for optimisations
-        readonly bool[,] HardHitOrStand = new bool[6, 10]
+        readonly float[,] HardHitOrStand = new float[6, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
-            {false,false,true,true,true,false,false,false,false,false },//12
-            {true,true,true,true,true,false,false,false,false,false},//13
-            {true,true,true,true,true,false,false,false,false,false},//14
-            {true,true,true,true,true,false,false,false,false,false},//15
-            {true,true,true,true,true,false,false,false,false,false},//16
-            {true,true,true,true,true,true,true,true,true,true},//17
+            {2.0f,2.1f,2.2f,2.4f,2.3f,0,0,0,1.1f,1.0f},//12
+            {2.3f,2.5f,2.6f,3.0f,2.7f,0,0,0,1.3f,1.1f},//13
+            {2.7f,2.9f,3.3f,3.7f,3.4f,0,0,1.1f,1.6f,1.2f},//14
+            {3.2f,3.6f,4.1f,4.8f,4.3f,0,0,1.4f,1.9f,1.3f},//15
+            {3.9f,4.5f,5.3f,6.5f,4.6f,0,1.2f,1.7f,2.2f,1.4f},//16
+            {50,50,50,50,50,50,50,50,50,3.1f},//17
+        };                                    //18 against an Ace ratio > 3.1 = stand
 
-        };
-        ////50 = SHADED = STAND
-        ////0 = NOT SHADED = HIT
-        //readonly float[,] SoftHitOrStand = new float[2, 10]
-        //{
-        //   //2 3 4 5 6 7 8 9 10 A
-        //    {50,50,50,50,50,50,50,0,0,2.2f},//18 soft standing number for 18 is any ratio < 2.2
-        //    {50,50,50,50,50,50,50,50,50,2.2f},//19 soft standing number for 19 is any ratio > 2.2
-
-        //};
-        //Soft Stand on true, hit on false
-        //Hit on anything >= 17, stand on anything 19 or more
-        readonly bool[,] SoftHitOrStand = new bool[2, 10]
+        //50 = SHADED = STAND
+        //0 = NOT SHADED = HIT
+        readonly float[,] SoftHitOrStand = new float[2, 10]
         {
-            //2   3    4    5    6    7    8    9    10   A
-            {true,true,true,true,true,true,true,false,false,true},//18
-            {true,true,true,true,true,true,true,true,true,true},//19
+           //2 3 4 5 6 7 8 9 10 A
+            {50,50,50,50,50,50,50,0,0,2.2f},//18 soft standing number for 18 is any ratio < 2.2
+            {0,0,0,0,0,0,0,0,0,2.2f},//19 soft standing number for 19 is any ratio > 2.2
 
         };
 
@@ -240,15 +231,31 @@ namespace BlackjackLogic.Strategies
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;
                 }
-                if (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                if (hand.handValues.Max() == 18)
                 {
-                    stateToChange = PlayerState.HIT;
-                    return PlayerState.HIT;
+                    if (othersOverTenRatio < SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                    {
+                        stateToChange = PlayerState.STAND;
+                        return PlayerState.STAND;
+                    }
+                    else if (othersOverTenRatio > (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
+                    {
+                        stateToChange = PlayerState.HIT;
+                        return PlayerState.HIT;
+                    }
                 }
-                else if (!(SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
+                else if (hand.handValues.Max() == 19)
                 {
-                    stateToChange = PlayerState.STAND;
-                    return PlayerState.STAND;
+                    if (othersOverTenRatio > SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                    {
+                        stateToChange = PlayerState.STAND;
+                        return PlayerState.STAND;
+                    }
+                    else if (othersOverTenRatio < (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
+                    {
+                        stateToChange = PlayerState.HIT;
+                        return PlayerState.HIT;
+                    }
                 }
             }
 
@@ -259,31 +266,28 @@ namespace BlackjackLogic.Strategies
                 stateToChange = PlayerState.HIT;
                 return PlayerState.HIT;
             }
-            //Always stand on 18 or more
+            //Always stand on 18 or more, unless you have 18 vs Ace up and ratio < 3.1
             else if (hand.handValues.First() >= 18)
             {
+                if (hand.handValues.First() == 18 && dealersUpCard.Face == Face.Ace)
+                {
+                    if (othersOverTenRatio < 3.1)
+                    {
+                        stateToChange = PlayerState.HIT;
+                        return PlayerState.HIT;
+                    }
+                }
                 stateToChange = PlayerState.STAND;
                 return PlayerState.STAND;
             }
 
-            //HARD 16 against a 10 exception
-            if (hand.handValues.First() == 16 && hand.cards.Count > 2 && dealersUpCard.Value == 10)
-            {
-                stateToChange = PlayerState.STAND;
-                return PlayerState.STAND;
-            }
-            if (hand.handValues.First() == 16 && hand.cards.Count == 2 && dealersUpCard.Value == 10)
-            {
-                stateToChange = PlayerState.HIT;
-                return PlayerState.HIT;
-            }
 
-            if (HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
+            if (othersOverTenRatio <= HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
             {
                 stateToChange = PlayerState.STAND;
                 return PlayerState.STAND;
             }
-            else if (!(HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2]))
+            else if (othersOverTenRatio > HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
             {
                 stateToChange = PlayerState.HIT;
                 return PlayerState.HIT;
