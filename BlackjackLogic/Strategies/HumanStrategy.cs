@@ -30,6 +30,10 @@ namespace BlackjackLogic.Strategies
 
             return stake;
         }
+        public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
+        {
+            return Count;
+        }
 
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {

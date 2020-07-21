@@ -115,6 +115,11 @@ namespace BlackjackLogic.Strategies
             return minBet;
         }
 
+        public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
+        {
+            return Count;
+        }
+
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)

@@ -77,6 +77,8 @@ namespace BlackjackLogic
             string playersStartingHandPreSplit = "";
             string gameResult = "";
             string splitGameResult = "";
+            int firstCountBeforeHandForFile = 0;
+            int firstCountAfterHandForFile = 0;
             //A card is burnt
             burntCards.Add(deck.Cards.Pop());
 
@@ -98,7 +100,7 @@ namespace BlackjackLogic
                     deck.Shuffle();
                     burntCards.Clear();
                     burntCards.Add(deck.Cards.Pop());
-                    UpdateCounts();
+                    count = player.UpdateCount(deck, burntCards, dealer.upCard);
                 }
                 Console.Write($"Pre hand counts:\t");
                 for(int j = 0; j < count.Count; j++)
@@ -106,7 +108,7 @@ namespace BlackjackLogic
                     Console.Write($"{count[j]}\t");
                 }
                 Console.WriteLine();
-
+                firstCountBeforeHandForFile = count[0];
                 string currentTurnDeckHash = deck.GetDeckHash();
                 amountOfCardsInDeckBeforeTurn = deck.Cards.Count;
 
@@ -137,6 +139,7 @@ namespace BlackjackLogic
 
                 //Check naturals
                 UpdateHandValues();
+                player.UpdateCount(deck, burntCards, dealer.upCard);
                 if (player.hand.handValues.Contains(21))
                 {
                     if (!dealer.hand.handValues.Contains(21))
@@ -425,18 +428,18 @@ namespace BlackjackLogic
                     playersStartingHandPreSplit = "N/A";
                     splitGameResult = "N/A";
                 }
+                firstCountAfterHandForFile = player.UpdateCount(deck, burntCards, dealer.upCard).First();
                 f.WriteLine($"{HandsPlayed+1},{playerStartingChips},{player.Chips},{player.Chips - playerStartingChips},{gameResult},{splitGameResult},{amountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
                     $"{playerStakeForFile},{player.hand.cards[0].ToString()} {player.hand.cards[1].ToString()}," +
                     $"{playersStartingHardHandValueForFile},{playersStartingSoftHandValueForFile},{player.hand},{player.hand.handValues.Last()},{playersDecisions}," +
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
                     $"{dealer.hand.handValues.Last().ToString()},{dealersDecisions},{doesPlayerSplit},{playersStartingSplitHandForfile},{playersStartingHardHandValueForFile},{playersStartingSplitSoftHandValueForFile}," +
-                    $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit},{count},{currentTurnDeckHash}"
+                    $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit}," +
+                    $"{firstCountBeforeHandForFile},{firstCountAfterHandForFile},{currentTurnDeckHash}"
                     );
 
                 CleanupHand();
-                //UpdateCount(ref int count, Face face);
-                //UpdateCount(ref int count, int value);
-                UpdateCounts();
+                count = player.UpdateCount(deck, burntCards, dealer.upCard);
 
                 if (humanPlayer)
                 {
@@ -456,82 +459,82 @@ namespace BlackjackLogic
 
         }
 
-        private void UpdateCounts()
-        {
-            count[0] = 0; //Original count
-            count[1] = 0; //Tens count for TenCountStrategy
-            if (player.CountType == "five")
-            {
-                foreach (var c in burntCards)
-                {
-                    if (c.Face == Face.Five)
-                    {
-                        count[0]++;
-                    }
-                }
-            }
-            if (player.CountType == "acetofive")
-            {
-                if (player.hand != null)
-                {
-                    foreach (var c in player.hand.cards)
-                    {
-                        if (c.Face == Face.Five)
-                        {
-                            count[0]++;
-                        }
-                        if (c.Face == Face.Ace)
-                        {
-                            count[0]--;
-                        }
-                    }
-                }
-                if (dealer.upCard != null)
-                {
-                    if (dealer.upCard.Face == Face.Five)
-                    {
-                        count[0]++;
-                    }
-                    if (dealer.upCard.Face == Face.Ace)
-                    {
-                        count[0]--;
-                    }
-                    
-                }
-                foreach (var c in burntCards)
-                {
-                    if (c.Face == Face.Five)
-                    {
-                        count[0]++;
-                    }
-                    if (c.Face == Face.Ace)
-                    {
-                        count[0]--;
-                    }
-                }
-            }
-            if (player.CountType == "simplepointcount")
-            {
-                //if (player.hand != null)
-                //{
-                //    foreach (var c in player.hand.cards)
-                //    {
-                        
-                //    }
-                //}
-                foreach (var c in burntCards)
-                {
-                    if (c.Face == Face.Two || c.Face == Face.Three|| c.Face == Face.Four|| c.Face == Face.Five || c.Face == Face.Six)
-                    {
-                        count[0]++;
-                    }
-                    if (c.Face == Face.Ace || c.Value == 10)
-                    {
-                        count[0]--;
-                    }
-                }
-            }
-        }
+        //private void UpdateCounts()
+        //{
+        //    count[0] = 0; //Original count
+        //    count[1] = 0; //Tens count for TenCountStrategy
+        //    if (player.CountType == "five")
+        //    {
+        //        foreach (var c in burntCards)
+        //        {
+        //            if (c.Face == Face.Five)
+        //            {
+        //                count[0]++;
+        //            }
+        //        }
+        //    }
+        //    if (player.CountType == "acetofive")
+        //    {
+        //        if (player.hand != null)
+        //        {
+        //            foreach (var c in player.hand.cards)
+        //            {
+        //                if (c.Face == Face.Five)
+        //                {
+        //                    count[0]++;
+        //                }
+        //                if (c.Face == Face.Ace)
+        //                {
+        //                    count[0]--;
+        //                }
+        //            }
+        //        }
+        //        if (dealer.upCard != null)
+        //        {
+        //            if (dealer.upCard.Face == Face.Five)
+        //            {
+        //                count[0]++;
+        //            }
+        //            if (dealer.upCard.Face == Face.Ace)
+        //            {
+        //                count[0]--;
+        //            }
+
+        //        }
+        //        foreach (var c in burntCards)
+        //        {
+        //            if (c.Face == Face.Five)
+        //            {
+        //                count[0]++;
+        //            }
+        //            if (c.Face == Face.Ace)
+        //            {
+        //                count[0]--;
+        //            }
+        //        }
+        //    }
+        //    if (player.CountType == "simplepointcount")
+        //    {
+        //        //if (player.hand != null)
+        //        //{
+        //        //    foreach (var c in player.hand.cards)
+        //        //    {
+
+        //        //    }
+        //        //}
+        //        foreach (var c in burntCards)
+        //        {
+        //            if (c.Face == Face.Two || c.Face == Face.Three|| c.Face == Face.Four|| c.Face == Face.Five || c.Face == Face.Six)
+        //            {
+        //                count[0]++;
+        //            }
+        //            if (c.Face == Face.Ace || c.Value == 10)
+        //            {
+        //                count[0]--;
+        //            }
+        //        }
+        //    }
+        //}
 
         private StreamWriter InitialiseFile(string filename, string path)
         {
@@ -544,7 +547,7 @@ namespace BlackjackLogic
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
                 "DoesPlayerSplit,PlayersStartingSplitHand,PlayerStartingSplitHardHandValue,PlayerStartingSplitSoftHandValue,PlayersEndSplitHand,PlayersSplitEndHandValue,PlayersSplitHandDecisions" +
-                ",PlayersHandPreSplit,Count,DeckHash");
+                ",PlayersHandPreSplit,CountBeforeHand,CountDuringHand,DeckHash");
             return file;
         }
 
@@ -567,27 +570,11 @@ namespace BlackjackLogic
                 burntCards.Add(c);
             }
             dealer.hand.cards.Clear();
-
+            dealer.upCard = null;
             player.Stake = 0;
             player.SplitHandStake = 0;
         }
 
-        //Add player(and what strategy it plays) and dealer init
-        private void InitialiseGame()
-        {
-            deck = new Deck(DeckSize);
-            deck.Shuffle();
-
-            //player = new BasicStrategy
-            //player = new DealerStrategy
-            //player = new FiveCountStrategy
-            player = new SimplePointCountStrategy
-            //player = new AceToFiveStrategy
-            {
-                Chips = StartChips
-            };
-            dealer = new Dealer();
-        }
         private void InitialiseGameAsPlayer()
         {
             deck = new Deck(DeckSize);
@@ -665,21 +652,13 @@ namespace BlackjackLogic
         {
             hand.cards.Add(deck.Cards.Pop());
             hand.SetHandValues();
-            UpdateCounts();
+            count = player.UpdateCount(deck, burntCards, dealer.upCard);
         }
 
-
-        public void RepopulateDeck()
-        {
-            deck = new Deck(DeckSize);
-            deck.Shuffle();
-            burntCards.Clear();
-            burntCards.Add(deck.Cards.Pop());
-        }
 
         public void GameTest()
         {
-            InitialiseGame();
+            InitialiseGame(strategy: StrategyName);
 
             DealHand();
 

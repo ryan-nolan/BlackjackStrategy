@@ -79,6 +79,67 @@ namespace BlackjackLogic.Strategies
             return minBet;
         }
 
+        public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
+        {
+            Count[0] = 0;
+            if (hand.cards.Count > 0)
+            {
+                foreach (var c in hand.cards)
+                {
+                    if (c.Face == Face.Five)
+                    {
+                        Count[0]++;
+                    }
+                    if (c.Face == Face.Ace)
+                    {
+                        Count[0]--;
+                    }
+                }
+            }
+            if (splitHand != null)
+            {
+                if (splitHand.cards.Count > 0)
+                {
+                    foreach (var c in splitHand.cards)
+                    {
+                        if (c.Face == Face.Five)
+                        {
+                            Count[0]++;
+                        }
+                        if (c.Face == Face.Ace)
+                        {
+                            Count[0]--;
+                        }
+                    }
+                }
+                
+            }
+            if (dealersUpCard != null)
+            {
+                if (dealersUpCard.Face == Face.Five)
+                {
+                    Count[0]++;
+                }
+                if (dealersUpCard.Face == Face.Ace)
+                {
+                    Count[0]--;
+                }
+
+            }
+            foreach (var c in burntCards)
+            {
+                if (c.Face == Face.Five)
+                {
+                    Count[0]++;
+                }
+                if (c.Face == Face.Ace)
+                {
+                    Count[0]--;
+                }
+            }
+            return Count;
+        }
+
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)

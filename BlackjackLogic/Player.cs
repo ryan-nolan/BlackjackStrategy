@@ -18,6 +18,7 @@ namespace BlackjackLogic
         public bool isDoublingDown;
         public Hand splitHand = null;
         public PlayerState splitHandState;
+        public List<int> Count = new List<int> { 0, 0 };
 
         public virtual string CountType { get; protected set; }
         public virtual string StrategyName { get; protected set; }
@@ -43,6 +44,8 @@ namespace BlackjackLogic
         public abstract PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count);
         //public abstract PlayerState React(Card DealersUpCard, Hand hand);
         public abstract int CalculateBet(int minBet, int maxBet, List<int> count);
+
+        public abstract List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard);
 
         public override void WriteCurrentState() { Console.WriteLine($"PLAYER REACTS: {CurrentState.ToString()}"); }
     }

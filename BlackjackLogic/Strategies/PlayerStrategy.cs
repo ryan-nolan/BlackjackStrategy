@@ -12,7 +12,10 @@ namespace BlackjackLogic.Strategies
         {
             throw new NotImplementedException();
         }
-
+        public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
+        {
+            throw new NotImplementedException();
+        }
         public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             throw new NotImplementedException();
