@@ -74,22 +74,29 @@ namespace BlackjackLogic.Strategies
 
         public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
+            UpdateOtherOverTenRatio();
             return minBet;
+        }
+        public void UpdateOtherOverTenRatio()
+        {
+            othersOverTenRatio = ((float)Count[0]) / ((float)Count[1]);
         }
 
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
-            //foreach (var c in burntCards)
-            //{
-            //    if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six)
-            //    {
-            //        Count[0]++;
-            //    }
-            //    if (c.Face == Face.Ace || c.Value == 10)
-            //    {
-            //        Count[0]--;
-            //    }
-            //}
+            Count[0] = 0; Count[1] = 0;
+            foreach (var c in deck.Cards)
+            {
+                if (c.Value == 10)
+                {
+                    Count[1]++;
+                }
+                else
+                {
+                    Count[0]++;
+                }
+            }
+            UpdateOtherOverTenRatio();
             return Count;
         }
 
