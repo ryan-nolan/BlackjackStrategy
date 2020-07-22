@@ -19,7 +19,7 @@ namespace BlackjackStrategy
             int maxBet = 50;
             int minBet = 2;
             int startChips = 500;
-            string strategyName = "tencount";
+            string strategyName = "completepointcount";
             int deckSize = 52;
 
             for (int i = 0; i<args.Length;i++)

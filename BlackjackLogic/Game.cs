@@ -549,12 +549,19 @@ namespace BlackjackLogic
                         Chips = StartChips
                     };
                     break;
+                case "completepointcount":
+                    player = new CompletePointCountStrategy
+                    {
+                        Chips = StartChips
+                    };
+                    break;
                 default:
                     player = new SimplePointCountStrategy
                     {
                         Chips = StartChips
                     };
                     break;
+
             }
             dealer = new Dealer();
         }
