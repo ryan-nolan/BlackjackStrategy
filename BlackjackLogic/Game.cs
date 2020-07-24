@@ -97,7 +97,7 @@ namespace BlackjackLogic
 
                         throw e;
                     }
-                    deck.Shuffle();
+                    deck.FisherYatesShuffle();
                     burntCards.Clear();
                     burntCards.Add(deck.Cards.Pop());
                     count = player.UpdateCount(deck, burntCards, dealer.upCard);
@@ -112,10 +112,10 @@ namespace BlackjackLogic
                 string currentTurnDeckHash = deck.GetDeckHash();
                 amountOfCardsInDeckBeforeTurn = deck.Cards.Count;
 
-                playersDecisions = "";
-                playersSplitHandDecisions = "";
-                dealersDecisions = "";
-                doesPlayerSplit = "N";
+                playersDecisions = "";//FOR FILE
+                playersSplitHandDecisions = "";//FOR FILE
+                dealersDecisions = "";//FOR FILE
+                doesPlayerSplit = "N"; //FOR FILE
 
                 playerStartingChips = player.Chips;//FOR FILE
                 //Get Bet function
@@ -501,7 +501,7 @@ namespace BlackjackLogic
         private void InitialiseGameAsPlayer()
         {
             deck = new Deck(DeckSize);
-            deck.Shuffle();
+            deck.FisherYatesShuffle();
 
             player = new HumanStrategy();
             dealer = new Dealer();
@@ -510,7 +510,7 @@ namespace BlackjackLogic
         private void InitialiseGame(string strategy)
         {
             deck = new Deck(DeckSize);
-            deck.Shuffle();
+            deck.FisherYatesShuffle();
             switch (strategy.ToLower())
             {
                 case "basicstrategy":

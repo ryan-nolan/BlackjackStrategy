@@ -10,7 +10,8 @@ namespace BlackjackLogic.Strategies
     {
         public override string StrategyName { get { return "BasicStrategy"; } }
         public override string CountType { get { return "basic"; } }
-
+        
+        //split on true, ignore on false
         readonly bool[,] PairSplitting = new bool[10, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
@@ -25,6 +26,7 @@ namespace BlackjackLogic.Strategies
             {false,false,false,false,false,false,false,false,false,false},//(10,10)
             {true,true,true,true,true,true,true,true,true,true },//(A,A)
         };
+        //Double down on true, ignore on false
         readonly bool[,] HardDoubleDown = new bool[4, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
@@ -33,7 +35,7 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,false,false},//10
             {true,true,true,true,true,true,true,true,true,true },//11
         };
-
+        //Double down on true, ignore on false
         readonly bool[,] SoftDoubleDown = new bool[7, 5]
         {
             //2    3     4     5     6    
@@ -69,46 +71,6 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,true,true},//19
 
         };
-
-        //Dictionary<Face, bool[]> PairSplit2 = new Dictionary<Face, bool[]>()
-        //{
-        //    {
-        //        { Face.Two, new bool[] {true,true,true,true,true,true,false,false,false,false } },
-        //        { Face.Three, new bool[] {true,true,true,true,true,true,false,false,false,false } }
-        //    }
-        //};
-
-        //Dictionary<Face, Dictionary<Face, bool>> PairSplit = new Dictionary<Face, Dictionary<Face, bool>>()
-        //{
-        //    {
-        //        Face.Two,
-        //        new Dictionary<Face, bool>
-        //        {
-        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-        //        }
-        //    },
-        //    {
-        //        Face.Three,
-        //        new Dictionary<Face, bool>
-        //        {
-        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-        //        }
-        //    },
-        //    {
-        //        Face.Four,
-        //        new Dictionary<Face, bool>
-        //        {
-        //            { Face.Two, true },{ Face.Three, true },{ Face.Four, true },
-        //            { Face.Five, true }, { Face.Six, true },{ Face.Seven, true },
-        //            { Face.Eight, false},{ Face.Nine, false },{ Face.Ten, false },{ Face.Ace, false }
-        //        }
-        //    }
-
-        //};
 
         public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {

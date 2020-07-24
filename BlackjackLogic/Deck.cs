@@ -42,12 +42,12 @@ namespace BlackjackLogic
                     }
                 }
             }
-            Shuffle();
+            FisherYatesShuffle();
 
             VerifyDeck(Cards);
         }
 
-        //public void Shuffle()
+        //public void FisherYatesShuffle()
         //{
         //    var stackToArray = Cards.ToArray();
         //    var rnd = new Random();
@@ -58,7 +58,7 @@ namespace BlackjackLogic
         //    }
         //}
 
-        public void Shuffle()
+        public void FisherYatesShuffle()
         {
             Card[] deck = Cards.ToArray();
             for (int n = deck.Length - 1; n > 0; --n)
@@ -162,10 +162,10 @@ namespace BlackjackLogic
             //{
             //    Console.ForegroundColor = ConsoleColor.Red;
             //    Console.WriteLine(e);
-            //    Shuffle();
+            //    FisherYatesShuffle();
             //    Console.ResetColor();
             //}
-            Shuffle();
+            FisherYatesShuffle();
 
             VerifyDeck(Cards);
         }

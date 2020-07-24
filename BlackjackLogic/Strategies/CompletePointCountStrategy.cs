@@ -8,7 +8,7 @@ namespace BlackjackLogic.Strategies
 {
     public class CompletePointCountStrategy : Player
     {
-        public float HiLowIndex = 0;
+        private float HiLowIndex = 0;
         public override string StrategyName { get { return "CompletePointCount"; } }
         public override string CountType { get { return "completepointcount"; } }
 
@@ -107,7 +107,7 @@ namespace BlackjackLogic.Strategies
             }
             return minBet;
         }
-        public void UpdateIndex()
+        private void UpdateIndex()
         {
             HiLowIndex = ((((float)Count[0]) / ((float)Count[1]))*100);
             Console.WriteLine($"HiLowIndex:\t{HiLowIndex}");
