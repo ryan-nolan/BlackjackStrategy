@@ -79,6 +79,10 @@ namespace BlackjackLogic.Strategies
 
         };
 
+        public float GetOthersOverTenRatio()
+        {
+            return othersOverTenRatio;
+        }
 
         public override int CalculateBet(int minBet, int maxBet)
         {

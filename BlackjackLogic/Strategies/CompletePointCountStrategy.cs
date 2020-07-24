@@ -107,6 +107,10 @@ namespace BlackjackLogic.Strategies
             }
             return minBet;
         }
+        public float GetIndex()
+        {
+            return HiLowIndex;
+        }
         private void UpdateIndex()
         {
             HiLowIndex = ((((float)Count[0]) / ((float)Count[1]))*100);
