@@ -124,7 +124,7 @@ namespace BlackjackLogic.Strategies
 
         public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
-            if (count[0] == Deck.DeckSize/13)
+            if (Count[0] == Deck.DeckSize/13)
             {
                 return maxBet;
             }
@@ -180,7 +180,7 @@ namespace BlackjackLogic.Strategies
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> fiveCount)
         {
             //Play by basic strategy until 5 count is equal to Q(5)
-            if (fiveCount[0] != Deck.DeckSize / 13)
+            if (Count[0] != Deck.DeckSize / 13)
             {
                 //Bust if hand is over 21
                 if (hand.handValues.First() > 21)
@@ -395,12 +395,12 @@ namespace BlackjackLogic.Strategies
                         return PlayerState.STAND;
                     }
                     //Could use lambda to clean this up
-                    if (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                    if (!SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                     {
                         stateToChange = PlayerState.HIT;
                         return PlayerState.HIT;
                     }
-                    else if (!(SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
+                    else if (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                     {
                         stateToChange = PlayerState.STAND;
                         return PlayerState.STAND;

@@ -166,12 +166,12 @@ namespace BlackjackLogic.Strategies
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;
                 }
-                if (SoftHitOrStand[hand.handValues.Max() - 18 , dealersUpCard.Value-2])
+                if (!SoftHitOrStand[hand.handValues.Max() - 18 , dealersUpCard.Value-2])
                 {
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;
                 }
-                else if (!(SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
+                else if (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;

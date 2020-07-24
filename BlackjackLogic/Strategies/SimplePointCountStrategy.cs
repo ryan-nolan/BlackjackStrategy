@@ -73,13 +73,13 @@ namespace BlackjackLogic.Strategies
 
         public override int CalculateBet(int minBet, int maxBet, List<int> count)
         {
-            if (count[0] <= 0)
+            if (Count[0] <= 0)
             {
                 return minBet;
             }
-            else if (count[0] >= 1)
+            else if (Count[0] >= 1)
             {
-                return minBet * count[0];
+                return minBet * Count[0];
             }
             return minBet;
         }
@@ -87,20 +87,50 @@ namespace BlackjackLogic.Strategies
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             Count[0] = 0;
-            //if (hand != null)
-            //{
-            //    foreach (var c in hand.cards)
-            //    {
-            //        if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six)
-            //        {
-            //            Count[0]++;
-            //        }
-            //        if (c.Face == Face.Ace || c.Value == 10)
-            //        {
-            //            Count[0]--;
-            //        }
-            //    }
-            //}
+            if (hand.cards.Count > 0)
+            {
+                foreach (var c in hand.cards)
+                {
+                    if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six)
+                    {
+                        Count[0]++;
+                    }
+                    if (c.Face == Face.Ace || c.Value == 10)
+                    {
+                        Count[0]--;
+                    }
+                }
+            }
+            if (splitHand != null)
+            {
+                if (splitHand.cards.Count > 0)
+                {
+                    foreach (var c in splitHand.cards)
+                    {
+                        if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six)
+                        {
+                            Count[0]++;
+                        }
+                        if (c.Face == Face.Ace || c.Value == 10)
+                        {
+                            Count[0]--;
+                        }
+                    }
+                }
+
+            }
+            if (dealersUpCard != null)
+            {
+                if (dealersUpCard.Face == Face.Two || dealersUpCard.Face == Face.Three || dealersUpCard.Face == Face.Four || dealersUpCard.Face == Face.Five || dealersUpCard.Face == Face.Six)
+                {
+                    Count[0]++;
+                }
+                if (dealersUpCard.Face == Face.Ace || dealersUpCard.Value == 10)
+                {
+                    Count[0]--;
+                }
+
+            }
             foreach (var c in burntCards)
             {
                 if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six)
