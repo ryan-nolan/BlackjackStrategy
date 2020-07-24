@@ -80,7 +80,7 @@ namespace BlackjackLogic.Strategies
         };
 
 
-        public override int CalculateBet(int minBet, int maxBet, List<int> count)
+        public override int CalculateBet(int minBet, int maxBet)
         {
             UpdateOthersOverTenRatio();
             if (othersOverTenRatio>=2)

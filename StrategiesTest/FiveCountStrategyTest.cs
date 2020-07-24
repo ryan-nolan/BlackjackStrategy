@@ -32,7 +32,7 @@ namespace StrategiesTest
                 Count = new List<int>() { 4 }
 
             };
-            int bet = player.CalculateBet(10, 50, new List<int>() { 2 });
+            int bet = player.CalculateBet(10, 50);
             Assert.AreEqual(bet, expectedBet);
         }
         [TestMethod]
@@ -53,7 +53,7 @@ namespace StrategiesTest
                 }
 
             };
-            int bet = player.CalculateBet(10, 50, new List<int>() { 1 });
+            int bet = player.CalculateBet(10, 50);
             Assert.AreEqual(bet, expectedBet);
         }
         [TestMethod]

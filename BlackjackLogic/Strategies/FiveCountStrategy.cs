@@ -122,7 +122,7 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,true,true},//17
         };
 
-        public override int CalculateBet(int minBet, int maxBet, List<int> count)
+        public override int CalculateBet(int minBet, int maxBet)
         {
             if (Count[0] == Deck.DeckSize/13)
             {

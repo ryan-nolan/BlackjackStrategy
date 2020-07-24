@@ -82,7 +82,7 @@ namespace BlackjackLogic.Strategies
         };
 
         //Consider returning index/2*minBet
-        public override int CalculateBet(int minBet, int maxBet, List<int> count)
+        public override int CalculateBet(int minBet, int maxBet)
         {
             UpdateIndex();
             if (HiLowIndex < 2)

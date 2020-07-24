@@ -43,7 +43,7 @@ namespace BlackjackLogic
         //Make decision based of current game state and strategy
         public abstract PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count);
         //public abstract PlayerState React(Card DealersUpCard, Hand hand);
-        public abstract int CalculateBet(int minBet, int maxBet, List<int> count);
+        public abstract int CalculateBet(int minBet, int maxBet);
 
         public abstract List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard);
 

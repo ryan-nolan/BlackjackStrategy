@@ -22,7 +22,7 @@ namespace BlackjackLogic
         public int DeckSize = 52;
 
         //Counts
-        List<int> count = new List<int>() { 0, 0 };
+        //List<int> count = new List<int>() { 0, 0 };
         //string countType = "five";
         
 
@@ -100,15 +100,15 @@ namespace BlackjackLogic
                     deck.FisherYatesShuffle();
                     burntCards.Clear();
                     burntCards.Add(deck.Cards.Pop());
-                    count = player.UpdateCount(deck, burntCards, dealer.upCard);
+                    player.UpdateCount(deck, burntCards, dealer.upCard);
                 }
                 Console.Write($"Pre hand counts:\t");
-                for(int j = 0; j < count.Count; j++)
+                for(int j = 0; j < player.Count.Count; j++)
                 {
-                    Console.Write($"{count[j]}\t");
+                    Console.Write($"{player.Count[j]}\t");
                 }
                 Console.WriteLine();
-                firstCountBeforeHandForFile = count[0];
+                firstCountBeforeHandForFile = player.Count[0];
                 string currentTurnDeckHash = deck.GetDeckHash();
                 amountOfCardsInDeckBeforeTurn = deck.Cards.Count;
 
@@ -119,7 +119,7 @@ namespace BlackjackLogic
 
                 playerStartingChips = player.Chips;//FOR FILE
                 //Get Bet function
-                player.AddBet(player.CalculateBet(MinBet, MaxBet, count), ref player.Stake);
+                player.AddBet(player.CalculateBet(MinBet, MaxBet), ref player.Stake);
                 Console.WriteLine($"Player's starting stake:\t{player.Stake}");
                 playerStakeForFile = player.Stake; //FOR FILE
 
@@ -191,7 +191,7 @@ namespace BlackjackLogic
                 {
 
                     //Player reacts, can double down or split here
-                    player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
+                    player.React(dealer.upCard, ref player.CurrentState, player.hand, player.Count);
 
                     //PLAY SPLIT HANDS
                     if (player.CurrentState == PlayerState.SPLIT)
@@ -223,7 +223,7 @@ namespace BlackjackLogic
                         }
                         else
                         { 
-                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand, count);
+                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand, player.Count);
                             playersSplitHandDecisions += player.splitHandState + "/";//FOR FILE
                         }
                         if (player.splitHandState == PlayerState.DOUBLE_DOWN)
@@ -255,7 +255,7 @@ namespace BlackjackLogic
                                 }
                                 Console.WriteLine($"Player's split hand:\t{player.splitHand.ToString()}\t{player.splitHand.handValues.Last()}");
                             }
-                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand, count);
+                            player.React(dealer.upCard, ref player.splitHandState, player.splitHand, player.Count);
                             playersSplitHandDecisions += player.splitHandState + "/";
                         }
                         if (player.splitHandState == PlayerState.BUST)
@@ -266,7 +266,7 @@ namespace BlackjackLogic
 
                     }
                     //PLAY HAND
-                    player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
+                    player.React(dealer.upCard, ref player.CurrentState, player.hand, player.Count);
                     //IF PLAYER SPLIT ACES, STAND
                     if (player.splitHand != null && player.splitHand.cards.First().Face == Face.Ace)
                     {
@@ -306,7 +306,7 @@ namespace BlackjackLogic
                             }
                             //player.WriteCurrentState();
                         }
-                        player.React(dealer.upCard, ref player.CurrentState, player.hand, count);
+                        player.React(dealer.upCard, ref player.CurrentState, player.hand, player.Count);
                         playersDecisions += player.CurrentState + "/";//FOR FILE
                     }
                     Console.WriteLine($"PLAYER REACTS:\t{player.CurrentState}\t{player.hand.handValues.Last()}");
@@ -435,11 +435,11 @@ namespace BlackjackLogic
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
                     $"{dealer.hand.handValues.Last().ToString()},{dealersDecisions},{doesPlayerSplit},{playersStartingSplitHandForfile},{playersStartingHardHandValueForFile},{playersStartingSplitSoftHandValueForFile}," +
                     $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit}," +
-                    $"{firstCountBeforeHandForFile},{firstCountAfterHandForFile},{count[1]},{currentTurnDeckHash}"
+                    $"{firstCountBeforeHandForFile},{firstCountAfterHandForFile},{player.Count[1]},{currentTurnDeckHash}"
                     );
 
                 CleanupHand();
-                count = player.UpdateCount(deck, burntCards, dealer.upCard);
+                player.UpdateCount(deck, burntCards, dealer.upCard);
 
                 if (humanPlayer)
                 {
@@ -588,7 +588,7 @@ namespace BlackjackLogic
         {
             hand.cards.Add(deck.Cards.Pop());
             hand.SetHandValues();
-            count = player.UpdateCount(deck, burntCards, dealer.upCard);
+            player.UpdateCount(deck, burntCards, dealer.upCard);
         }
 
 

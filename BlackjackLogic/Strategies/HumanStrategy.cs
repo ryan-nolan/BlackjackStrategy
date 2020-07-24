@@ -8,7 +8,7 @@ namespace BlackjackLogic.Strategies
 {
     public class HumanStrategy : Player
     {
-        public override int CalculateBet(int minBet, int maxBet, List<int> count)
+        public override int CalculateBet(int minBet, int maxBet)
         {
 
             int stake = 0;
