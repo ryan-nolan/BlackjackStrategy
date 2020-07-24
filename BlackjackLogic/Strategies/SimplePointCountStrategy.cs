@@ -229,12 +229,12 @@ namespace BlackjackLogic.Strategies
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;
                 }
-                if (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                if (!SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;
                 }
-                else if (!(SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
+                else if(SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;
@@ -266,7 +266,13 @@ namespace BlackjackLogic.Strategies
                 stateToChange = PlayerState.HIT;
                 return PlayerState.HIT;
             }
-
+            //STAND HOLDING 7,7 AGAINST A 10
+            if (hand.cards.Count == 2 && ((hand.cards.First().Face == Face.Seven) && (hand.cards.Last().Face == Face.Seven)) && dealersUpCard.Value == 10)
+            {
+                stateToChange = PlayerState.STAND;
+                return PlayerState.STAND;
+            }
+            //IF NOT
             if (HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
             {
                 stateToChange = PlayerState.STAND;

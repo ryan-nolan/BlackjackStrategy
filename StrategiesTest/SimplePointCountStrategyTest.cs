@@ -10,14 +10,14 @@ using BlackjackLogic.Strategies;
 namespace StrategiesTest
 {
     [TestClass]
-    public class BasicStrategyTest
+    public class SimplePointCountStrategyTest
     {
         [TestMethod]
         public void SoftStandingNumberPlayer18Dealer9()
         {
 
             PlayerState expectedState = PlayerState.HIT;
-            Player player = new BasicStrategy
+            Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -38,7 +38,7 @@ namespace StrategiesTest
         {
 
             PlayerState expectedState = PlayerState.STAND;
-            Player player = new BasicStrategy
+            Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -59,7 +59,7 @@ namespace StrategiesTest
         {
 
             PlayerState expectedState = PlayerState.STAND;
-            Player player = new BasicStrategy
+            Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -79,7 +79,7 @@ namespace StrategiesTest
         public void DoubleDownExceptSixTwoTest()
         {
             PlayerState expectedState = PlayerState.DOUBLE_DOWN;
-            Player player = new BasicStrategy
+            Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -99,7 +99,7 @@ namespace StrategiesTest
         public void StandHoldingSevenSevenAgainstTenTest()
         {
             PlayerState expectedState = PlayerState.STAND;
-            Player player = new BasicStrategy
+            Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -119,7 +119,7 @@ namespace StrategiesTest
         public void HoldingHard16Against10Test()
         {
             PlayerState expectedState = PlayerState.HIT;
-            Player player = new BasicStrategy
+            Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
                 hand = new Hand

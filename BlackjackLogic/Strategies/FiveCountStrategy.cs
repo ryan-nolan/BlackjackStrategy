@@ -299,6 +299,12 @@ namespace BlackjackLogic.Strategies
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;
                 }
+                //STAND HOLDING 7,7 AGAINST A 10
+                if (hand.cards.Count == 2 && ((hand.cards.First().Face == Face.Seven) && (hand.cards.Last().Face == Face.Seven)) && dealersUpCard.Value == 10)
+                {
+                    stateToChange = PlayerState.STAND;
+                    return PlayerState.STAND;
+                }
                 if (HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.STAND;

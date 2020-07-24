@@ -119,6 +119,66 @@ namespace StrategiesTest
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Eight), ref player.CurrentState, player.hand, new List<int>()));
             Assert.AreEqual(state, expectedState);
         }
+        [TestMethod]
+        public void DoubleDownExceptSixTwoTest()
+        {
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            Player player = new AceToFiveStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Six),
+                        new Card(Suit.Club, Face.Two)
+                    }
+                }
+            };
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Five), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreNotEqual(state, expectedState);
+        }
+        [TestMethod]
+        public void StandHoldingSevenSevenAgainstTenTest()
+        {
+            PlayerState expectedState = PlayerState.STAND;
+            Player player = new AceToFiveStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Seven),
+                        new Card(Suit.Club, Face.Seven)
+                    }
+                }
+            };
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Ten), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
+        [TestMethod]
+        public void HoldingHard16Against10Test()
+        {
+            PlayerState expectedState = PlayerState.HIT;
+            Player player = new AceToFiveStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ten),
+                        new Card(Suit.Club, Face.Six)
+                    }
+                }
+            };
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Ten), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
 
     }
 }
