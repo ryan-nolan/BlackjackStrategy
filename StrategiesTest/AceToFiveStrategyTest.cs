@@ -27,7 +27,9 @@ namespace StrategiesTest
                         new Card(Suit.Club, Face.Ace),
                         new Card(Suit.Club, Face.Seven)
                     }
-                }
+                },
+                Count = new List<int>() { 4 }
+                
                 
             };
             int bet = player.CalculateBet(10, 50);

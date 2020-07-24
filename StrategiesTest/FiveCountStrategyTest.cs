@@ -125,5 +125,104 @@ namespace StrategiesTest
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Eight), ref player.CurrentState, player.hand, player.Count));
             Assert.AreEqual(state, expectedState);
         }
+
+        [TestMethod]
+        public void NoFivesSplit10Dealer6Test()
+        {
+
+            PlayerState expectedState = PlayerState.SPLIT;
+            //Deck deck = new Deck(52);
+            Player player = new FiveCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ten),
+                        new Card(Suit.Heart, Face.Ten)
+                    },
+
+                },
+                Count = new List<int>() { 4 }
+
+            };
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Six), ref player.CurrentState, player.hand, player.Count));
+            Assert.AreEqual(state, expectedState);
+        }
+        [TestMethod]
+        public void NoFivesSoftDoubleTest()
+        {
+
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            //Deck deck = new Deck(52);
+            Player player = new FiveCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ace),
+                        new Card(Suit.Heart, Face.Six)
+                    },
+
+                },
+                Count = new List<int>() { 4 }
+
+            };
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Seven), ref player.CurrentState, player.hand, player.Count));
+            Assert.AreEqual(state, expectedState);
+        }
+        public void HardDoubleTest()
+        {
+
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            //Deck deck = new Deck(52);
+            Player player = new FiveCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Two),
+                        new Card(Suit.Heart, Face.Six)
+                    },
+
+                },
+                Count = new List<int>() { 4 }
+
+            };
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Four), ref player.CurrentState, player.hand, player.Count));
+            Assert.AreEqual(state, expectedState);
+        }
+        public void HardStandTest()
+        {
+
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            //Deck deck = new Deck(52);
+            Player player = new FiveCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ten),
+                        new Card(Suit.Heart, Face.Five)
+                    },
+
+                },
+                Count = new List<int>() { 4 }
+
+            };
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Nine), ref player.CurrentState, player.hand, player.Count));
+            Assert.AreEqual(state, expectedState);
+        }
     }
 }
