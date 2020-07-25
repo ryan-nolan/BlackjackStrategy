@@ -65,7 +65,7 @@ namespace BlackjackLogic.Strategies
             //2   3    4    5    6    7    8    9    10   A
             {14,6,2,-1,0,100,100,100,100,100},//12
             {1,-2,-5,-9,-8,50,100,100,100,100},//13
-            {-5,-8,-13,-17,-17,-17,20,38,100,100},//14
+            {-5,-8,-13,-17,-17,20,38,100,100,100},//14
             {-12,-17,-21,-26,-28,13,15,12,8,16},//15
             {-21,-25,-30,-34,-35,10,11,6,0,14},//16
             { -100,-100,-100,-100,-100,-100,-100,-100,-100,-15 },//17
@@ -111,7 +111,7 @@ namespace BlackjackLogic.Strategies
         {
             return HiLowIndex;
         }
-        private void UpdateIndex()
+        public void UpdateIndex()
         {
             HiLowIndex = ((((float)Count[0]) / ((float)Count[1]))*100);
             Console.WriteLine($"HiLowIndex:\t{HiLowIndex}");
@@ -229,6 +229,7 @@ namespace BlackjackLogic.Strategies
                         return PlayerState.DOUBLE_DOWN;
                     }
                     var cardNotAceInHand = hand.cards.Find(x => x.Face != Face.Ace);
+                    //Check A,6 Against 2 exception
                     if (cardNotAceInHand.Face == Face.Six && dealersUpCard.Face == Face.Two)
                     {
                         if (HiLowIndex >= 1 && HiLowIndex <= 10)
@@ -270,6 +271,11 @@ namespace BlackjackLogic.Strategies
             {
                 if (hand.handValues.Max() <= 17)
                 {
+                    if (hand.handValues.Max() == 17 && dealersUpCard.Face == Face.Seven && HiLowIndex > 29)
+                    {
+                        stateToChange = PlayerState.STAND;
+                        return PlayerState.STAND;
+                    }
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;
                 }
@@ -287,8 +293,8 @@ namespace BlackjackLogic.Strategies
 
                 if (HiLowIndex <= SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                 {
-                    stateToChange = PlayerState.STAND;
-                    return PlayerState.STAND;
+                    stateToChange = PlayerState.HIT;
+                    return PlayerState.HIT;
                 }
                 
             }

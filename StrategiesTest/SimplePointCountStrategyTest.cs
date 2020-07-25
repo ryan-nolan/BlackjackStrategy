@@ -136,5 +136,8 @@ namespace StrategiesTest
             Assert.AreEqual(state, expectedState);
         }
 
+
+
+
     }
 }

@@ -78,5 +78,371 @@ namespace StrategiesTest
             float index = player.GetIndex();
             Assert.AreEqual(expectedIndex, index);
         }
+
+
+
+
+        [TestMethod]
+        //(A,4) against 3 with a count of 1.7 //Should double down if count < 1.9
+        public void SoftDoublingGreaterThanTest()
+        {
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ace),
+                        new Card(Suit.Club, Face.Six)
+                    }
+                },
+                Count = new List<int>() { -5, 100 } //Count = -5
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
+        [TestMethod]
+        //(A,4) against 3 with a count of 2 //Should not double down if count > 1.9
+        public void SoftDoublingLessThanTest()
+        {
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ace),
+                        new Card(Suit.Club, Face.Six)
+                    }
+                },
+                Count = new List<int>() { -7, 100 }
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreNotEqual(state, expectedState);
+        }
+
+        [TestMethod]
+        public void HardDoublingGreaterThanTest()
+        {
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Six),
+                        new Card(Suit.Club, Face.Two)
+                    }
+                },
+                Count = new List<int>() { 23, 100 } //Count = 23
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
+        [TestMethod]
+        public void HardDoublingLessThanTest()
+        {
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Six),
+                        new Card(Suit.Club, Face.Two)
+                    }
+                },
+                Count = new List<int>() { 21, 100 } //Count = 21
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreNotEqual(state, expectedState);
+        }
+
+        [TestMethod]
+        public void HardDoublingEqualToTest()
+        {
+            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Six),
+                        new Card(Suit.Club, Face.Two)
+                    }
+                },
+                Count = new List<int>() { 22, 100 } //Count = 22
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreNotEqual(state, expectedState);
+        }
+
+        [TestMethod]
+        public void PairSplittingGreaterThanTest()
+        {
+            PlayerState expectedState = PlayerState.SPLIT;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Seven),
+                        new Card(Suit.Diamond, Face.Seven)
+                    }
+                },
+                Count = new List<int>() { -20, 100 } //Count = 1.6
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Two), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
+        [TestMethod]
+        public void PairSplittingLessThanTest()
+        {
+            PlayerState expectedState = PlayerState.SPLIT;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Seven),
+                        new Card(Suit.Diamond, Face.Seven)
+                    }
+                },
+                Count = new List<int>() { -30, 100 } //Count = 1.6
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Two), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreNotEqual(state, expectedState);
+        }
+
+        [TestMethod]
+        public void PairSplittingShadedTest()
+        {
+            PlayerState expectedState = PlayerState.SPLIT;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ace),
+                        new Card(Suit.Diamond, Face.Ace)
+                    }
+                },
+                Count = new List<int>() { 50, 100 } //Count = 1.6
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Two), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
+
+        [TestMethod]
+        public void SoftStandingGreaterThanTest()
+        {
+            PlayerState expectedState = PlayerState.STAND;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ace),
+                        new Card(Suit.Diamond, Face.Six)
+                    }
+                },
+                Count = new List<int>() { 30, 100 } //Count = 0.01
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Seven), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
+        
+        [TestMethod]
+        public void SoftStandingLessThanTest()
+        {
+            PlayerState expectedState = PlayerState.HIT;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ace),
+                        new Card(Suit.Diamond, Face.Six)
+                    }
+                },
+                Count = new List<int>() { -40, 100 } //Count = 0.01
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Seven), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
+        [TestMethod]
+        public void SoftStandingShadedTest()
+        {
+            PlayerState expectedState = PlayerState.STAND;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ace),
+                        new Card(Suit.Diamond, Face.Seven)
+                    }
+                },
+                Count = new List<int>() { -40, 100 } //Count = 0.01
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Eight), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(state, expectedState);
+        }
+        [TestMethod]
+        public void SoftStandingNonShadedTest()
+        {
+            PlayerState expectedState = PlayerState.HIT;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ace),
+                        new Card(Suit.Diamond, Face.Seven)
+                    }
+                },
+                Count = new List<int>() { 40, 100 } //Count = 0.01
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Nine), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(expectedState, state);
+        }
+
+        [TestMethod]
+        public void HardStandingGreaterThanTest()
+        {
+            PlayerState expectedState = PlayerState.STAND;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ten),
+                        new Card(Suit.Diamond, Face.Five)
+                    }
+                },
+                Count = new List<int>() { -20, 100 } //Count = 0.01
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Six), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(expectedState, state);
+        }
+        [TestMethod]
+        public void HardStandingLessThanTest()
+        {
+            PlayerState expectedState = PlayerState.HIT;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ten),
+                        new Card(Suit.Diamond, Face.Five)
+                    }
+                },
+                Count = new List<int>() { -30, 100 } //Count = 30
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Six), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(expectedState, state);
+        }
+        [TestMethod]
+        public void HardStandingShadedTest()
+        {
+            PlayerState expectedState = PlayerState.STAND;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ten),
+                        new Card(Suit.Diamond, Face.Seven)
+                    }
+                },
+                Count = new List<int>() { -30, 100 } //Count = 30
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Ten), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(expectedState, state);
+        }
+
+        [TestMethod]
+        public void HardStandingNonShadedTest()
+        {
+            PlayerState expectedState = PlayerState.HIT;
+            CompletePointCountStrategy player = new CompletePointCountStrategy
+            {
+                Chips = 500,
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Club, Face.Ten),
+                        new Card(Suit.Diamond, Face.Four)
+                    }
+                },
+                Count = new List<int>() { 50, 100 } //Count = 30
+            };
+            player.UpdateIndex();
+            player.hand.SetHandValues();
+            PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Nine), ref player.CurrentState, player.hand, new List<int>()));
+            Assert.AreEqual(expectedState, state);
+        }
     }
 }

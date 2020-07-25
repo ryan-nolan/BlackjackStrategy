@@ -225,11 +225,13 @@ namespace BlackjackLogic.Strategies
             //Soft
             if (hand.handValues.Count > 1)
             {
+                //Hit on less than 17
                 if (hand.handValues.Max() <= 17)
                 {
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;
                 }
+                //Stand on greater than 19
                 if (hand.handValues.Max() > 19)
                 {
                     stateToChange = PlayerState.STAND;
@@ -237,7 +239,7 @@ namespace BlackjackLogic.Strategies
                 }
                 if (hand.handValues.Max() == 18)
                 {
-                    if (othersOverTenRatio < SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                    if (othersOverTenRatio <= SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                     {
                         stateToChange = PlayerState.STAND;
                         return PlayerState.STAND;
@@ -250,6 +252,11 @@ namespace BlackjackLogic.Strategies
                 }
                 else if (hand.handValues.Max() == 19)
                 {
+                    if (dealersUpCard.Face == Face.Ace && othersOverTenRatio > 2.2)
+                    {
+                        stateToChange = PlayerState.STAND;
+                        return PlayerState.STAND;
+                    }
                     if (othersOverTenRatio > SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                     {
                         stateToChange = PlayerState.STAND;
