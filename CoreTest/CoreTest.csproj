@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DealerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DeckTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

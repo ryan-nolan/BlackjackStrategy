@@ -16,9 +16,9 @@ namespace BlackjackLogic
         static Random rand = new Random();
         public Deck(int deckSize)
         {
-            if (deckSize%52 != 0)
+            if (deckSize%52 != 0 || deckSize < 0)
             {
-                deckSize = 52;
+                DeckSize = 52;
                 Console.WriteLine("InvalidDeckValue: 52 Card Deck Used");
                 BuildDeck();
             }
@@ -47,7 +47,7 @@ namespace BlackjackLogic
             VerifyDeck(Cards);
         }
 
-        //public void FisherYatesShuffle()
+        //public void Shuffle()
         //{
         //    var stackToArray = Cards.ToArray();
         //    var rnd = new Random();
@@ -103,7 +103,6 @@ namespace BlackjackLogic
             string html = string.Empty;
             string url = @"https://www.random.org/sequences/?min=0&max=51&col=1&format=html&rnd=new";
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-            //Console.WriteLine(req);
 
             using (HttpWebResponse response = (HttpWebResponse)req.GetResponse())
             using (Stream stream = response.GetResponseStream())
@@ -111,12 +110,11 @@ namespace BlackjackLogic
             {
                 html = reader.ReadToEnd();
             }
-            //Console.WriteLine(html);
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
             HtmlNode data = htmlDocument.DocumentNode.SelectSingleNode("//pre");
-            //Console.WriteLine(data.InnerText);
+
             int[] trueRandomNumbers = new int[52];
             string[] randNumsStringArray = data.InnerText.Split('\n');
             for (int i = 0; i < trueRandomNumbers.Length; i++)
@@ -126,7 +124,7 @@ namespace BlackjackLogic
             return trueRandomNumbers;
         }
 
-        private bool VerifyDeck(Stack<Card> cards)
+        public bool VerifyDeck(Stack<Card> cards)
         {
             if (cards.Count % cards.Distinct().Count() != 0)
             {
@@ -144,7 +142,7 @@ namespace BlackjackLogic
             return true;
         }
 
-        public void BuildDeck()
+        private void BuildDeck()
         {
 
             foreach (Suit s in Enum.GetValues(typeof(Suit)))
@@ -154,17 +152,6 @@ namespace BlackjackLogic
                     Cards.Push(new Card(s, f));
                 }
             }
-            //try
-            //{
-            //    TrueShuffle();
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.ForegroundColor = ConsoleColor.Red;
-            //    Console.WriteLine(e);
-            //    FisherYatesShuffle();
-            //    Console.ResetColor();
-            //}
             FisherYatesShuffle();
 
             VerifyDeck(Cards);
