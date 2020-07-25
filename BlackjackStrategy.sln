@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniqueShuffleCheck", "Uniqu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategiesTest", "StrategiesTest\StrategiesTest.csproj", "{80549704-091F-4D6C-AFB2-89F91F35C82F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTest", "CoreTest\CoreTest.csproj", "{4141990D-86F9-4A05-97AF-83A6FA1BCB09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{80549704-091F-4D6C-AFB2-89F91F35C82F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80549704-091F-4D6C-AFB2-89F91F35C82F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80549704-091F-4D6C-AFB2-89F91F35C82F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4141990D-86F9-4A05-97AF-83A6FA1BCB09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4141990D-86F9-4A05-97AF-83A6FA1BCB09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4141990D-86F9-4A05-97AF-83A6FA1BCB09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4141990D-86F9-4A05-97AF-83A6FA1BCB09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
