@@ -77,7 +77,7 @@ namespace BlackjackLogic.Strategies
         {
            //2 3 4 5 6 7 8 9 10 A
            {-100,-100,-100,-100,-100,-100,-100,100,12,-6},//18 soft standing number for 18 is any ratio < 2.2
-           {100,100,100,100,100,29,100,100,100,100},//19 soft standing number for 19 is any ratio > 2.2
+           {-100,-100,-100,-100,-100,-100,-100,-100,-100,-100},//19 STAND ON ANY INDEX 
 
         };
 
@@ -206,6 +206,11 @@ namespace BlackjackLogic.Strategies
                         stateToChange = PlayerState.SPLIT;
                         return PlayerState.SPLIT;
                     }
+                }
+                if (hand.cards.First().Face == Face.Four && dealersUpCard.Face == Face.Six)
+                {
+                    stateToChange = PlayerState.DOUBLE_DOWN;
+                    return PlayerState.DOUBLE_DOWN;
                 }
                 if (HiLowIndex > PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                 {

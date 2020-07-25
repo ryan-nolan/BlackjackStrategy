@@ -13,7 +13,7 @@ namespace StrategiesTest
     public class CompletePointCountStrategyTest
     {
         [TestMethod]
-        public void TestCount()
+        public void CountTest()
         {
 
             int expectedCount = 1;
@@ -43,10 +43,10 @@ namespace StrategiesTest
 
             player.hand.SetHandValues();
             int count = player.UpdateCount(deck, burntCards, null).First();
-            Assert.AreEqual(count, expectedCount);
+            Assert.AreEqual(expectedCount, count);
         }
         [TestMethod]
-        public void TestIndex()
+        public void IndexTest()
         {
             float expectedIndex = 2.173913f;
             CompletePointCountStrategy player = new CompletePointCountStrategy();
@@ -78,8 +78,73 @@ namespace StrategiesTest
             float index = player.GetIndex();
             Assert.AreEqual(expectedIndex, index);
         }
+        [TestMethod]
+        public void BetMinTest()
+        {
+            int expectedBet = 2;
+            Player player = new CompletePointCountStrategy();
+            Deck deck = new Deck(52);
+            List<Card> burntCards = new List<Card>();
+            List<Card> deckToCardsList = deck.Cards.ToList();
 
+            burntCards.Add(new Card(Suit.Club, Face.Ten));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Club && x.Face == Face.Ten);
+            burntCards.Add(new Card(Suit.Spade, Face.Ten));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Spade && x.Face == Face.Ten);
+            burntCards.Add(new Card(Suit.Club, Face.Jack));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Club && x.Face == Face.Jack);
+            burntCards.Add(new Card(Suit.Spade, Face.Jack));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Spade && x.Face == Face.Jack);
+            burntCards.Add(new Card(Suit.Club, Face.Queen));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Club && x.Face == Face.Queen);
+            burntCards.Add(new Card(Suit.Spade, Face.Queen));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Spade && x.Face == Face.Queen);
 
+            deck.Cards.Clear();
+            foreach (var card in deckToCardsList)
+            {
+                deck.Cards.Push(card);
+            }
+
+            player.hand.SetHandValues();
+            player.UpdateCount(deck, burntCards, null).First();
+            int bet = player.CalculateBet(2, 10);
+            Assert.AreEqual(expectedBet, bet);
+        }
+
+        [TestMethod]
+        public void BetMaxTest()
+        {
+            int expectedBet = 10;
+            Player player = new CompletePointCountStrategy();
+            Deck deck = new Deck(52);
+            List<Card> burntCards = new List<Card>();
+            List<Card> deckToCardsList = deck.Cards.ToList();
+
+            burntCards.Add(new Card(Suit.Club, Face.Two));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Club && x.Face == Face.Two);
+            burntCards.Add(new Card(Suit.Spade, Face.Two));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Spade && x.Face == Face.Two);
+            burntCards.Add(new Card(Suit.Club, Face.Three));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Club && x.Face == Face.Three);
+            burntCards.Add(new Card(Suit.Spade, Face.Three));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Spade && x.Face == Face.Three);
+            burntCards.Add(new Card(Suit.Club, Face.Four));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Club && x.Face == Face.Four);
+            burntCards.Add(new Card(Suit.Spade, Face.Four));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Spade && x.Face == Face.Four);
+
+            deck.Cards.Clear();
+            foreach (var card in deckToCardsList)
+            {
+                deck.Cards.Push(card);
+            }
+
+            player.hand.SetHandValues();
+            player.UpdateCount(deck, burntCards, null).First();
+            int bet = player.CalculateBet(2, 10);
+            Assert.AreEqual(expectedBet, bet);
+        }
 
 
         [TestMethod]
@@ -103,7 +168,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         //(A,4) against 3 with a count of 2 //Should not double down if count > 1.9
@@ -126,7 +191,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreNotEqual(state, expectedState);
+            Assert.AreNotEqual(expectedState, state);
         }
 
         [TestMethod]
@@ -149,7 +214,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void HardDoublingLessThanTest()
@@ -171,7 +236,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreNotEqual(state, expectedState);
+            Assert.AreNotEqual(expectedState, state);
         }
 
         [TestMethod]
@@ -194,7 +259,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Three), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreNotEqual(state, expectedState);
+            Assert.AreNotEqual(expectedState, state);
         }
 
         [TestMethod]
@@ -217,7 +282,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Two), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void PairSplittingLessThanTest()
@@ -239,7 +304,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Two), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreNotEqual(state, expectedState);
+            Assert.AreNotEqual(expectedState, state);
         }
 
         [TestMethod]
@@ -262,7 +327,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Two), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
 
         [TestMethod]
@@ -285,7 +350,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Seven), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         
         [TestMethod]
@@ -308,7 +373,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Seven), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void SoftStandingShadedTest()
@@ -330,7 +395,7 @@ namespace StrategiesTest
             player.UpdateIndex();
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Spade, Face.Eight), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void SoftStandingNonShadedTest()

@@ -30,7 +30,7 @@ namespace StrategiesTest
                 }
             };
             PlayerState state = (player.React(dealersUpCard: new Card (Suit.Club, Face.Eight), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void HitOnLessThanHard17Test()
@@ -50,7 +50,7 @@ namespace StrategiesTest
                 }
             };
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Eight), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void StandOnGreaterThanHard17Test()
@@ -70,7 +70,7 @@ namespace StrategiesTest
                 }
             };
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Eight), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
     }
 }

@@ -28,19 +28,19 @@ namespace BlackjackLogic.Strategies
             {1.4f,1.5f,1.7f,1.9f,1.8f,0,0,0,0,0},//(10,10)
             {4.0f,4.1f,4.5f,4.9f,5.0f,3.8f,3.3f,3.1f,3.2f,2.6f },//(A,A)
         };
-        //DOUBLE CHECK ALL VALUES
+        //CHECKED
         readonly float[,] HardDoubleDown = new float[7, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
             {0,0,1.0f,1.1f,1.1f,0,0,0,0,0 },//3,2
-            {0,0,1.0f,1.2f,1.1f,0,0,0,0,0 },//4,2
+            {0,0,1.0f,1.2f,1.3f,0,0,0,0,0 },//4,2
             {0.9f,1.1f,1.2f,1.4f,1.4f,0,0,0,0,0 },//7
             {1.3f,1.5f,1.7f,2.0f,2.1f,1.0f,0,0,0,0 },//8
             {2.2f,2.4f,2.8f,3.3f,3.4f,2.0f,1.6f,0,0,0.9f },//9
-            {3.7f,4.2f,4.8f,5.6f,5.7f,3.8f,3.0f,2.6f,2.8f,2.2f},//10
+            {3.7f,4.2f,4.8f,5.6f,5.7f,3.8f,3.0f,2.5f,1.9f,1.8f},//10
             {3.9f,4.2f,4.8f,5.5f,5.5f,3.7f,3.0f,2.6f,2.8f,2.2f } //11
         };
-
+        //CHECKED
         readonly float[,] SoftDoubleDown = new float[8, 6]
         {
             //2    3     4     5     6    
@@ -140,6 +140,13 @@ namespace BlackjackLogic.Strategies
             //yes, split?
             if (((hand.cards.First().Face == hand.cards.Last().Face) && splitHand == null) && hand.cards.Count == 2)
             {
+                //4,4 against 6 double down
+                if (hand.cards.First().Face == Face.Four && dealersUpCard.Face == Face.Six)
+                {
+                    stateToChange = PlayerState.DOUBLE_DOWN;
+                    return PlayerState.DOUBLE_DOWN;
+                }
+                //8 against 10 greater than exception
                 if ((hand.cards.First().Face == Face.Eight && dealersUpCard.Value == 10))
                 {
                     if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
@@ -148,6 +155,7 @@ namespace BlackjackLogic.Strategies
                         return PlayerState.SPLIT;
                     }
                 }
+                //3 against 7 or 8 greater than exception
                 if ((hand.cards.First().Face == Face.Three && (dealersUpCard.Value == 7 || dealersUpCard.Value == 8 )))
                 {
                     if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
@@ -156,6 +164,7 @@ namespace BlackjackLogic.Strategies
                         return PlayerState.SPLIT;
                     }
                 }
+                //2 against 7,8,9 or 10 greater than exception
                 if ((hand.cards.First().Face == Face.Two && (dealersUpCard.Value == 7 || dealersUpCard.Value == 8 || dealersUpCard.Value == 9 || dealersUpCard.Value == 10)))
                 {
                     if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])

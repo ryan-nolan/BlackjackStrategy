@@ -31,7 +31,7 @@ namespace StrategiesTest
             };
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Nine), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void SoftStandingNumberPlayer19()
@@ -52,7 +52,7 @@ namespace StrategiesTest
             };
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Nine), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void SoftStandingNumberPlayer18()
@@ -73,7 +73,7 @@ namespace StrategiesTest
             };
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Eight), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void DoubleDownExceptSixTwoTest()
@@ -93,7 +93,7 @@ namespace StrategiesTest
             };
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Five), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreNotEqual(state, expectedState);
+            Assert.AreNotEqual(expectedState, state);
         }
         [TestMethod]
         public void StandHoldingSevenSevenAgainstTenTest()
@@ -113,7 +113,7 @@ namespace StrategiesTest
             };
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Ten), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
         [TestMethod]
         public void HoldingHard16Against10Test()
@@ -133,7 +133,7 @@ namespace StrategiesTest
             };
             player.hand.SetHandValues();
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Ten), ref player.CurrentState, player.hand, new List<int>()));
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
         }
 
     }
