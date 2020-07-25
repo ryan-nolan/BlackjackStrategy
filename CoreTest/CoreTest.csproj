@@ -54,6 +54,7 @@
     <Compile Include="DeckTest.cs" />
     <Compile Include="CardTest.cs" />
     <Compile Include="HandTest.cs" />
+    <Compile Include="GameTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

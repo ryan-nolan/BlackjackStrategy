@@ -592,52 +592,52 @@ namespace BlackjackLogic
         }
 
 
-        public void GameTest()
-        {
-            InitialiseGame(strategy: StrategyName);
+        //public void GameTest()
+        //{
+        //    InitialiseGame(strategy: StrategyName);
 
-            DealHand();
+        //    DealHand();
 
-            player.hand.WriteHandAndHandValue();
-            dealer.hand.WriteHandAndHandValue();
+        //    player.hand.WriteHandAndHandValue();
+        //    dealer.hand.WriteHandAndHandValue();
 
-            Console.WriteLine();
-            Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
-            Console.WriteLine();
+        //    Console.WriteLine();
+        //    Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
+        //    Console.WriteLine();
 
-            HitPlayer(player);
-            HitPlayer(dealer);
+        //    HitPlayer(player);
+        //    HitPlayer(dealer);
 
-            player.hand.WriteHandAndHandValue();
-            dealer.hand.WriteHandAndHandValue();
+        //    player.hand.WriteHandAndHandValue();
+        //    dealer.hand.WriteHandAndHandValue();
 
-            Console.WriteLine();
-            Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
-        }
+        //    Console.WriteLine();
+        //    Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
+        //}
 
 
-        public void DealerTest()
-        {
-            CleanupHand();
-            for (int i = 0; i < 5; i++)
-            {
-                DealHand();
-                Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
-                Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
-                dealer.React();
-                while ((dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND))
-                {
-                    if (dealer.React() == PlayerState.HIT)
-                    {
-                        HitPlayer(dealer);
-                        Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
-                    }
-                }
-                Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
-                CleanupHand();
-                Console.WriteLine();
-            }
+        //public void DealerTest()
+        //{
+        //    CleanupHand();
+        //    for (int i = 0; i < 5; i++)
+        //    {
+        //        DealHand();
+        //        Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
+        //        Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
+        //        dealer.React();
+        //        while ((dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND))
+        //        {
+        //            if (dealer.React() == PlayerState.HIT)
+        //            {
+        //                HitPlayer(dealer);
+        //                Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
+        //            }
+        //        }
+        //        Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
+        //        CleanupHand();
+        //        Console.WriteLine();
+        //    }
 
-        }
+        //}
     }
 }
