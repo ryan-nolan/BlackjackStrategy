@@ -8,14 +8,23 @@ namespace BlackjackLogic
 {
     public class Dealer : Actor
     {
+        //Dealers card revealed to player
         public Card upCard;
-
+        /// <summary>
+        /// Sets the up card
+        /// </summary>
         public void SetUpCard()
         {
             upCard = hand.cards.First();
         }
 
-
+        /// <summary>
+        /// Reacts to a given game state
+        /// Stands on > hard 17
+        /// Hits on < 17
+        /// Stands on hard 17
+        /// </summary>
+        /// <returns></returns>
         public PlayerState React()
         {
             hand.SetHandValues();
@@ -43,7 +52,9 @@ namespace BlackjackLogic
                 return PlayerState.STAND;
             }
         }
-
+        /// <summary>
+        /// Write current state to console
+        /// </summary>
         public override void WriteCurrentState() { Console.WriteLine($"DEALER REACTS: {CurrentState.ToString()}"); }
 
     }

@@ -11,9 +11,17 @@ namespace BlackjackLogic
 {
     public class Deck
     {
+        //Deck constains a stack of cards
         public Stack<Card> Cards = new Stack<Card>();
+        //Static deck size so deck sizing can be check without instantiated object
         public static int DeckSize = 52;
+        //PRNG for shuffle
         static Random rand = new Random();
+        /// <summary>
+        /// Initialises deck of size deckSize
+        /// Defaults to 52 if invalid deckSize is given
+        /// </summary>
+        /// <param name="deckSize"></param>
         public Deck(int deckSize)
         {
             if (deckSize%52 != 0 || deckSize < 0)
@@ -29,7 +37,10 @@ namespace BlackjackLogic
             }
 
         }
-
+        /// <summary>
+        /// Builds a deck of deckSize
+        /// </summary>
+        /// <param name="deckSize"></param>
         private void BuildDeck(int deckSize)
         {
             for (int i = 0; i < deckSize/52; i++)
@@ -46,18 +57,11 @@ namespace BlackjackLogic
 
             VerifyDeck(Cards);
         }
-
-        //public void Shuffle()
-        //{
-        //    var stackToArray = Cards.ToArray();
-        //    var rnd = new Random();
-        //    Cards.Clear();
-        //    foreach (var card in stackToArray.OrderBy(x => rnd.Next()))
-        //    {
-        //        Cards.Push(card);
-        //    }
-        //}
-
+        /// <summary>
+        /// Fisher-Yates Shuffle
+        /// Capable of > 54! deck permutations
+        /// https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+        /// </summary>
         public void FisherYatesShuffle()
         {
             Card[] deck = Cards.ToArray();
@@ -74,7 +78,11 @@ namespace BlackjackLogic
                 Cards.Push(card);
             }
         }
-        
+        /// <summary>
+        /// Creates a truly random non biased shuffle
+        /// based of a 1-52 sequence gathered from https://www.random.org/
+        /// unused because of cost
+        /// </summary>
         public void TrueShuffle()
         {
             int[] randNums = GetTrueRandNumsIntArray();
@@ -97,7 +105,11 @@ namespace BlackjackLogic
             }
             //Console.WriteLine(ToString());
         }
-
+        /// <summary>
+        /// Get sequence form https://www.random.org/
+        /// Called in true shuffle algorithm
+        /// </summary>
+        /// <returns></returns>
         static public int[] GetTrueRandNumsIntArray()
         {
             string html = string.Empty;
@@ -123,7 +135,11 @@ namespace BlackjackLogic
             }
             return trueRandomNumbers;
         }
-
+        /// <summary>
+        /// Verify the deck contains correct amount of cards on generation
+        /// </summary>
+        /// <param name="cards"></param>
+        /// <returns></returns>
         public bool VerifyDeck(Stack<Card> cards)
         {
             if (cards.Count % cards.Distinct().Count() != 0)
@@ -141,7 +157,10 @@ namespace BlackjackLogic
             Console.WriteLine("DECK IS VALID");
             return true;
         }
-
+        /// <summary>
+        /// Build deck with no constructor
+        /// Defaults to size 52
+        /// </summary>
         private void BuildDeck()
         {
 
@@ -156,7 +175,10 @@ namespace BlackjackLogic
 
             VerifyDeck(Cards);
         }
-
+        /// <summary>
+        /// Outputs deck as a string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string returnStr = string.Empty;
@@ -166,7 +188,10 @@ namespace BlackjackLogic
             }
             return returnStr;
         }
-
+        /// <summary>
+        /// Turns deck string into a base64 string ready for storage
+        /// </summary>
+        /// <returns></returns>
         public string GetDeckHash()
         {
             string returnStr = ToString();

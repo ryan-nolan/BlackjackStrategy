@@ -8,21 +8,29 @@ namespace BlackjackLogic
 {
     public class Hand
     {
+        //Hand contains a list of cards and values for the lists of cards
         public List<Card> cards = new List<Card>();
         public List<int> handValues = new List<int>();
-
+        /// <summary>
+        /// Constructor makes a blank hand
+        /// </summary>
         public Hand()
         {
 
         }
-
+        /// <summary>
+        /// Returns hand values
+        /// </summary>
+        /// <returns>Hand Values as List Int</returns>
         public List<int> GetHandValues()
         {
             SetHandValues();
             return handValues;
         }
 
-
+        /// <summary>
+        /// Sets hand value to values of the cards in hand
+        /// </summary>
         public void SetHandValues()
         {
             if(handValues.Count != 0) handValues.Clear();
@@ -80,6 +88,10 @@ namespace BlackjackLogic
             }
             handValues = returnHandValues;
         }
+        /// <summary>
+        /// Converts a hand into a string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string returnStr = "";
@@ -89,7 +101,10 @@ namespace BlackjackLogic
             }
             return returnStr;
         }
-
+        /// <summary>
+        /// Converts hand into a string but includes values
+        /// </summary>
+        /// <returns></returns>
         public string HandValuesAsString()
         {
             SetHandValues();
@@ -107,12 +122,13 @@ namespace BlackjackLogic
             }
             return returnStr;
         }
-
+        /// <summary>
+        /// Writes hand values to console
+        /// </summary>
         public void WriteHandAndHandValue()
         {
             Console.Write(ToString());
             Console.WriteLine($"\t{HandValuesAsString()}");
-            //Console.WriteLine();
         }
     }
 }
