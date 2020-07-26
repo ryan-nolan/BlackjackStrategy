@@ -120,6 +120,8 @@ namespace BlackjackLogic
                 playerStartingChips = player.Chips;//FOR FILE
                 //Get Bet function
                 player.AddBet(player.CalculateBet(MinBet, MaxBet), ref player.Stake);
+                int CountZeroAtTimeOfBet = player.Count[0];
+                int CountOneAtTimeOfBet = player.Count[1];
                 Console.WriteLine($"Player's starting stake:\t{player.Stake}");
                 playerStakeForFile = player.Stake; //FOR FILE
 
@@ -435,7 +437,7 @@ namespace BlackjackLogic
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
                     $"{dealer.hand.handValues.Last().ToString()},{dealersDecisions},{doesPlayerSplit},{playersStartingSplitHandForfile},{playersStartingHardHandValueForFile},{playersStartingSplitSoftHandValueForFile}," +
                     $"{playersEndSplitHand},{playersEndSplitHandValue},{playersSplitHandDecisions},{playersStartingHandPreSplit}," +
-                    $"{firstCountBeforeHandForFile},{firstCountAfterHandForFile},{player.Count[1]},{currentTurnDeckHash}"
+                    $"{firstCountBeforeHandForFile},{firstCountAfterHandForFile},{CountZeroAtTimeOfBet},{CountOneAtTimeOfBet},{currentTurnDeckHash}"
                     );
 
                 CleanupHand();
@@ -470,7 +472,7 @@ namespace BlackjackLogic
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
                 "DoesPlayerSplit,PlayersStartingSplitHand,PlayerStartingSplitHardHandValue,PlayerStartingSplitSoftHandValue,PlayersEndSplitHand,PlayersSplitEndHandValue,PlayersSplitHandDecisions" +
-                ",PlayersHandPreSplit,CountBeforeHand,CountDuringHand,Count[1],DeckHash");
+                ",PlayersHandPreSplit,CountBeforeHand,CountDuringHand,Count[0]AtTimeOfBet,Count[1]AtTimeOfBet,DeckHash");
             return file;
         }
 
@@ -555,6 +557,12 @@ namespace BlackjackLogic
                         Chips = StartChips
                     };
                     break;
+                case "knockoutcount":
+                    player = new KnockoutCountStrategy
+                    {
+                        Chips = StartChips
+                    };
+                    break;
                 default:
                     player = new SimplePointCountStrategy
                     {
@@ -591,53 +599,5 @@ namespace BlackjackLogic
             player.UpdateCount(deck, burntCards, dealer.upCard);
         }
 
-
-        //public void GameTest()
-        //{
-        //    InitialiseGame(strategy: StrategyName);
-
-        //    DealHand();
-
-        //    player.hand.WriteHandAndHandValue();
-        //    dealer.hand.WriteHandAndHandValue();
-
-        //    Console.WriteLine();
-        //    Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
-        //    Console.WriteLine();
-
-        //    HitPlayer(player);
-        //    HitPlayer(dealer);
-
-        //    player.hand.WriteHandAndHandValue();
-        //    dealer.hand.WriteHandAndHandValue();
-
-        //    Console.WriteLine();
-        //    Console.WriteLine($"Cards Remaining:\t{deck.Cards.Count}");
-        //}
-
-
-        //public void DealerTest()
-        //{
-        //    CleanupHand();
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        DealHand();
-        //        Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
-        //        Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
-        //        dealer.React();
-        //        while ((dealer.CurrentState != PlayerState.BUST && dealer.CurrentState != PlayerState.STAND))
-        //        {
-        //            if (dealer.React() == PlayerState.HIT)
-        //            {
-        //                HitPlayer(dealer);
-        //                Console.WriteLine($"Dealers cards are {dealer.hand.ToString()} and their value is {dealer.hand.handValues.First()}");
-        //            }
-        //        }
-        //        Console.WriteLine($"Dealer reacts by: {dealer.React().ToString()}");
-        //        CleanupHand();
-        //        Console.WriteLine();
-        //    }
-
-        //}
     }
 }

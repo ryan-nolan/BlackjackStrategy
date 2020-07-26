@@ -93,21 +93,21 @@ namespace BlackjackLogic.Strategies
             }
             else if (othersOverTenRatio < 2 && othersOverTenRatio >= 1.75)
             {
-                return minBet * 2;
+                return minBet * 5;
             }
             else if (othersOverTenRatio < 1.75 && othersOverTenRatio > 1.65)
             {
-                return minBet * 4;
+                return minBet * 8;
             }
             else if (othersOverTenRatio <= 1.65)
             {
-                return minBet * 5;
+                return minBet * 10;
             }
             return minBet;
         }
         public void UpdateOthersOverTenRatio()
         {
-            othersOverTenRatio = ((float)Count[0]) / ((float)Count[1]);
+            othersOverTenRatio = ((float)Count[0]) / ((float)Count[1]); //Others / Tens
         }
 
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
@@ -117,11 +117,11 @@ namespace BlackjackLogic.Strategies
             {
                 if (c.Value == 10)
                 {
-                    Count[1]++;
+                    Count[1]++;//Tens 
                 }
                 else
                 {
-                    Count[0]++;
+                    Count[0]++;//Others
                 }
             }
             UpdateOthersOverTenRatio();

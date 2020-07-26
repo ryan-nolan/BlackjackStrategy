@@ -95,15 +95,15 @@ namespace BlackjackLogic.Strategies
             }
             else if (HiLowIndex >= 4 && HiLowIndex < 6)
             {
-                return minBet * 3;
+                return minBet * 5;
             }
             else if (HiLowIndex >= 6 && HiLowIndex < 8)
             {
-                return minBet * 4;
+                return minBet * 8;
             }
             else if (HiLowIndex >= 8)
             {
-                return minBet * 5;
+                return minBet * 10;
             }
             return minBet;
         }

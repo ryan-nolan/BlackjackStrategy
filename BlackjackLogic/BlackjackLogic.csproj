@@ -59,6 +59,7 @@
     <Compile Include="Strategies\DealerStrategy.cs" />
     <Compile Include="Strategies\FiveCountStrategy.cs" />
     <Compile Include="Strategies\HumanStrategy.cs" />
+    <Compile Include="Strategies\KnockoutCountStrategy.cs" />
     <Compile Include="Strategies\SimplePointCountStrategy.cs" />
     <Compile Include="Strategies\TenCountStrategy.cs" />
   </ItemGroup>

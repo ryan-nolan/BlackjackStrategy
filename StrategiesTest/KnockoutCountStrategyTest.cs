@@ -10,64 +10,19 @@ using BlackjackLogic.Strategies;
 namespace StrategiesTest
 {
     [TestClass]
-    public class AceToFiveStrategyTest
+    public class KnockoutCountStrategyTest
     {
-        [TestMethod]
-        public void MaxBetTest()
-        {
-
-            int expectedBet = 50;
-            Player player = new AceToFiveStrategy
-            {
-                Chips = 500,
-                hand = new Hand
-                {
-                    cards = new List<Card>()
-                    {
-                        new Card(Suit.Club, Face.Ace),
-                        new Card(Suit.Club, Face.Seven)
-                    }
-                },
-                Count = new List<int>() { 4 }
-                
-                
-            };
-            int bet = player.CalculateBet(10, 50);
-            Assert.AreEqual(expectedBet, bet);
-        }
-        [TestMethod]
-        public void MinBetTest()
-        {
-
-            int expectedBet = 10;
-            Player player = new AceToFiveStrategy
-            {
-                Chips = 500,
-                hand = new Hand
-                {
-                    cards = new List<Card>()
-                    {
-                        new Card(Suit.Club, Face.Ace),
-                        new Card(Suit.Club, Face.Seven)
-                    }
-                }
-
-            };
-            int bet = player.CalculateBet(10, 50);
-            Assert.AreEqual(expectedBet, bet);
-        }
-
         [TestMethod]
         public void CountTest()
         {
-            int expectedCount = -1;
-            Player player = new AceToFiveStrategy();
+            int expectedCount = 1;
+            Player player = new KnockoutCountStrategy();
             Deck deck = new Deck(52);
             List<Card> burntCards = new List<Card>();
             List<Card> deckToCardsList = deck.Cards.ToList();
 
-            burntCards.Add(new Card(Suit.Spade, Face.Ace));
-            deckToCardsList.RemoveAll(x => x.Suit == Suit.Spade && x.Face == Face.Ace);
+            burntCards.Add(new Card(Suit.Club, Face.Two));
+            deckToCardsList.RemoveAll(x => x.Suit == Suit.Club && x.Face == Face.Two);
             burntCards.Add(new Card(Suit.Club, Face.Ten));
             deckToCardsList.RemoveAll(x => x.Suit == Suit.Club && x.Face == Face.Ten);
             burntCards.Add(new Card(Suit.Club, Face.Ace));
@@ -94,7 +49,7 @@ namespace StrategiesTest
         {
 
             PlayerState expectedState = PlayerState.HIT;
-            Player player = new AceToFiveStrategy
+            Player player = new KnockoutCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -115,7 +70,7 @@ namespace StrategiesTest
         {
 
             PlayerState expectedState = PlayerState.STAND;
-            Player player = new AceToFiveStrategy
+            Player player = new KnockoutCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -136,7 +91,7 @@ namespace StrategiesTest
         {
 
             PlayerState expectedState = PlayerState.STAND;
-            Player player = new AceToFiveStrategy
+            Player player = new KnockoutCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -156,7 +111,7 @@ namespace StrategiesTest
         public void DoubleDownExceptSixTwoTest()
         {
             PlayerState expectedState = PlayerState.DOUBLE_DOWN;
-            Player player = new AceToFiveStrategy
+            Player player = new KnockoutCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -176,7 +131,7 @@ namespace StrategiesTest
         public void StandHoldingSevenSevenAgainstTenTest()
         {
             PlayerState expectedState = PlayerState.STAND;
-            Player player = new AceToFiveStrategy
+            Player player = new KnockoutCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -196,7 +151,7 @@ namespace StrategiesTest
         public void HoldingHard16Against10Test()
         {
             PlayerState expectedState = PlayerState.HIT;
-            Player player = new AceToFiveStrategy
+            Player player = new KnockoutCountStrategy
             {
                 Chips = 500,
                 hand = new Hand
@@ -212,6 +167,9 @@ namespace StrategiesTest
             PlayerState state = (player.React(dealersUpCard: new Card(Suit.Club, Face.Ten), ref player.CurrentState, player.hand, new List<int>()));
             Assert.AreEqual(expectedState, state);
         }
+
+
+
 
     }
 }

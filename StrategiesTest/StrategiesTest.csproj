@@ -57,6 +57,7 @@
     <Compile Include="SimplePointCountStrategyTest.cs" />
     <Compile Include="CompletePointCountStrategyTest.cs" />
     <Compile Include="TenCountStrategyTest.cs" />
+    <Compile Include="KnockoutCountStrategyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

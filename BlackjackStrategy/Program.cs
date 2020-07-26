@@ -15,11 +15,11 @@ namespace BlackjackStrategy
             //init game loop and pass parsed args
 
             int handsToBePlayed = 100000;
-            int cardsBeforeShuffling = 13;
-            int maxBet = 50;
-            int minBet = 2;
-            int startChips = 500;
-            string strategyName = "completepointcount";
+            int cardsBeforeShuffling = 10;
+            int maxBet = 100;
+            int minBet = 10;
+            int startChips = 10000;
+            string strategyName = "tencount";
             int deckSize = 52;
 
             for (int i = 0; i<args.Length;i++)
