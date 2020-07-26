@@ -53,7 +53,7 @@ namespace BlackjackLogic
             InitialiseGame(StrategyName);
 
             //Create file and write first line
-            string path = @"C:\Users\Ryan\Desktop\Dissertation\Data";
+            string path = @"C:\Users\Ryan\Desktop\Dissertation\Source\Data";
             string filename = $"{player.StrategyName}_hands({HandsToBePlayed})shuffleFrequency({CardCountWhenToShuffle})deckSize({DeckSize}).csv";
             StreamWriter f = InitialiseFile(filename, path);
 

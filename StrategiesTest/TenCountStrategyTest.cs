@@ -117,7 +117,7 @@ namespace StrategiesTest
         [TestMethod]
         public void BetMaxTest()
         {
-            int expectedBet = 10;
+            int expectedBet = 100;
             Player player = new TenCountStrategy();
             Deck deck = new Deck(52);
             List<Card> burntCards = new List<Card>();
@@ -153,7 +153,7 @@ namespace StrategiesTest
 
             player.hand.SetHandValues();
             player.UpdateCount(deck, burntCards, null).First();
-            int bet = player.CalculateBet(2, 10);
+            int bet = player.CalculateBet(10, 100);
             Assert.AreEqual(expectedBet, bet);
         }
 
