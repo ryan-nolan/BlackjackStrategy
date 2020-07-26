@@ -67,7 +67,26 @@ namespace CoreTest
                 }
             };
             PlayerState state = (dealer.React());
-            Assert.AreEqual(state, expectedState);
+            Assert.AreEqual(expectedState, state);
+        }
+        [TestMethod]
+        public void SetUpCardTest()
+        {
+
+            int expectedState = 2;
+            Dealer dealer = new Dealer
+            {
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Heart, Face.Two),
+                        new Card(Suit.Club, Face.Five)
+                    }
+                }
+            };
+            dealer.SetUpCard();
+            Assert.AreEqual(expectedState, dealer.upCard.Value);
         }
     }
 }
