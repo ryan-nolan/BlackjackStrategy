@@ -121,7 +121,13 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,false,false,true,true,false},//16
             {true,true,true,true,true,true,true,true,true,true},//17
         };
-
+        /// <summary>
+        /// Returns max bet when there are no fives in the deck, count = 4
+        /// Otherwise returns minBet
+        /// </summary>
+        /// <param name="minBet"></param>
+        /// <param name="maxBet"></param>
+        /// <returns>Bet based on fives</returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
             if (Count[0] == Deck.DeckSize/13)
@@ -133,6 +139,14 @@ namespace BlackjackLogic.Strategies
                 return minBet;
             }
         }
+        /// <summary>
+        /// Updates count based on fives seen played
+        /// 5 = +1
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="burntCards"></param>
+        /// <param name="dealersUpCard"></param>
+        /// <returns></returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             Count[0] = 0;
@@ -176,7 +190,15 @@ namespace BlackjackLogic.Strategies
             }
             return Count;
         }
-
+        /// <summary>
+        /// Reacts to game state with decision matrices
+        /// Uses no fives matrices when count = deckSize/13
+        /// </summary>
+        /// <param name="dealersUpCard"></param>
+        /// <param name="stateToChange"></param>
+        /// <param name="hand"></param>
+        /// <param name="fiveCount"></param>
+        /// <returns></returns>
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> fiveCount)
         {
             //Play by basic strategy until 5 count is equal to Q(5)
@@ -400,7 +422,6 @@ namespace BlackjackLogic.Strategies
                         stateToChange = PlayerState.STAND;
                         return PlayerState.STAND;
                     }
-                    //Could use lambda to clean this up
                     if (!SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                     {
                         stateToChange = PlayerState.HIT;

@@ -78,12 +78,20 @@ namespace BlackjackLogic.Strategies
             {0,0,0,0,0,0,0,0,0,2.2f},//19 soft standing number for 19 is any ratio > 2.2
 
         };
-
+        /// <summary>
+        /// Getter for others over ten ratio
+        /// </summary>
+        /// <returns></returns>
         public float GetOthersOverTenRatio()
         {
             return othersOverTenRatio;
         }
-
+        /// <summary>
+        /// Returns bet size based on ten count
+        /// </summary>
+        /// <param name="minBet"></param>
+        /// <param name="maxBet"></param>
+        /// <returns></returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
             UpdateOthersOverTenRatio();
@@ -105,11 +113,23 @@ namespace BlackjackLogic.Strategies
             }
             return minBet;
         }
+        /// <summary>
+        /// Calculates others over ten ratio used to make decisions
+        /// Should be called before every decision for running count
+        /// </summary>
         public void UpdateOthersOverTenRatio()
         {
             othersOverTenRatio = ((float)Count[0]) / ((float)Count[1]); //Others / Tens
         }
-
+        /// <summary>
+        /// Count 1 = Tens left in deck
+        /// Count 2 = Non Tens left in deck
+        /// Updates both count values accordingly
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="burntCards"></param>
+        /// <param name="dealersUpCard"></param>
+        /// <returns></returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             Count[0] = 0; Count[1] = 0;
@@ -128,7 +148,14 @@ namespace BlackjackLogic.Strategies
             Console.WriteLine($"The Others / Ten ratio is now:\t{othersOverTenRatio}");
             return Count;
         }
-
+        /// <summary>
+        /// Reacts to game state based on count and float decision matrices
+        /// </summary>
+        /// <param name="dealersUpCard"></param>
+        /// <param name="stateToChange"></param>
+        /// <param name="hand"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)

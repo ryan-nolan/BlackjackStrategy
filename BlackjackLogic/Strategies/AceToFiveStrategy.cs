@@ -10,7 +10,7 @@ namespace BlackjackLogic.Strategies
     {
         public override string StrategyName { get { return "AceToFive"; } }
         public override string CountType { get { return "acetofive"; } }
-
+        //Pair splitting bool matrix
         readonly bool[,] PairSplitting = new bool[10, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
@@ -25,6 +25,7 @@ namespace BlackjackLogic.Strategies
             {false,false,false,false,false,false,false,false,false,false},//(10,10)
             {true,true,true,true,true,true,true,true,true,true },//(A,A)
         };
+        //Hard double down bool matrix
         readonly bool[,] HardDoubleDown = new bool[4, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
@@ -33,7 +34,7 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,false,false},//10
             {true,true,true,true,true,true,true,true,true,true },//11
         };
-
+        //Soft double down bool matrix
         readonly bool[,] SoftDoubleDown = new bool[7, 5]
         {
             //2    3     4     5     6    
@@ -69,7 +70,13 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,true,true},//19
 
         };
-
+        /// <summary>
+        /// Returns max bet if count > 2
+        /// Otherwise returns min bet
+        /// </summary>
+        /// <param name="minBet"></param>
+        /// <param name="maxBet"></param>
+        /// <returns>Bet size based on count</returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
             if (Count[0] >= (Deck.DeckSize/52)*2)
@@ -78,7 +85,16 @@ namespace BlackjackLogic.Strategies
             }
             return minBet;
         }
-
+        /// <summary>
+        /// Counts number of Fives and Aces in deck, burntCards and the dealers upCard
+        /// Five has value +1
+        /// Ace has value -1
+        /// Updates count accordingly
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="burntCards"></param>
+        /// <param name="dealersUpCard"></param>
+        /// <returns></returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             Count[0] = 0;
@@ -139,7 +155,14 @@ namespace BlackjackLogic.Strategies
             }
             return Count;
         }
-
+        /// <summary>
+        /// Returns playerstate based on game state and decision matrices
+        /// </summary>
+        /// <param name="dealersUpCard"></param>
+        /// <param name="stateToChange"></param>
+        /// <param name="hand"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)

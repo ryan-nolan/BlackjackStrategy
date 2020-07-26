@@ -80,8 +80,12 @@ namespace BlackjackLogic.Strategies
            {-100,-100,-100,-100,-100,-100,-100,-100,-100,-100},//19 STAND ON ANY INDEX 
 
         };
-
-        //Consider returning index/2*minBet
+        /// <summary>
+        /// Places bet dependent on the HiLoIndex
+        /// </summary>
+        /// <param name="minBet"></param>
+        /// <param name="maxBet"></param>
+        /// <returns></returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
             UpdateIndex();
@@ -107,16 +111,32 @@ namespace BlackjackLogic.Strategies
             }
             return minBet;
         }
+        /// <summary>
+        /// Returns Index
+        /// </summary>
+        /// <returns>Index</returns>
         public float GetIndex()
         {
             return HiLowIndex;
         }
+        /// <summary>
+        /// Updates the index based of count
+        /// </summary>
         public void UpdateIndex()
         {
             HiLowIndex = ((((float)Count[0]) / ((float)Count[1]))*100);
             Console.WriteLine($"HiLowIndex:\t{HiLowIndex}");
         }
-
+        /// <summary>
+        /// Updates the count
+        /// Ace,J,Q,K,10 = -1
+        /// 2,3,4,5,6 = +1
+        /// 7,8,9 = 0
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="burntCards"></param>
+        /// <param name="dealersUpCard"></param>
+        /// <returns></returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             Count[0] = 0; Count[1] = deck.Cards.Count;
@@ -178,7 +198,14 @@ namespace BlackjackLogic.Strategies
             UpdateIndex();
             return Count;
         }
-
+        /// <summary>
+        /// Reacts to game state and makes decision according to matrices
+        /// </summary>
+        /// <param name="dealersUpCard"></param>
+        /// <param name="stateToChange"></param>
+        /// <param name="hand"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)

@@ -70,7 +70,13 @@ namespace BlackjackLogic.Strategies
 
         };
 
-
+        /// <summary>
+        /// Returns Count*MinBet if count > 1
+        /// Else returns minBet
+        /// </summary>
+        /// <param name="minBet"></param>
+        /// <param name="maxBet"></param>
+        /// <returns>Bet</returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
             if (Count[0] <= 0)
@@ -83,7 +89,16 @@ namespace BlackjackLogic.Strategies
             }
             return minBet;
         }
-
+        /// <summary>
+        /// Updates count base on game state
+        /// A,10,J,Q,K = -1
+        /// 2,3,4,5,6,7 = 1
+        /// 8,9 = 0
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="burntCards"></param>
+        /// <param name="dealersUpCard"></param>
+        /// <returns>Count</returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             Count[0] = 0;
@@ -144,7 +159,14 @@ namespace BlackjackLogic.Strategies
             }
             return Count;
         }
-
+        /// <summary>
+        /// Reacts to the game state and makes decision base on decision matrices
+        /// </summary>
+        /// <param name="dealersUpCard"></param>
+        /// <param name="stateToChange"></param>
+        /// <param name="hand"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)

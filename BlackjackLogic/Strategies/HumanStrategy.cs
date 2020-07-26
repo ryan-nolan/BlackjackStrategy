@@ -8,6 +8,12 @@ namespace BlackjackLogic.Strategies
 {
     public class HumanStrategy : Player
     {
+        /// <summary>
+        /// Takes an integer in from console
+        /// </summary>
+        /// <param name="minBet"></param>
+        /// <param name="maxBet"></param>
+        /// <returns></returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
 
@@ -30,11 +36,26 @@ namespace BlackjackLogic.Strategies
 
             return stake;
         }
+        /// <summary>
+        /// Player cannot hold a count
+        /// All player counting would be done by user
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="burntCards"></param>
+        /// <param name="dealersUpCard"></param>
+        /// <returns></returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             return Count;
         }
-
+        /// <summary>
+        /// Player reacts to game state using console input
+        /// </summary>
+        /// <param name="dealersUpCard"></param>
+        /// <param name="stateToChange"></param>
+        /// <param name="hand"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             Console.Write("Player's Cards: ");

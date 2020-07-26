@@ -71,17 +71,35 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,true,true},//19
 
         };
-
+        /// <summary>
+        /// Always returns min bet
+        /// </summary>
+        /// <param name="minBet"></param>
+        /// <param name="maxBet"></param>
+        /// <returns></returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
             return minBet;
         }
-
+        /// <summary>
+        /// Basic strategy contains no count
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="burntCards"></param>
+        /// <param name="dealersUpCard"></param>
+        /// <returns></returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             return Count;
         }
-
+        /// <summary>
+        /// Reacts to game state based on decision matrices
+        /// </summary>
+        /// <param name="dealersUpCard"></param>
+        /// <param name="stateToChange"></param>
+        /// <param name="hand"></param>
+        /// <param name="count"></param>
+        /// <returns>PlayerState</returns>
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)
