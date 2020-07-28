@@ -15,7 +15,7 @@ namespace BlackjackStrategy
             //init game loop and pass parsed args
 
             int handsToBePlayed = 10000;
-            int cardsBeforeShuffling = 1;
+            int cardsBeforeShuffling = 13;
             int maxBet = 100;
             int minBet = 10;
             int startChips = 10000;
