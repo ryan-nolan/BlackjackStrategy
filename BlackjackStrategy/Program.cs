@@ -21,11 +21,24 @@ namespace BlackjackStrategy
             int startChips = 10000;
             string strategyName = "knockoutcount";
             int deckSize = 52;
+            string path = @".\Data\";
 
             for (int i = 0; i<args.Length;i++)
             {
                 switch (args[i])
                 {
+                    //case "--p":
+                    //case "-path":
+                    //    try
+                    //    {
+                    //        path = args[i+1];
+                    //    }
+                    //    catch (Exception e)
+                    //    {
+                    //        Console.WriteLine(e);
+                    //        throw e;
+                    //    }
+                    //    break;
                     case "--h":
                     case "-hands":
                         try
@@ -127,7 +140,8 @@ namespace BlackjackStrategy
                 MaxBet = maxBet,
                 StrategyName = strategyName,
                 StartChips = startChips,
-                DeckSize = deckSize
+                DeckSize = deckSize,
+                Path = path
         };
             _game.RunGame();
         }

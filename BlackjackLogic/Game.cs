@@ -18,7 +18,7 @@ namespace BlackjackLogic
         public string StrategyName = "simplepointcount";//The strategy name for documnetation
         public int StartChips = 500;                    //Chips player should start on
         public int DeckSize = 52;                       //Size of deck, must be multiple of 52
-
+        public string Path = @".\Data\";
         //Deck and burnt card variables for game
         public Deck deck;
         public List<Card> burntCards = new List<Card>();
@@ -61,9 +61,9 @@ namespace BlackjackLogic
 
             //Create file and write first line
             //File saved in data folder outside source
-            string path = @"C:\Users\Ryan\Desktop\Dissertation\Source\Data";
+            //string path = @"C:\Users\Ryan\Desktop\Dissertation\Source\Data";
             string filename = $"{player.StrategyName}_hands({HandsToBePlayed})shuffleFrequency({CardCountWhenToShuffle})deckSize({DeckSize}).csv";
-            StreamWriter f = InitialiseFile(filename, path);
+            StreamWriter f = InitialiseFile(filename, Path);
 
             //Initialise File Variables
             int amountOfCardsInDeckBeforeTurn = 0;
