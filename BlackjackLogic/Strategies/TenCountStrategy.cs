@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
@@ -95,7 +93,7 @@ namespace BlackjackLogic.Strategies
         public override int CalculateBet(int minBet, int maxBet)
         {
             UpdateOthersOverTenRatio();
-            if (othersOverTenRatio>=2)
+            if (othersOverTenRatio >= 2)
             {
                 return minBet;
             }
@@ -183,7 +181,7 @@ namespace BlackjackLogic.Strategies
                     }
                 }
                 //3 against 7 or 8 greater than exception
-                if ((hand.cards.First().Face == Face.Three && (dealersUpCard.Value == 7 || dealersUpCard.Value == 8 )))
+                if ((hand.cards.First().Face == Face.Three && (dealersUpCard.Value == 7 || dealersUpCard.Value == 8)))
                 {
                     if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                     {
@@ -200,7 +198,7 @@ namespace BlackjackLogic.Strategies
                         return PlayerState.SPLIT;
                     }
                 }
-                else if(othersOverTenRatio <= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                else if (othersOverTenRatio <= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.SPLIT;
                     return PlayerState.SPLIT;

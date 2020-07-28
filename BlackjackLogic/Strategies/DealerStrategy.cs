@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
@@ -65,7 +62,7 @@ namespace BlackjackLogic.Strategies
                 CurrentState = PlayerState.STAND;
                 return PlayerState.STAND;
             }
-            
+
         }
     }
 }

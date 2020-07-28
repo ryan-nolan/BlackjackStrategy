@@ -1,10 +1,8 @@
-﻿using System;
+﻿using BlackjackLogic.Strategies;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlackjackLogic.Strategies;
 
 namespace BlackjackLogic
 {
@@ -20,7 +18,7 @@ namespace BlackjackLogic
         public string StrategyName = "simplepointcount";//The strategy name for documnetation
         public int StartChips = 500;                    //Chips player should start on
         public int DeckSize = 52;                       //Size of deck, must be multiple of 52
-        
+
         //Deck and burnt card variables for game
         public Deck deck;
         public List<Card> burntCards = new List<Card>();
@@ -116,7 +114,7 @@ namespace BlackjackLogic
                 }
                 //Write pre hand counts to console
                 Console.Write($"Pre hand counts:\t");
-                for(int j = 0; j < player.Count.Count; j++)
+                for (int j = 0; j < player.Count.Count; j++)
                 {
                     Console.Write($"{player.Count[j]}\t");
                 }
@@ -235,18 +233,18 @@ namespace BlackjackLogic
                         //Add splitBet stake so player is playing two hands for twice his stake
                         player.AddBet(player.Stake, ref player.SplitHandStake);
                         Console.WriteLine($"Player Split Hand Stake:\t{player.SplitHandStake}");
-                        
+
                         //Playing the split hand
                         //Split aces forces stand rule
                         if (player.hand.cards.First().Face == Face.Ace && player.splitHand.cards.First().Face == Face.Ace)
                         {
                             player.CurrentState = PlayerState.STAND;
                             player.splitHandState = PlayerState.STAND;
-                            playersDecisions += player.CurrentState+ "/";//FOR FILE
+                            playersDecisions += player.CurrentState + "/";//FOR FILE
                             playersSplitHandDecisions += player.splitHandState + "/";//FOR FILE
                         }
                         else
-                        { 
+                        {
                             player.React(dealer.upCard, ref player.splitHandState, player.splitHand, player.Count);
                             playersSplitHandDecisions += player.splitHandState + "/";//FOR FILE
                         }
@@ -305,7 +303,7 @@ namespace BlackjackLogic
                     {
                         player.CurrentState = PlayerState.STAND;
                     }
-                    playersDecisions += player.CurrentState+"/";//FOR FILE
+                    playersDecisions += player.CurrentState + "/";//FOR FILE
 
                     //IF PLAYER DOUBLE DOWNS, STAND OR BUST
                     if (player.CurrentState == PlayerState.DOUBLE_DOWN)
@@ -444,7 +442,7 @@ namespace BlackjackLogic
                 //If there was a split hand this turn, document split hand values
                 if (player.splitHand != null)
                 {
-                    playersStartingSplitHandForfile = player.splitHand.cards[0].ToString() +" "+ player.splitHand.cards[1].ToString();
+                    playersStartingSplitHandForfile = player.splitHand.cards[0].ToString() + " " + player.splitHand.cards[1].ToString();
                     playersStartingSplitHardHandValueForFile = player.splitHand.handValues.First().ToString();
                     playersStartingSplitSoftHandValueForFile = player.splitHand.handValues.Last().ToString();
                     playersEndSplitHand = player.splitHand.ToString();
@@ -464,7 +462,7 @@ namespace BlackjackLogic
                 }
                 firstCountAfterHandForFile = player.UpdateCount(deck, burntCards, dealer.upCard).First();
                 //Write all relevant infromation to file after every hand
-                f.WriteLine($"{HandsPlayed+1},{playerStartingChips},{player.Chips},{player.Chips - playerStartingChips},{gameResult},{splitGameResult},{amountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
+                f.WriteLine($"{HandsPlayed + 1},{playerStartingChips},{player.Chips},{player.Chips - playerStartingChips},{gameResult},{splitGameResult},{amountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
                     $"{playerStakeForFile},{player.hand.cards[0].ToString()} {player.hand.cards[1].ToString()}," +
                     $"{playersStartingHardHandValueForFile},{playersStartingSoftHandValueForFile},{player.hand},{player.hand.handValues.Last()},{playersDecisions}," +
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
@@ -483,7 +481,7 @@ namespace BlackjackLogic
                     Console.Clear();
                 }
                 HandsPlayed++;
-                
+
             }
             //Close file when all hands are played and write simulation summary to file
             f.Close();
@@ -503,11 +501,11 @@ namespace BlackjackLogic
         /// <returns></returns>
         private StreamWriter InitialiseFile(string filename, string path)
         {
-            if (File.Exists(path+ "\\" + filename))
+            if (File.Exists(path + "\\" + filename))
             {
                 File.Delete(path + "\\" + filename);
             }
-            StreamWriter file = new StreamWriter(path+"\\"+filename, false);
+            StreamWriter file = new StreamWriter(path + "\\" + filename, false);
             file.WriteLine("HandNumber,PlayersStartingChips,EndChips,ChipsWon,GameResult,SplitGameResult,CardsInDeckBeforeTurn,CardsInDeckAfterTurn," +
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
@@ -529,7 +527,7 @@ namespace BlackjackLogic
         /// </summary>
         private void CleanupHand()
         {
-            foreach(var c in player.hand.cards)
+            foreach (var c in player.hand.cards)
             {
                 burntCards.Add(c.Clone());
             }

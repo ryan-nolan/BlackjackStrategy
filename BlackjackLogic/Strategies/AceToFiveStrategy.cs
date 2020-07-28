@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
@@ -79,7 +76,7 @@ namespace BlackjackLogic.Strategies
         /// <returns>Bet size based on count</returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
-            if (Count[0] >= (Deck.DeckSize/52)*2)
+            if (Count[0] >= (Deck.DeckSize / 52) * 2)
             {
                 return maxBet;
             }
@@ -128,7 +125,7 @@ namespace BlackjackLogic.Strategies
                         }
                     }
                 }
-                
+
             }
             if (dealersUpCard != null)
             {

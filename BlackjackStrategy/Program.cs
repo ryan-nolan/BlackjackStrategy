@@ -14,12 +14,12 @@ namespace BlackjackStrategy
             //Parse args
             //init game loop and pass parsed args
 
-            int handsToBePlayed = 1000000;
-            int cardsBeforeShuffling = 13;
+            int handsToBePlayed = 10000;
+            int cardsBeforeShuffling = 1;
             int maxBet = 100;
             int minBet = 10;
             int startChips = 10000;
-            string strategyName = "tencount";
+            string strategyName = "knockoutcount";
             int deckSize = 52;
 
             for (int i = 0; i<args.Length;i++)
@@ -102,7 +102,8 @@ namespace BlackjackStrategy
                     case "-DeckSize":
                         try
                         {
-                            deckSize = int.Parse(args[i + 1]);
+                            int numOfDecks = int.Parse(args[i + 1]);
+                            deckSize = 52*numOfDecks;
                         }
                         catch (Exception e)
                         {
@@ -110,18 +111,7 @@ namespace BlackjackStrategy
                             throw e;
                         }
                         break;
-                    case "--sh":
-                    case "-startingHand":
-                        try
-                        {
-                            //
-                        }
-                        catch (Exception)
-                        {
 
-                            throw;
-                        }
-                        break;
 
                     default:
                         break;

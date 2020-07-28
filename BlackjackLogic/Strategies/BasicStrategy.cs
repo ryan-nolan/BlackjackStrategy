@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
@@ -10,7 +7,7 @@ namespace BlackjackLogic.Strategies
     {
         public override string StrategyName { get { return "BasicStrategy"; } }
         public override string CountType { get { return "basic"; } }
-        
+
         //split on true, ignore on false
         readonly bool[,] PairSplitting = new bool[10, 10]
         {
@@ -112,7 +109,7 @@ namespace BlackjackLogic.Strategies
             //yes, split?
             if (((hand.cards.First().Face == hand.cards.Last().Face) && splitHand == null) && hand.cards.Count == 2)
             {
-                if(PairSplitting[hand.cards.First().Value - 2,dealersUpCard.Value - 2])
+                if (PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.SPLIT;
                     return PlayerState.SPLIT;
@@ -157,7 +154,7 @@ namespace BlackjackLogic.Strategies
                                 return PlayerState.DOUBLE_DOWN;
                             }
                         }
-                        if (HardDoubleDown[hand.handValues.First()-8,dealersUpCard.Value - 2])
+                        if (HardDoubleDown[hand.handValues.First() - 8, dealersUpCard.Value - 2])
                         {
                             stateToChange = PlayerState.DOUBLE_DOWN;
                             return PlayerState.DOUBLE_DOWN;
@@ -184,12 +181,12 @@ namespace BlackjackLogic.Strategies
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;
                 }
-                if (!SoftHitOrStand[hand.handValues.Max() - 18 , dealersUpCard.Value-2])
+                if (!SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;
                 }
-                else if(SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                else if (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;

@@ -88,5 +88,26 @@ namespace CoreTest
             dealer.SetUpCard();
             Assert.AreEqual(expectedState, dealer.upCard.Value);
         }
+        [TestMethod]
+        public void SoftBustCheck()
+        {
+            PlayerState expectedState = PlayerState.BUST;
+            Dealer dealer = new Dealer
+            {
+                hand = new Hand
+                {
+                    cards = new List<Card>()
+                    {
+                        new Card(Suit.Heart, Face.Ace),
+                        new Card(Suit.Club, Face.Ten),
+                        new Card(Suit.Heart, Face.Ten),
+                        new Card(Suit.Club, Face.Two)
+                    }
+                }
+            };
+            dealer.SetUpCard();
+            PlayerState state = dealer.React();
+            Assert.AreEqual(expectedState, state);
+        }
     }
 }

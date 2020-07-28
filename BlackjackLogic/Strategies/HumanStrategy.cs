@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
@@ -68,7 +66,7 @@ namespace BlackjackLogic.Strategies
             }
             else
             {
-                
+
                 string action = null;
                 while (action == null)
                 {

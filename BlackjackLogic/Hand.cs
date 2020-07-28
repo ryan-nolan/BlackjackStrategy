@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
@@ -33,7 +31,7 @@ namespace BlackjackLogic
         /// </summary>
         public void SetHandValues()
         {
-            if(handValues.Count != 0) handValues.Clear();
+            if (handValues.Count != 0) handValues.Clear();
             List<int> returnHandValues = new List<int>();
             int noAce = 0;
             int anAceMin = 0;
@@ -42,7 +40,7 @@ namespace BlackjackLogic
 
             foreach (var c in cards)
             {
-                if(c.Face == Face.Ace)
+                if (c.Face == Face.Ace)
                 {
                     hasAce = true;
                 }

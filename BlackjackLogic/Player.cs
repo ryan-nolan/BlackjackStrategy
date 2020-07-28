@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
@@ -51,9 +47,23 @@ namespace BlackjackLogic
             Chips -= bet;
         }
 
-        //Make decision based of current game state and strategy
+        /// <summary>
+        /// //Make decision based of current game state and strategy
+        /// To be implemented diffrently depending on how strategy makes decisions
+        /// </summary>
+        /// <param name="dealersUpCard"></param>
+        /// <param name="stateToChange"></param>
+        /// <param name="hand"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public abstract PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count);
-        //public abstract PlayerState React(Card DealersUpCard, Hand hand);
+
+        /// <summary>
+        /// Calculate Bet 
+        /// </summary>
+        /// <param name="minBet"></param>
+        /// <param name="maxBet"></param>
+        /// <returns></returns>
         public abstract int CalculateBet(int minBet, int maxBet);
         /// <summary>
         /// Keeps a running count based on state of player, deck, burnt cards and the dealers up card

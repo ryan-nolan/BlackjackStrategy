@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
@@ -24,7 +23,7 @@ namespace BlackjackLogic
         /// <param name="deckSize"></param>
         public Deck(int deckSize)
         {
-            if (deckSize%52 != 0 || deckSize < 0)
+            if (deckSize % 52 != 0 || deckSize < 0)
             {
                 DeckSize = 52;
                 Console.WriteLine("InvalidDeckValue: 52 Card Deck Used");
@@ -43,7 +42,7 @@ namespace BlackjackLogic
         /// <param name="deckSize"></param>
         private void BuildDeck(int deckSize)
         {
-            for (int i = 0; i < deckSize/52; i++)
+            for (int i = 0; i < deckSize / 52; i++)
             {
                 foreach (Suit s in Enum.GetValues(typeof(Suit)))
                 {

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
@@ -256,7 +253,7 @@ namespace BlackjackLogic.Strategies
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;
                 }
-                else if(SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                else if (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                 {
                     stateToChange = PlayerState.STAND;
                     return PlayerState.STAND;

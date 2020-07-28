@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
@@ -130,7 +127,7 @@ namespace BlackjackLogic.Strategies
         /// <returns>Bet based on fives</returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
-            if (Count[0] == Deck.DeckSize/13)
+            if (Count[0] == Deck.DeckSize / 13)
             {
                 return maxBet;
             }

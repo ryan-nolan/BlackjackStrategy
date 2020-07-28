@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic.Strategies
 {
@@ -124,7 +122,7 @@ namespace BlackjackLogic.Strategies
         /// </summary>
         public void UpdateIndex()
         {
-            HiLowIndex = ((((float)Count[0]) / ((float)Count[1]))*100);
+            HiLowIndex = ((((float)Count[0]) / ((float)Count[1])) * 100);
             Console.WriteLine($"HiLowIndex:\t{HiLowIndex}");
         }
         /// <summary>
@@ -328,7 +326,7 @@ namespace BlackjackLogic.Strategies
                     stateToChange = PlayerState.HIT;
                     return PlayerState.HIT;
                 }
-                
+
             }
 
             //Hard
