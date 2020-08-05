@@ -15,7 +15,7 @@ namespace BlackjackStrategy
             //init game loop and pass parsed args
 
             int handsToBePlayed = 10000;
-            int cardsBeforeShuffling = 13;
+            int cardsBeforeShuffling = 1;
             int maxBet = 100;
             int minBet = 10;
             int startChips = 10000;
@@ -27,18 +27,7 @@ namespace BlackjackStrategy
             {
                 switch (args[i])
                 {
-                    //case "--p":
-                    //case "-path":
-                    //    try
-                    //    {
-                    //        path = args[i+1];
-                    //    }
-                    //    catch (Exception e)
-                    //    {
-                    //        Console.WriteLine(e);
-                    //        throw e;
-                    //    }
-                    //    break;
+
                     case "--h":
                     case "-hands":
                         try
@@ -130,8 +119,8 @@ namespace BlackjackStrategy
                         break;
                 }
             }
-            //Game _game = new Game(turnsToBePlayed, cardsBeforeShuffling);
 
+            //Create game object and run simulation with chosen parameters 
             Game _game = new Game
             {
                 HandsToBePlayed = handsToBePlayed,
@@ -142,7 +131,7 @@ namespace BlackjackStrategy
                 StartChips = startChips,
                 DeckSize = deckSize,
                 Path = path
-        };
+            };
             _game.RunGame();
         }
     }

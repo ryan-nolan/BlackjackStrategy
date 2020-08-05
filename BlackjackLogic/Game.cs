@@ -629,13 +629,47 @@ namespace BlackjackLogic
         /// </summary>
         public void DealHand()
         {
-            player.hand.cards.Add(deck.Cards.Pop());
-            player.hand.cards.Add(deck.Cards.Pop());
-            dealer.hand.cards.Add(deck.Cards.Pop());
-            dealer.hand.cards.Add(deck.Cards.Pop());
+            try
+            {
+                player.hand.cards.Add(deck.Cards.Pop());
+                player.hand.cards.Add(deck.Cards.Pop());
+                dealer.hand.cards.Add(deck.Cards.Pop());
+                dealer.hand.cards.Add(deck.Cards.Pop());
 
-            player.hand.SetHandValues();
-            dealer.hand.SetHandValues();
+                player.hand.SetHandValues();
+                dealer.hand.SetHandValues();
+            }
+            catch (InvalidOperationException)
+            {
+                try
+                {
+                    deck = new Deck(DeckSize);
+                }
+                catch (Exception e)
+                {
+                    //Throws exception if deck cant be made
+                    throw e;
+                }
+                //Shuffle deck and burn a card
+                deck.FisherYatesShuffle();
+                burntCards.Clear();
+                burntCards.Add(deck.Cards.Pop());
+
+                player.hand.cards.Clear();
+                dealer.hand.cards.Clear();
+
+                player.hand.cards.Add(deck.Cards.Pop());
+                player.hand.cards.Add(deck.Cards.Pop());
+                dealer.hand.cards.Add(deck.Cards.Pop());
+                dealer.hand.cards.Add(deck.Cards.Pop());
+
+                player.hand.SetHandValues();
+                dealer.hand.SetHandValues();
+
+                player.UpdateCount(deck, burntCards, dealer.upCard);
+
+            }
+            
         }
         /// <summary>
         /// Hits an Actor with an extra card
@@ -643,18 +677,131 @@ namespace BlackjackLogic
         /// <param name="actor"></param>
         public void HitPlayer(Actor actor)
         {
-            actor.hand.cards.Add(deck.Cards.Pop());
-            actor.hand.SetHandValues();
+            try
+            {
+                actor.hand.cards.Add(deck.Cards.Pop());
+                actor.hand.SetHandValues();
+            }
+            catch (InvalidOperationException)
+            {
+                List<Card> playersCards = new List<Card>();
+                List<Card> dealersCards = new List<Card>();
+
+                foreach (var c in player.hand.cards)
+                {
+                    playersCards.Add(c.Clone());
+                }
+                foreach (var c in dealer.hand.cards)
+                {
+                    dealersCards.Add(c.Clone());
+                }
+
+                try
+                {
+                    deck = new Deck(DeckSize);
+                }
+                catch (Exception e)
+                {
+                    //Throws exception if deck cant be made
+                    throw e;
+                }
+                //Shuffle deck and burn a card
+                //deck.FisherYatesShuffle();
+                burntCards.Clear();
+
+                List<Card> shuffledDeck = deck.Cards.ToList();
+                player.hand.cards.Clear();
+                dealer.hand.cards.Clear();
+                foreach (var c in playersCards)
+                {
+                    player.hand.cards.Add(c.Clone());
+                    shuffledDeck.RemoveAll(x => x.Face == c.Face && x.Suit == c.Suit);
+                }
+                foreach (var c in dealersCards)
+                {
+                    dealer.hand.cards.Add(c.Clone());
+                    shuffledDeck.RemoveAll(x => x.Face == c.Face && x.Suit == c.Suit);
+                }
+                deck.Cards.Clear();
+                foreach (var c in shuffledDeck)
+                {
+                    deck.Cards.Push(c);
+                }
+                deck.FisherYatesShuffle();
+                burntCards.Add(deck.Cards.Pop());
+
+                actor.hand.cards.Add(deck.Cards.Pop());
+                actor.hand.SetHandValues();
+
+                player.UpdateCount(deck, burntCards, dealer.upCard);
+
+            }
+
         }
         /// <summary>
         /// Hits a hand with an extra card
         /// </summary>
         /// <param name="hand"></param>
         public void HitPlayer(Hand hand)
-        {
-            hand.cards.Add(deck.Cards.Pop());
-            hand.SetHandValues();
-            player.UpdateCount(deck, burntCards, dealer.upCard);
+        { 
+            try
+            {
+                hand.cards.Add(deck.Cards.Pop());
+                hand.SetHandValues();
+                player.UpdateCount(deck, burntCards, dealer.upCard);
+            }
+            catch (InvalidOperationException)
+            {
+                List<Card> playersCards = new List<Card>();
+                List<Card> dealersCards = new List<Card>();
+
+                foreach (var c in player.hand.cards)
+                {
+                    playersCards.Add(c.Clone());
+                }
+                foreach (var c in dealer.hand.cards)
+                {
+                    dealersCards.Add(c.Clone());
+                }
+
+                try
+                {
+                    deck = new Deck(DeckSize);
+                }
+                catch (Exception e)
+                {
+                    //Throws exception if deck cant be made
+                    throw e;
+                }
+                //Shuffle deck and burn a card
+                //deck.FisherYatesShuffle();
+                burntCards.Clear();
+
+                List<Card> shuffledDeck = deck.Cards.ToList();
+
+                foreach (var c in playersCards)
+                {
+                    player.hand.cards.Add(c.Clone());
+                    shuffledDeck.RemoveAll(x => x.Face == c.Face && x.Suit == c.Suit);
+                }
+                foreach (var c in dealersCards)
+                {
+                    dealer.hand.cards.Add(c.Clone());
+                    shuffledDeck.RemoveAll(x => x.Face == c.Face && x.Suit == c.Suit);
+                }
+                deck.Cards.Clear();
+                foreach (var c in shuffledDeck)
+                {
+                    deck.Cards.Push(c);
+                }
+                deck.FisherYatesShuffle();
+                burntCards.Add(deck.Cards.Pop());
+
+                hand.cards.Add(deck.Cards.Pop());
+                hand.SetHandValues();
+                player.UpdateCount(deck, burntCards, dealer.upCard);
+
+            }
         }
 
     }
