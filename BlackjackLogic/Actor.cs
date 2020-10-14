@@ -1,16 +1,4 @@
-﻿/// <summary>
-/// States an actor can hold
-/// All possible blackjack states
-/// </summary>
-public enum PlayerState
-{
-    HIT,
-    STAND,
-    SPLIT,
-    DOUBLE_DOWN,
-    BUST,
-
-}
+﻿using BlackjackLogic.Game;
 
 namespace BlackjackLogic
 {
@@ -22,7 +10,6 @@ namespace BlackjackLogic
         public PlayerState CurrentState;
         public Hand hand = new Hand();
         public bool IsBust;
-
 
         public abstract void WriteCurrentState();
     }

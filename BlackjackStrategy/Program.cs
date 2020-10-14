@@ -132,7 +132,7 @@ namespace BlackjackStrategy
             }
             //Game _game = new Game(turnsToBePlayed, cardsBeforeShuffling);
 
-            Game _game = new Game
+            Simulator _game = new Simulator
             {
                 HandsToBePlayed = handsToBePlayed,
                 CardCountWhenToShuffle = cardsBeforeShuffling,

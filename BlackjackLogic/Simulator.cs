@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BlackjackLogic.Game;
 
 namespace BlackjackLogic
 {
-    public class Game
+    public class Simulator
     {
         //Changable parameters by user
         public int HandsPlayed = 0;                      //The current hand played number
@@ -36,7 +37,7 @@ namespace BlackjackLogic
         /// <param name="maxBet"></param>
         /// <param name="startChips"></param>
         /// <param name="deckSize"></param>
-        public Game(string strategyName = null, int handsToBePlayed = 50000, int cardCountWhenToShuffle = 13, int minBet = 2, int maxBet = 50, int startChips = 500, int deckSize = 52)
+        public Simulator(string strategyName = null, int handsToBePlayed = 50000, int cardCountWhenToShuffle = 13, int minBet = 2, int maxBet = 50, int startChips = 500, int deckSize = 52)
         {
             HandsToBePlayed = handsToBePlayed;
             CardCountWhenToShuffle = cardCountWhenToShuffle;
@@ -617,7 +618,7 @@ namespace BlackjackLogic
                 default:
                     Console.WriteLine("Strategy Not Found");
                     throw new Exception();
-                    break;
+                    //break;
 
             }
             dealer = new Dealer();

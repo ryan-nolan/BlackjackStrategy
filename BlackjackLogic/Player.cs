@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BlackjackLogic.Game;
 
 namespace BlackjackLogic
 {
@@ -7,7 +8,6 @@ namespace BlackjackLogic
 
     public abstract class Player : Actor
     {
-        //public Hand Hand;
         public int Chips;
         public int Stake;
         public int SplitHandStake;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BlackjackLogic.Game;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BlackjackLogic.Strategies

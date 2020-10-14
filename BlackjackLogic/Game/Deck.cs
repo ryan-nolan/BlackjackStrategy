@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace BlackjackLogic
+namespace BlackjackLogic.Game
 {
     public class Deck
     {
@@ -144,13 +144,13 @@ namespace BlackjackLogic
             if (cards.Count % cards.Distinct().Count() != 0)
             {
                 Console.WriteLine("FALSE DECK IS INVALID");
-                throw new Exception { };
+                //throw new Exception { };
                 return false;
             }
             if (cards.Count % 52 != 0)
             {
                 Console.WriteLine("FALSE");
-                throw new Exception { };
+                //throw new Exception { };
                 return false;
             }
             Console.WriteLine("DECK IS VALID");

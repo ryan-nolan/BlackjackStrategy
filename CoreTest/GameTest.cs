@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BlackjackLogic;
 using BlackjackLogic.Strategies;
 using System.IO;
+using BlackjackLogic.Game;
 
 namespace CoreTest
 {
@@ -16,7 +17,7 @@ namespace CoreTest
         [TestMethod]
         public void DealHandTest()
         {
-            Game game = new Game();
+            Simulator game = new Simulator();
             game.player = new DealerStrategy();
             game.dealer = new Dealer();
             game.deck = new Deck(52);
@@ -30,7 +31,7 @@ namespace CoreTest
         [TestMethod]
         public void HitPlayerActorTest()
         {
-            Game game = new Game();
+            Simulator game = new Simulator();
             game.player = new DealerStrategy();
             game.dealer = new Dealer();
             game.deck = new Deck(52);
@@ -47,7 +48,7 @@ namespace CoreTest
         [TestMethod]
         public void HitPlayerHandTest()
         {
-            Game game = new Game();
+            Simulator game = new Simulator();
             game.player = new DealerStrategy();
             game.dealer = new Dealer();
             game.deck = new Deck(52);
@@ -65,7 +66,7 @@ namespace CoreTest
         public void UpdateHandValuesPlayerSoftTest()
         {
             int expectedState = 13;
-            Game game = new Game();
+            Simulator game = new Simulator();
             game.player = new BasicStrategy();
             game.dealer = new Dealer();
             game.player.hand.cards.Add(new Card(Suit.Club, Face.Ace));
@@ -79,7 +80,7 @@ namespace CoreTest
         public void UpdateHandValuesDealerSoftTest()
         {
             int expectedState = 13;
-            Game game = new Game();
+            Simulator game = new Simulator();
             game.player = new BasicStrategy();
             game.dealer = new Dealer();
             game.dealer.hand.cards.Add(new Card(Suit.Club, Face.Ace));
@@ -93,7 +94,7 @@ namespace CoreTest
         public void UpdateHandValuesPlayerHardTest()
         {
             int expectedState = 14;
-            Game game = new Game();
+            Simulator game = new Simulator();
             game.player = new BasicStrategy();
             game.dealer = new Dealer();
             game.player.hand.cards.Add(new Card(Suit.Club, Face.Ten));
@@ -107,7 +108,7 @@ namespace CoreTest
         public void UpdateHandValuesDealerHardTest()
         {
             int expectedState = 16;
-            Game game = new Game();
+            Simulator game = new Simulator();
             game.player = new BasicStrategy();
             game.dealer = new Dealer();
             game.dealer.hand.cards.Add(new Card(Suit.Club, Face.Ten));

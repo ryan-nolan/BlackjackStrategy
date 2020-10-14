@@ -6,12 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackjackLogic;
 using BlackjackLogic.Strategies;
+using BlackjackLogic.Game;
 
 namespace CoreTest
 {
     [TestClass]
     public class HandTest
     {
+        private const int V = 2;
+
         [TestMethod]
         public void HardHandValueTest()
         {
@@ -54,7 +57,7 @@ namespace CoreTest
         [TestMethod]
         public void SoftHandTwoHandValueTest()
         {
-            int expectedState = 2;
+            int expectedState = V;
             Hand hand = new Hand();
             hand.cards.Add(new Card(Suit.Club, Face.Ace));
             hand.cards.Add(new Card(Suit.Club, Face.Three));
