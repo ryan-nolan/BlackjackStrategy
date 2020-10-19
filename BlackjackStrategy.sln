@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategiesTest", "Strategie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTest", "CoreTest\CoreTest.csproj", "{4141990D-86F9-4A05-97AF-83A6FA1BCB09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy.Web", "BlackjackStrategy.Web\BlackjackStrategy.Web.csproj", "{7B753B56-58DE-4B0F-85B0-9613BE5EE352}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{4141990D-86F9-4A05-97AF-83A6FA1BCB09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4141990D-86F9-4A05-97AF-83A6FA1BCB09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4141990D-86F9-4A05-97AF-83A6FA1BCB09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B753B56-58DE-4B0F-85B0-9613BE5EE352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B753B56-58DE-4B0F-85B0-9613BE5EE352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B753B56-58DE-4B0F-85B0-9613BE5EE352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B753B56-58DE-4B0F-85B0-9613BE5EE352}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
