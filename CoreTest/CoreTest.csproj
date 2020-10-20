@@ -62,9 +62,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlackjackLogic\BlackjackLogic.csproj">
+    <ProjectReference Include="..\BlackjackLogic\BlackjackStrategy.Core.csproj">
       <Project>{c137cbae-1e51-4219-bbf9-a990236d50a4}</Project>
-      <Name>BlackjackLogic</Name>
+      <Name>BlackjackStrategy.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

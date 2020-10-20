@@ -55,31 +55,10 @@ namespace BlackjackLogic
             InitialiseGame(options.StrategyName);
 
             //Create file and write first line
-            //File saved in data folder outside source
-            //string path = @"C:\Users\Ryan\Desktop\Dissertation\Source\Data";
+            //File saved in data folder
             string filename = $"{player.StrategyName}_hands({options.HandsToBePlayed})shuffleFrequency({options.CardCountWhenToShuffle})deckSize({options.DeckSize}).csv";
-            StreamWriter f = InitialiseFile(filename, options.FilePath);
+            StreamWriter f = InitialiseStreamWriter(filename, options.FilePath);
             BlackjackFileData blackjackFileData = new BlackjackFileData();
-            //Initialise File Variables
-            //int amountOfCardsInDeckBeforeTurn = 0;
-            //int playerStakeForFile = 0;
-            //int playerStartingChips = 0;
-            //int playersStartingHardHandValueForFile = 0;
-            //int playersStartingSoftHandValueForFile = 0;
-            //string playersDecisions = "";
-            //string playersSplitHandDecisions = "";
-            //string dealersDecisions = "";
-            //string doesPlayerSplit = "N";
-            //string playersStartingSplitHandForfile = "";
-            //string playersStartingSplitHardHandValueForFile = "";
-            //string playersStartingSplitSoftHandValueForFile = "";
-            //string playersEndSplitHand = "";
-            //string playersEndSplitHandValue = "";
-            //string playersStartingHandPreSplit = "";
-            //string gameResult = "";
-            //string splitGameResult = "";
-            //int firstCountBeforeHandForFile = 0;
-            //int firstCountAfterHandForFile = 0;
 
             //A card is burnt
             burntCards.Add(deck.Cards.Pop());
@@ -458,10 +437,11 @@ namespace BlackjackLogic
                 blackjackFileData.FirstCountAfterHandForFile = player.UpdateCount(deck, burntCards, dealer.upCard).First();
                 //Write all relevant infromation to file after every hand
                 blackjackFileData.WriteToFile(f, player, HandsPlayed, dealer, deck);
-                //Cleanup hand
+
+                //Cleanup hand and Update Counts
                 CleanupHand();
-                //Update Count
                 player.UpdateCount(deck, burntCards, dealer.upCard);
+
                 //If human is playing await input
                 if (options.HumanPlayer)
                 {
@@ -487,19 +467,19 @@ namespace BlackjackLogic
         /// <param name="filename"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        private StreamWriter InitialiseFile(string filename, string path)
+        private StreamWriter InitialiseStreamWriter(string filename, string path)
         {
             if (File.Exists(path + "\\" + filename))
             {
                 File.Delete(path + "\\" + filename);
             }
-            StreamWriter file = new StreamWriter(path + "\\" + filename, false);
-            file.WriteLine("HandNumber,PlayersStartingChips,EndChips,ChipsWon,GameResult,SplitGameResult,CardsInDeckBeforeTurn,CardsInDeckAfterTurn," +
+            StreamWriter sw = new StreamWriter(path + "\\" + filename, false);
+            sw.WriteLine("HandNumber,PlayersStartingChips,EndChips,ChipsWon,GameResult,SplitGameResult,CardsInDeckBeforeTurn,CardsInDeckAfterTurn," +
                 "PlayerStake,PlayersStartingHand,PlayerStartingHardHandValue,PlayerStartingSoftHandValue,PlayersEndHand,PlayersEndHandValue,PlayersDecisions," +
                 "DealersUpCard,DealersUpCardValue,DealersStartHand,DealersEndHand,DealersHardEndHandValue,DealersSoftEndHandValue,DealersEndValue,DealersDecisions," +
                 "DoesPlayerSplit,PlayersStartingSplitHand,PlayerStartingSplitHardHandValue,PlayerStartingSplitSoftHandValue,PlayersEndSplitHand,PlayersSplitEndHandValue,PlayersSplitHandDecisions" +
                 ",PlayersHandPreSplit,CountBeforeHand,CountDuringHand,Count[0]AtTimeOfBet,Count[1]AtTimeOfBet,DeckHash");
-            return file;
+            return sw;
         }
         /// <summary>
         /// Updates player and dealer hand values

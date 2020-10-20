@@ -1,6 +1,4 @@
-﻿//using static BlackjackLogic.Face
-
-namespace BlackjackLogic.Game
+﻿namespace BlackjackLogic.Game
 {
     /// <summary>
     /// Suit enum

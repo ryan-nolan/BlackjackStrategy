@@ -48,5 +48,10 @@ namespace BlackjackLogic
                     $"{FirstCountBeforeHandForFile},{FirstCountAfterHandForFile},{CountZeroAtTimeOfBet},{CountOneAtTimeOfBet},{CurrentTurnDeckHash}"
                     );
         }
+
+        public void ClearOnNewTurn()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

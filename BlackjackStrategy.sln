@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy", "BlackjackStrategy\BlackjackStrategy.csproj", "{F9334013-3A70-4240-9C96-BAA43C075BF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy.ConsoleApp", "BlackjackStrategy\BlackjackStrategy.ConsoleApp.csproj", "{F9334013-3A70-4240-9C96-BAA43C075BF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackLogic", "BlackjackLogic\BlackjackLogic.csproj", "{C137CBAE-1E51-4219-BBF9-A990236D50A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy.Core", "BlackjackLogic\BlackjackStrategy.Core.csproj", "{C137CBAE-1E51-4219-BBF9-A990236D50A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackTestConsole", "BlackjackTestConsole\BlackjackTestConsole.csproj", "{C66DDC5C-EC0C-4556-BE1D-3784440A8835}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategiesTest", "Strategie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTest", "CoreTest\CoreTest.csproj", "{4141990D-86F9-4A05-97AF-83A6FA1BCB09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy.Web", "BlackjackStrategy.Web\BlackjackStrategy.Web.csproj", "{7B753B56-58DE-4B0F-85B0-9613BE5EE352}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackjackStrategy.Web", "BlackjackStrategy.Web\BlackjackStrategy.Web.csproj", "{7B753B56-58DE-4B0F-85B0-9613BE5EE352}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
