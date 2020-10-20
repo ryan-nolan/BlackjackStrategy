@@ -1,8 +1,42 @@
-﻿@{
+﻿@model BlackjackLogic.SimulatorGameOptions
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form asp-controller="Home" asp-action="Index" method="post">
+    <label asp-for="HandsToBePlayed"></label>
+    <input asp-for="HandsToBePlayed" class="form-control" />
+    <div class="text-danger" asp-validation-for="HandsToBePlayed"></div>
+
+    <label asp-for="CardCountWhenToShuffle"></label>
+    <input asp-for="CardCountWhenToShuffle" class="form-control" />
+    <div class="text-danger" asp-validation-for="CardCountWhenToShuffle"></div>
+
+    <label asp-for="MinBet"></label>
+    <input asp-for="MinBet" class="form-control" />
+    <div class="text-danger" asp-validation-for="MinBet"></div>
+
+    <label asp-for="MaxBet"></label>
+    <input asp-for="MaxBet" class="form-control" />
+    <div class="text-danger" asp-validation-for="MaxBet"></div>
+
+    <label asp-for="StartChips"></label>
+    <input asp-for="StartChips" class="form-control" />
+    <div class="text-danger" asp-validation-for="StartChips"></div>
+
+    <label asp-for="StrategyName"></label>
+    <input asp-for="StrategyName" class="form-control" />
+    <div class="text-danger" asp-validation-for="StartChips"></div>
+
+    <label asp-for="DeckSize"></label>
+    <input asp-for="DeckSize" class="form-control" />
+    <div class="text-danger" asp-validation-for="DeckSize"></div>
+
+
+    <div style="text-align: center; padding-top: 25px">
+        <button type="submit" class="btn btn-primary">Download</button>
+        <span>
+            <button type="reset" class="btn btn-primary">Reset</button>
+        </span>
+    </div>
+</form>

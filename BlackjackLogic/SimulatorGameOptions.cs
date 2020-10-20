@@ -40,9 +40,20 @@ namespace BlackjackLogic
             CardCountWhenToShuffle = cardCountWhenToShuffle;
             MinBet = minBet;
             MaxBet = maxBet;
-            StrategyName = strategyName;
+            StrategyName = (String.IsNullOrEmpty(strategyName)) ? strategyName : "StringWasNull";
             StartChips = startChips;
             DeckSize = deckSize;
+        }
+
+        public override string ToString()
+        {
+            return $"Hands To Be Played:\t{HandsToBePlayed}\n" +
+                $"Card Count When To Shuffle:\t{CardCountWhenToShuffle}\n" +
+                $"Min Bet:\t{MinBet}\n" +
+                $"Max Bet:\t{MaxBet}\n" +
+                $"Start Chips {StartChips}\n" +
+                $"Strategy Name:\t{StrategyName}\n" +
+                $"Deck Size:\t{DeckSize}\n";
         }
     }
 

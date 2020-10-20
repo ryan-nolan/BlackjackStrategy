@@ -25,6 +25,16 @@ namespace BlackjackStrategy.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Index(SimulatorGameOptions options)
+        {
+            if (options.StrategyName == null || options.StrategyName == string.Empty || string.IsNullOrWhiteSpace(options.StrategyName))
+            {
+                options.StrategyName = "basicstrategy";
+            }
+            return View("Simulation", options);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
