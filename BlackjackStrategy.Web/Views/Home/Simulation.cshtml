@@ -1,4 +1,4 @@
-﻿@model BlackjackLogic.SimulatorGameOptions
+﻿@model List<string>
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -6,5 +6,8 @@
 }
 
 <div>
-    @Model.ToString()
+    @foreach (var s in Model)
+    {
+        <div>@s</div>
+    }
 </div>

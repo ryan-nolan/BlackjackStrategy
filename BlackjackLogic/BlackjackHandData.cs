@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
-    public class BlackjackFileData
+    public class BlackjackHandData
     {
         public int AmountOfCardsInDeckBeforeTurn { get; set; }
         public int PlayerStakeForFile { get; set; }
@@ -33,20 +33,29 @@ namespace BlackjackLogic
         public int CountOneAtTimeOfBet { get; set; }
         public string CurrentTurnDeckHash { get; set; }
 
-        public BlackjackFileData()
+        public BlackjackHandData()
         {
         }
 
-        public void WriteToFile(StreamWriter f, Player player, int handsPlayed, Dealer dealer, Deck deck)
+        public string GetHandData(Player player, int handsPlayed, Dealer dealer, Deck deck)
         {
-            f.WriteLine($"{handsPlayed + 1},{PlayerStartingChips},{player.Chips},{player.Chips - PlayerStartingChips},{GameResult},{SplitGameResult},{AmountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
+            return  $"{handsPlayed + 1},{PlayerStartingChips},{player.Chips},{player.Chips - PlayerStartingChips},{GameResult},{SplitGameResult},{AmountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
                     $"{PlayerStakeForFile},{player.hand.cards[0]} {player.hand.cards[1]}," +
                     $"{PlayersStartingHardHandValueForFile},{PlayersStartingSoftHandValueForFile},{player.hand},{player.hand.handValues.Last()},{PlayersDecisions}," +
                     $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
                     $"{dealer.hand.handValues.Last()},{DealersDecisions},{DoesPlayerSplit},{PlayersStartingSplitHandForfile},{PlayersStartingHardHandValueForFile},{PlayersStartingSplitSoftHandValueForFile}," +
                     $"{PlayersEndSplitHand},{PlayersEndSplitHandValue},{PlayersSplitHandDecisions},{PlayersStartingHandPreSplit}," +
-                    $"{FirstCountBeforeHandForFile},{FirstCountAfterHandForFile},{CountZeroAtTimeOfBet},{CountOneAtTimeOfBet},{CurrentTurnDeckHash}"
-                    );
+                    $"{FirstCountBeforeHandForFile},{FirstCountAfterHandForFile},{CountZeroAtTimeOfBet},{CountOneAtTimeOfBet},{CurrentTurnDeckHash}";
+            //f.WriteLine($"{handsPlayed + 1},{PlayerStartingChips},{player.Chips},{player.Chips - PlayerStartingChips},{GameResult},{SplitGameResult},{AmountOfCardsInDeckBeforeTurn},{deck.Cards.Count}," +
+            //        $"{PlayerStakeForFile},{player.hand.cards[0]} {player.hand.cards[1]}," +
+            //        $"{PlayersStartingHardHandValueForFile},{PlayersStartingSoftHandValueForFile},{player.hand},{player.hand.handValues.Last()},{PlayersDecisions}," +
+            //        $"{dealer.upCard},{dealer.hand.cards.First().Value},{dealer.hand.cards[0]} {dealer.hand.cards[1]},{dealer.hand},{dealer.hand.handValues.First()},{dealer.hand.handValues.Last()}," +
+            //        $"{dealer.hand.handValues.Last()},{DealersDecisions},{DoesPlayerSplit},{PlayersStartingSplitHandForfile},{PlayersStartingHardHandValueForFile},{PlayersStartingSplitSoftHandValueForFile}," +
+            //        $"{PlayersEndSplitHand},{PlayersEndSplitHandValue},{PlayersSplitHandDecisions},{PlayersStartingHandPreSplit}," +
+            //        $"{FirstCountBeforeHandForFile},{FirstCountAfterHandForFile},{CountZeroAtTimeOfBet},{CountOneAtTimeOfBet},{CurrentTurnDeckHash}"
+            //        );
+            //f.WriteLine(stringToWriteToFile);
+            //return stringToWriteToFile;
         }
 
         public void ClearOnNewTurn()

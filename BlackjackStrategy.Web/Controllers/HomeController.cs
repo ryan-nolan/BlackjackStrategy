@@ -32,7 +32,14 @@ namespace BlackjackStrategy.Web.Controllers
             {
                 options.StrategyName = "basicstrategy";
             }
-            return View("Simulation", options);
+            if (options.HandsToBePlayed > 100 || options.HandsToBePlayed < 0)
+            {
+                options.HandsToBePlayed = 100;
+            }
+            options.FilePath = null;
+            SimulatorWeb sim = new SimulatorWeb(options);
+            return View("Simulation", sim.RunGameAsync().Result);
+            //return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
