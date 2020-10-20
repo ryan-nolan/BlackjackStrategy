@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BlackjackStrategy.Web.Models;
+using BlackjackLogic;
+using BlackjackLogic.Game;
 
 namespace BlackjackStrategy.Web.Controllers
 {
@@ -19,11 +21,6 @@ namespace BlackjackStrategy.Web.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }
