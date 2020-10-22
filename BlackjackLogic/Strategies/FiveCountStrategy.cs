@@ -6,8 +6,8 @@ namespace BlackjackLogic.Strategies
 {
     public class FiveCountStrategy : Player
     {
-        public override string StrategyName { get { return "FiveCount"; } }
-        public override string CountType { get { return "five"; } }
+        public override string StrategyName => "FiveCount";
+        public override string CountType => "five";
 
         private readonly bool[,] _pairSplitting = new bool[10, 10]
         {

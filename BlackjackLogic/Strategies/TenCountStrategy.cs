@@ -8,8 +8,8 @@ namespace BlackjackLogic.Strategies
     public class TenCountStrategy : Player
     {
         public float othersOverTenRatio;
-        public override string StrategyName { get { return "TenCount"; } }
-        public override string CountType { get { return "tencount"; } }
+        public override string StrategyName => "TenCount";
+        public override string CountType => "tencount";
 
         //Split if ratio < number in matrix
         //* indicated number should be read in reverse (ratio > num in matrix)

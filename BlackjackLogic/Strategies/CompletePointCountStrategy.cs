@@ -8,8 +8,8 @@ namespace BlackjackLogic.Strategies
     public class CompletePointCountStrategy : Player
     {
         private float _hiLowIndex = 0;
-        public override string StrategyName { get { return "CompletePointCount"; } }
-        public override string CountType { get { return "completepointcount"; } }
+        public override string StrategyName => "CompletePointCount";
+        public override string CountType => "completepointcount";
 
         //Split if ratio < number in matrix
         //* indicated number should be read in reverse (ratio > num in matrix)
