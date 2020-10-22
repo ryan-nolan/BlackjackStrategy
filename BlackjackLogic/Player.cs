@@ -49,7 +49,7 @@ namespace BlackjackLogic
 
         /// <summary>
         /// //Make decision based of current game state and strategy
-        /// To be implemented diffrently depending on how strategy makes decisions
+        /// To be implemented differently depending on how strategy makes decisions
         /// </summary>
         /// <param name="dealersUpCard"></param>
         /// <param name="stateToChange"></param>

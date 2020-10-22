@@ -57,7 +57,6 @@
     <Compile Include="Game\Deck.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="PlayerState.cs" />
-    <Compile Include="SimulatorWeb.cs" />
     <Compile Include="Simulator.cs" />
     <Compile Include="Game\Hand.cs" />
     <Compile Include="IActor.cs" />

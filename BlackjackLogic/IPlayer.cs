@@ -1,9 +1,5 @@
 ﻿using BlackjackLogic.Game;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackjackLogic
 {
@@ -12,9 +8,9 @@ namespace BlackjackLogic
         int Chips { get; set; }
         public int Stake { get; set; }
         public int SplitHandStake { get; set; }
-        public bool isDoublingDown { get; set; }
-        public Hand splitHand { get; set; }
-        public PlayerState splitHandState { get; set; }
+        public bool IsDoublingDown { get; set; }
+        public Hand SplitHand { get; set; }
+        public PlayerState SplitHandState { get; set; }
         public List<int> Count { get; set; }
         string CountType { get; set; }
         string StrategyName { get; set; }

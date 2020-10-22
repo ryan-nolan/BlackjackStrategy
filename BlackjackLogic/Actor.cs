@@ -9,7 +9,7 @@ namespace BlackjackLogic
         /// </summary>
         public PlayerState CurrentState;
         public Hand hand = new Hand();
-        public bool IsBust;
+        protected bool IsBust;
 
         public abstract void WriteCurrentState();
     }
