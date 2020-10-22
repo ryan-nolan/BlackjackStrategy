@@ -1,13 +1,15 @@
-﻿/// <summary>
-/// States an actor can hold
-/// All possible blackjack states
-/// </summary>
-public enum PlayerState
+﻿namespace BlackjackLogic
 {
-    Hit,
-    Stand,
-    Split,
-    DoubleDown,
-    Bust,
-
+    /// <summary>
+    /// States an actor can hold
+    /// All possible blackjack states
+    /// </summary>
+    public enum PlayerState
+    {
+        Hit,
+        Stand,
+        Split,
+        DoubleDown,
+        Bust,
+    }
 }

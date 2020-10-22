@@ -100,15 +100,20 @@ namespace BlackjackLogic
 
                 //Get Bet function
                 Player.AddBet(Player.CalculateBet(_options.MinBet, _options.MaxBet), ref Player.Stake);
-                blackjackHandData.CountZeroAtTimeOfBet = Player.Count[0]; //FOR FILE
-                blackjackHandData.CountOneAtTimeOfBet = Player.Count[1]; //FOR FILE
+
+                //Save data
+                blackjackHandData.CountZeroAtTimeOfBet = Player.Count[0];
+                blackjackHandData.CountOneAtTimeOfBet = Player.Count[1];
+                blackjackHandData.PlayerStake = Player.Stake;
+
                 //Write player stake to console
                 Console.WriteLine($"Player's starting stake:\t{Player.Stake}");
-                blackjackHandData.PlayerStake = Player.Stake; //FOR FILE
 
                 //Deal Cards
                 DealHand();
-                blackjackHandData.PlayersStartingHandPreSplit = Player.hand.ToString();//FOR FILE
+
+                //Save Data
+                blackjackHandData.PlayersStartingHandPreSplit = Player.hand.ToString();
 
                 //Set Starting Hand Values for file
                 blackjackHandData.PlayersStartingHardHandValue = Player.hand.handValues.First();//FOR FILE
@@ -117,17 +122,15 @@ namespace BlackjackLogic
 
                 //Dealer reveals upcard //Reference to first card in hand
                 Dealer.upCard = Dealer.hand.cards[0];
+
                 Console.WriteLine($"Dealer's Up Card is: {Dealer.upCard}");
                 Console.WriteLine($"Player's cards are: {Player.hand}");
 
                 //Check naturals
                 UpdateHandValues();
                 Player.UpdateCount(Deck, _burntCards, Dealer.upCard);
-                if (CheckNaturals(ref blackjackHandData))
-                {
 
-                }
-                else
+                if (!CheckNaturals(ref blackjackHandData))
                 {
                     //Player reacts, can double down or split here
                     Player.React(Dealer.upCard, ref Player.CurrentState, Player.hand, Player.Count);
@@ -135,87 +138,12 @@ namespace BlackjackLogic
                     //PLAY SPLIT HANDS
                     if (Player.CurrentState == PlayerState.Split)
                     {
-                        blackjackHandData.PlayersDecisions += Player.CurrentState + "/";//FOR FILE
-                        blackjackHandData.DoesPlayerSplit = "Y";//FOR FILE
-
-                        //Splitting the hands
-                        Player.splitHand = new Hand();
-                        Player.splitHand.cards.Add(Player.hand.cards.Last());
-                        Player.hand.cards.Remove(Player.splitHand.cards.First());
-                        HitPlayer(Player);
-                        HitPlayer(Player.splitHand);
-                        //Write split hands to console
-                        Console.WriteLine($"Player's Hand:\t{Player.hand}");
-                        Console.WriteLine($"Player's Split Hand:\t{Player.splitHand}");
-
-                        //Add splitBet stake so player is playing two hands for twice his stake
-                        Player.AddBet(Player.Stake, ref Player.SplitHandStake);
-                        Console.WriteLine($"Player Split Hand Stake:\t{Player.SplitHandStake}");
-
-                        //Playing the split hand
-                        //Split aces forces stand rule
-                        if (Player.hand.cards.First().Face == Face.Ace && Player.splitHand.cards.First().Face == Face.Ace)
-                        {
-                            Player.CurrentState = PlayerState.Stand;
-                            Player.splitHandState = PlayerState.Stand;
-                            blackjackHandData.PlayersDecisions += Player.CurrentState + "/";//FOR FILE
-                            blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";//FOR FILE
-                        }
-                        else
-                        {
-                            Player.React(Dealer.upCard, ref Player.splitHandState, Player.splitHand, Player.Count);
-                            blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";//FOR FILE
-                        }
-                        //Player doubles down on split hand
-                        if (Player.splitHandState == PlayerState.DoubleDown)
-                        {
-                            //Double his split hand stake
-                            Player.AddBet(Player.SplitHandStake, ref Player.SplitHandStake);
-                            Console.WriteLine($"Player's split stake after double down:\t{Player.SplitHandStake}");
-                            //Hit player
-                            HitPlayer(Player.splitHand);
-                            Console.WriteLine($"Player split double downs with:\t{Player.splitHand.cards.Last()}");
-                            //If player < 21 STAND
-                            if (Player.hand.handValues.First() <= 21)
-                            {
-                                Player.splitHandState = PlayerState.Stand;
-                                blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";//FOR FILE
-                            }
-                            //If player > 21 BUST
-                            else
-                            {
-                                Player.splitHandState = PlayerState.Bust;
-                                blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";//FOR FILE
-                            }
-                        }
-                        //While the player isn't standing or busting
-                        while (Player.splitHandState != PlayerState.Bust && Player.splitHandState != PlayerState.Stand)
-                        {
-                            //Hit player is it reacts hit
-                            if (Player.splitHandState == PlayerState.Hit)
-                            {
-                                Player.WriteCurrentState();
-                                HitPlayer(Player.splitHand);
-                                //BUST CHECK
-                                if (Player.splitHand.handValues.First() > 21)
-                                {
-                                    Player.splitHandState = PlayerState.Bust;
-                                }
-                                Console.WriteLine($"Player's split hand:\t{Player.splitHand}\t{Player.splitHand.handValues.Last()}");
-                            }
-                            Player.React(Dealer.upCard, ref Player.splitHandState, Player.splitHand, Player.Count);
-                            blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";
-                        }
-                        //If player busts on split hand, lose split hand stake
-                        if (Player.splitHandState == PlayerState.Bust)
-                        {
-                            Player.SplitHandStake = 0;
-                            blackjackHandData.SplitGameResult = "L";
-                        }
-
+                        PlaySplitHand(ref blackjackHandData);
                     }
+
                     //PLAY REGULAR HAND
                     Player.React(Dealer.upCard, ref Player.CurrentState, Player.hand, Player.Count);
+
                     //IF PLAYER SPLIT ACES, STAND
                     if (Player.splitHand != null && Player.splitHand.cards.First().Face == Face.Ace)
                     {
@@ -233,7 +161,6 @@ namespace BlackjackLogic
                         Console.WriteLine($"Player's Hand:\t{Player.hand}\t{Player.hand.handValues.Max()}");
                         //STAND IF DOUBLE DOWN AND PLAYER < 21
                         Player.CurrentState = Player.hand.handValues.First() <= 21 ? PlayerState.Stand : PlayerState.Bust;
-
                     }
 
                     //WHILE PLAYER ISN'T BUST OR STANDING
@@ -300,55 +227,12 @@ namespace BlackjackLogic
                         //SETTLEMENT
                         else
                         {
-                            Player.hand.SetHandValues();
-                            Dealer.hand.SetHandValues();
-                            //SETTLE SPLIT HAND
-                            if (Player.splitHand != null)
-                            {
-                                if (Player.splitHand.handValues.Last() > Dealer.hand.handValues.Last())
-                                {
-                                    Console.WriteLine("Game Result: Player Wins Split Hand");
-                                    Player.Chips += Player.SplitHandStake * 2;
-                                    //Player Wins Split Hand
-                                    blackjackHandData.SplitGameResult = "W";
-                                }
-                                else if (Player.splitHand.handValues.Last() < Dealer.hand.handValues.Last())
-                                {
-                                    Console.WriteLine("Game Result: Dealer Wins Split Hand");
-                                    blackjackHandData.SplitGameResult = "L";
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Game Result: TIE Split Hand");
-                                    Player.Chips += Player.SplitHandStake;
-                                    blackjackHandData.SplitGameResult = "D";
-                                }
-                            }
-                            //If player hand value > dealers player wins
-                            if (Player.hand.handValues.Last() > Dealer.hand.handValues.Last())
-                            {
-                                Console.WriteLine("Game Result: Player Wins");
-                                Player.Chips += Player.Stake * 2;
-                                //Player Wins
-                                blackjackHandData.GameResult = "W";
-                            }
-                            //If player hand value < dealers player wins
-                            else if (Player.hand.handValues.Last() < Dealer.hand.handValues.Last())
-                            {
-                                Console.WriteLine("Game Result: Dealer Wins");
-                                blackjackHandData.GameResult = "L";
-                            }
-                            //If player hand value == dealers player ties
-                            else
-                            {
-                                Console.WriteLine("Game Result: TIE");
-                                Player.Chips += Player.Stake;
-                                blackjackHandData.GameResult = "D";
-                            }
-                            Console.WriteLine($"Player Chips:\t{Player.Chips}");
+                            Settlement(ref blackjackHandData);
                         }
                     }
-                }
+                } //END HAND GAMEPLAY
+
+
                 //If there was a split hand this turn, document split hand values
                 if (Player.splitHand != null)
                 {
@@ -397,6 +281,137 @@ namespace BlackjackLogic
             Console.WriteLine($"Final Chip Count:\t{Player.Chips}");
             Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");//CONSOLE HAND SEPARATOR
 
+        }
+
+        private void Settlement(ref BlackjackHandData blackjackHandData)
+        {
+            Player.hand.SetHandValues();
+            Dealer.hand.SetHandValues();
+            //SETTLE SPLIT HAND
+            if (Player.splitHand != null)
+            {
+                if (Player.splitHand.handValues.Last() > Dealer.hand.handValues.Last())
+                {
+                    Console.WriteLine("Game Result: Player Wins Split Hand");
+                    Player.Chips += Player.SplitHandStake * 2;
+                    //Player Wins Split Hand
+                    blackjackHandData.SplitGameResult = "W";
+                }
+                else if (Player.splitHand.handValues.Last() < Dealer.hand.handValues.Last())
+                {
+                    Console.WriteLine("Game Result: Dealer Wins Split Hand");
+                    blackjackHandData.SplitGameResult = "L";
+                }
+                else
+                {
+                    Console.WriteLine("Game Result: TIE Split Hand");
+                    Player.Chips += Player.SplitHandStake;
+                    blackjackHandData.SplitGameResult = "D";
+                }
+            }
+            //If player hand value > dealers player wins
+            if (Player.hand.handValues.Last() > Dealer.hand.handValues.Last())
+            {
+                Console.WriteLine("Game Result: Player Wins");
+                Player.Chips += Player.Stake * 2;
+                //Player Wins
+                blackjackHandData.GameResult = "W";
+            }
+            //If player hand value < dealers player wins
+            else if (Player.hand.handValues.Last() < Dealer.hand.handValues.Last())
+            {
+                Console.WriteLine("Game Result: Dealer Wins");
+                blackjackHandData.GameResult = "L";
+            }
+            //If player hand value == dealers player ties
+            else
+            {
+                Console.WriteLine("Game Result: TIE");
+                Player.Chips += Player.Stake;
+                blackjackHandData.GameResult = "D";
+            }
+            Console.WriteLine($"Player Chips:\t{Player.Chips}");
+        }
+
+        private void PlaySplitHand(ref BlackjackHandData blackjackHandData)
+        {
+            blackjackHandData.PlayersDecisions += Player.CurrentState + "/";//FOR FILE
+            blackjackHandData.DoesPlayerSplit = "Y";//FOR FILE
+
+            //Splitting the hands
+            Player.splitHand = new Hand();
+            Player.splitHand.cards.Add(Player.hand.cards.Last());
+            Player.hand.cards.Remove(Player.splitHand.cards.First());
+            HitPlayer(Player);
+            HitPlayer(Player.splitHand);
+            //Write split hands to console
+            Console.WriteLine($"Player's Hand:\t{Player.hand}");
+            Console.WriteLine($"Player's Split Hand:\t{Player.splitHand}");
+
+            //Add splitBet stake so player is playing two hands for twice his stake
+            Player.AddBet(Player.Stake, ref Player.SplitHandStake);
+            Console.WriteLine($"Player Split Hand Stake:\t{Player.SplitHandStake}");
+
+            //Playing the split hand
+            //Split aces forces stand rule
+            if (Player.hand.cards.First().Face == Face.Ace && Player.splitHand.cards.First().Face == Face.Ace)
+            {
+                Player.CurrentState = PlayerState.Stand;
+                Player.splitHandState = PlayerState.Stand;
+                blackjackHandData.PlayersDecisions += Player.CurrentState + "/";//FOR FILE
+                blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";//FOR FILE
+            }
+            else
+            {
+                Player.React(Dealer.upCard, ref Player.splitHandState, Player.splitHand, Player.Count);
+                blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";//FOR FILE
+            }
+            //Player doubles down on split hand
+            if (Player.splitHandState == PlayerState.DoubleDown)
+            {
+                //Double his split hand stake
+                Player.AddBet(Player.SplitHandStake, ref Player.SplitHandStake);
+                Console.WriteLine($"Player's split stake after double down:\t{Player.SplitHandStake}");
+                //Hit player
+                HitPlayer(Player.splitHand);
+                Console.WriteLine($"Player split double downs with:\t{Player.splitHand.cards.Last()}");
+                //If player < 21 STAND
+                if (Player.hand.handValues.First() <= 21)
+                {
+                    Player.splitHandState = PlayerState.Stand;
+                    blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";//FOR FILE
+                }
+                //If player > 21 BUST
+                else
+                {
+                    Player.splitHandState = PlayerState.Bust;
+                    blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";//FOR FILE
+                }
+            }
+            //While the player isn't standing or busting
+            while (Player.splitHandState != PlayerState.Bust && Player.splitHandState != PlayerState.Stand)
+            {
+                //Hit player is it reacts hit
+                if (Player.splitHandState == PlayerState.Hit)
+                {
+                    Player.WriteCurrentState();
+                    HitPlayer(Player.splitHand);
+                    //BUST CHECK
+                    if (Player.splitHand.handValues.First() > 21)
+                    {
+                        Player.splitHandState = PlayerState.Bust;
+                    }
+                    Console.WriteLine($"Player's split hand:\t{Player.splitHand}\t{Player.splitHand.handValues.Last()}");
+                }
+                Player.React(Dealer.upCard, ref Player.splitHandState, Player.splitHand, Player.Count);
+                blackjackHandData.PlayersSplitHandDecisions += Player.splitHandState + "/";
+            }
+            //If player busts on split hand, lose split hand stake
+            if (Player.splitHandState == PlayerState.Bust)
+            {
+                Player.SplitHandStake = 0;
+                blackjackHandData.SplitGameResult = "L";
+            }
         }
 
         private bool CheckNaturals(ref BlackjackHandData blackjackHandData)
