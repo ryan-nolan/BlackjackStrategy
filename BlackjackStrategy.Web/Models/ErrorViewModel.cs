@@ -1,5 +1,3 @@
-using System;
-
 namespace BlackjackStrategy.Web.Models
 {
     public class ErrorViewModel

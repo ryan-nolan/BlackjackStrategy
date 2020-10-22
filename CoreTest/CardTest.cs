@@ -1,11 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlackjackLogic;
-using BlackjackLogic.Strategies;
 using BlackjackLogic.Game;
 
 namespace CoreTest
@@ -16,11 +9,10 @@ namespace CoreTest
         [TestMethod]
         public void CloneCardTest()
         {
-            bool expectedState = true;
             Card testCard = new Card(Suit.Club, Face.Ace);
             Card compareCard = testCard.Clone();
             bool state = (testCard.Face == compareCard.Face && testCard.Suit == compareCard.Suit && testCard.Value == compareCard.Value);
-            Assert.AreEqual(expectedState, state);
+            Assert.AreEqual(true, state);
         }
 
         [TestMethod]
