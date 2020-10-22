@@ -128,6 +128,8 @@ namespace BlackjackStrategy.ConsoleApp
             };
             Simulator sim = new Simulator(options);
             sim.RunGame();
+
+            Console.WriteLine(sim.blackjackData.WinRate);
         }
     }
 }

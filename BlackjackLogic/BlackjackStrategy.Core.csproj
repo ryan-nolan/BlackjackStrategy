@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor.cs" />
+    <Compile Include="BlackjackData.cs" />
     <Compile Include="BlackjackHandData.cs" />
     <Compile Include="Game\Card.cs" />
     <Compile Include="Game\Dealer.cs" />

@@ -18,6 +18,7 @@ namespace BlackjackLogic
         public Dealer Dealer;
         //Deck and burnt card variables for game
         public Deck Deck;
+        public BlackjackData blackjackData;
 
         /// <summary>
         /// Game constructor, takes in game parameters for main file and changes the game parameters accordingly
@@ -35,10 +36,12 @@ namespace BlackjackLogic
             {
                 StrategyName = strategyName ?? "BasicStrategy"
             };
+            blackjackData = new BlackjackData();
         }
         public Simulator(SimulatorGameOptions options)
         {
             this._options = options;
+            blackjackData = new BlackjackData();
         }
         
         /// <summary>
@@ -53,7 +56,7 @@ namespace BlackjackLogic
             //File saved in data folder
             string filename = $"{Player.StrategyName}_hands({_options.HandsToBePlayed})shuffleFrequency({_options.CardCountWhenToShuffle})deckSize({_options.DeckSize}).csv";
             StreamWriter f = InitialiseStreamWriter(filename, _options.FilePath);
-            BlackjackHandData blackjackHandData = new BlackjackHandData();
+            //BlackjackHandData blackjackHandData = new BlackjackHandData();
 
             //A card is burnt
             _burntCards.Add(Deck.Cards.Pop());
@@ -61,6 +64,7 @@ namespace BlackjackLogic
             //Play n hands, where n is the amount of hands to be played chosen by user
             for (int i = 0; i < _options.HandsToBePlayed; i++)
             {
+                BlackjackHandData blackjackHandData = new BlackjackHandData();
                 Console.WriteLine($"-------------------------------------------------Hand Number:\t{HandsPlayed}---------------------------------------------------");//CONSOLE HAND SEPARATOR
                 //shuffle check     Shuffles first turn available when cards left are smaller than the number specified
                 if (Deck.Cards.Count < _options.CardCountWhenToShuffle)
@@ -367,6 +371,7 @@ namespace BlackjackLogic
                     blackjackHandData.SplitGameResult = "N/A";
                 }
                 blackjackHandData.FirstCountAfterHandForFile = Player.UpdateCount(Deck, _burntCards, Dealer.upCard).First();
+                blackjackData.blackjackHandDataCollection.Add(blackjackHandData);
                 //Write all relevant information to file after every hand
                 f.WriteLine(blackjackHandData.GetHandData(Player, HandsPlayed, Dealer, Deck));
                 //blackjackFileData.WriteToFile(f, player, HandsPlayed, dealer, deck);
