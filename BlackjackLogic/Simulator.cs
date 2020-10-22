@@ -46,9 +46,7 @@ namespace BlackjackLogic
         /// </summary>
         public void RunGame()
         {
-            //Game is initialised   //Parameters are set //Player strategy is chosen here
-            //Deck is made
-            //Cards are shuffled
+            //Game is initialised   
             InitialiseGame(_options.StrategyName);
 
             //Create file and write first line
@@ -67,22 +65,17 @@ namespace BlackjackLogic
                 //shuffle check     Shuffles first turn available when cards left are smaller than the number specified
                 if (Deck.Cards.Count < _options.CardCountWhenToShuffle)
                 {
-                    try
-                    {
-                        Deck = new Deck(_options.DeckSize);
-                    }
-                    catch (Exception e)
-                    {
-                        //Throws exception if deck cant be made
-                        throw e;
-                    }
+                    Deck = new Deck(_options.DeckSize);
+
                     //Shuffle deck and burn a card
                     Deck.FisherYatesShuffle();
                     _burntCards.Clear();
                     _burntCards.Add(Deck.Cards.Pop());
+
                     //Update count according to burnt card
                     Player.UpdateCount(Deck, _burntCards, Dealer.upCard);
                 }
+
                 //Write pre hand counts to console
                 Console.Write("Pre hand counts:\t");
                 foreach (var t in Player.Count)
@@ -449,6 +442,63 @@ namespace BlackjackLogic
             Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");//CONSOLE HAND SEPARATOR
 
         }
+
+        private void CheckNaturals(ref BlackjackHandData blackjackHandData)
+        {
+            if (Player.hand.handValues.Contains(21))
+            {
+                //Player has natural and dealer doesn't
+                if (!Dealer.hand.handValues.Contains(21))
+                {
+                    Console.WriteLine("Player Has a Natural");
+                    blackjackHandData.PlayersDecisions ??= "PLAYER_NATURAL";
+                    Console.WriteLine("Game Result: Player Wins");
+                    Player.Chips += (int)(Player.Stake * 2.5);
+                    Player.Stake = 0;
+                    //Player wins
+                    blackjackHandData.GameResult = "W_N";
+                }
+                //Player and dealer have natural
+                else
+                {
+                    Console.WriteLine("Player Has a natural");
+                    Console.WriteLine("Dealer Has a natural");
+                    blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
+                    blackjackHandData.DealersDecisions = "DEALER_NATURAL";
+                    Console.WriteLine("Game Result: TIE");
+                    Player.Chips += Player.Stake;
+                    //TIE
+                    blackjackHandData.GameResult = "D_N";
+                }
+
+            }
+            else if (Dealer.hand.handValues.Contains(21))
+            {
+                //Dealer has natural and player doesn't
+                if (!Player.hand.handValues.Contains(21))
+                {
+                    Console.WriteLine("Dealer Has a natural");
+                    blackjackHandData.DealersDecisions = "DEALER_NATURAL";
+                    Console.WriteLine("Game Result: Dealer Wins");
+                    Player.Stake = 0;
+                    //Player loses
+                    blackjackHandData.GameResult = "L_N";
+                }
+                //Player and dealer have a natural
+                else
+                {
+                    Console.WriteLine("Player Has a Natural");
+                    Console.WriteLine("Dealer Has a natural");
+                    Console.WriteLine("Game Result: TIE");
+                    blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
+                    blackjackHandData.DealersDecisions = "DEALER_NATURAL";
+                    Player.Chips += Player.Stake;
+                    //TIE
+                    blackjackHandData.GameResult = "D_N";
+                }
+            }
+        }
+
         /// <summary>
         /// Initialises file in data directory with name filename
         /// </summary>
@@ -514,6 +564,7 @@ namespace BlackjackLogic
         /// <summary>
         /// Parses a switch statement with a given strategy name
         /// Assigns strategy according to name
+        /// Dealer, Deck, Player are assigned here
         /// </summary>
         /// <param name="strategy"></param>
         private void InitialiseGame(string strategy)
