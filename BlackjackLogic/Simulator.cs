@@ -83,6 +83,7 @@ namespace BlackjackLogic
                     Console.Write($"{t}\t");
                 }
                 Console.WriteLine();
+
                 //Store counts and deck has for file
                 blackjackHandData.FirstCountBeforeHandForFile = Player.Count[0];
                 blackjackHandData.CurrentTurnDeckHash = Deck.GetDeckHash();
@@ -118,59 +119,10 @@ namespace BlackjackLogic
                 //Check naturals
                 UpdateHandValues();
                 Player.UpdateCount(Deck, _burntCards, Dealer.upCard);
-                if (Player.hand.handValues.Contains(21))
+                if (CheckNaturals(ref blackjackHandData))
                 {
-                    //Player has natural and dealer doesn't
-                    if (!Dealer.hand.handValues.Contains(21))
-                    {
-                        Console.WriteLine("Player Has a Natural");
-                        blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
-                        Console.WriteLine("Game Result: Player Wins");
-                        Player.Chips += (int)(Player.Stake * 2.5);
-                        Player.Stake = 0;
-                        //Player wins
-                        blackjackHandData.GameResult = "W_N";
-                    }
-                    //Player and dealer have natural
-                    else
-                    {
-                        Console.WriteLine("Player Has a natural");
-                        Console.WriteLine("Dealer Has a natural");
-                        blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
-                        blackjackHandData.DealersDecisions = "DEALER_NATURAL";
-                        Console.WriteLine("Game Result: TIE");
-                        Player.Chips += Player.Stake;
-                        //TIE
-                        blackjackHandData.GameResult = "D_N";
-                    }
 
                 }
-                else if (Dealer.hand.handValues.Contains(21))
-                {
-                    //Dealer has natural and player doesn't
-                    if (!Player.hand.handValues.Contains(21))
-                    {
-                        Console.WriteLine("Dealer Has a natural");
-                        blackjackHandData.DealersDecisions = "DEALER_NATURAL";
-                        Console.WriteLine("Game Result: Dealer Wins");
-                        Player.Stake = 0;
-                        //Player loses
-                        blackjackHandData.GameResult = "L_N";
-                    }
-                    //Player and dealer have a natural
-                    else
-                    {
-                        Console.WriteLine("Player Has a Natural");
-                        Console.WriteLine("Dealer Has a natural");
-                        Console.WriteLine("Game Result: TIE");
-                        blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
-                        blackjackHandData.DealersDecisions = "DEALER_NATURAL";
-                        Player.Chips += Player.Stake;
-                        //TIE
-                        blackjackHandData.GameResult = "D_N";
-                    }
-                }
-                //If no naturals continue playing
                 else
                 {
                     //Player reacts, can double down or split here
@@ -396,7 +348,7 @@ namespace BlackjackLogic
                 //If there was a split hand this turn, document split hand values
                 if (Player.splitHand != null)
                 {
-                    blackjackHandData.PlayersStartingSplitHandForfile = Player.splitHand.cards[0] + " " + Player.splitHand.cards[1];
+                    blackjackHandData.PlayersStartingSplitHandForFile = Player.splitHand.cards[0] + " " + Player.splitHand.cards[1];
                     blackjackHandData.PlayersStartingSplitHardHandValueForFile = Player.splitHand.handValues.First().ToString();
                     blackjackHandData.PlayersStartingSplitSoftHandValueForFile = Player.splitHand.handValues.Last().ToString();
                     blackjackHandData.PlayersEndSplitHand = Player.splitHand.ToString();
@@ -405,7 +357,7 @@ namespace BlackjackLogic
                 //If no split hand change all split hand values to N/A
                 else
                 {
-                    blackjackHandData.PlayersStartingSplitHandForfile = "N/A";
+                    blackjackHandData.PlayersStartingSplitHandForFile = "N/A";
                     blackjackHandData.PlayersStartingSplitHardHandValueForFile = "N/A";
                     blackjackHandData.PlayersStartingSplitSoftHandValueForFile = "N/A";
                     blackjackHandData.PlayersEndSplitHand = "N/A";
@@ -443,7 +395,7 @@ namespace BlackjackLogic
 
         }
 
-        private void CheckNaturals(ref BlackjackHandData blackjackHandData)
+        private bool CheckNaturals(ref BlackjackHandData blackjackHandData)
         {
             if (Player.hand.handValues.Contains(21))
             {
@@ -451,24 +403,31 @@ namespace BlackjackLogic
                 if (!Dealer.hand.handValues.Contains(21))
                 {
                     Console.WriteLine("Player Has a Natural");
-                    blackjackHandData.PlayersDecisions ??= "PLAYER_NATURAL";
+                    if (blackjackHandData != null)
+                        blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
                     Console.WriteLine("Game Result: Player Wins");
                     Player.Chips += (int)(Player.Stake * 2.5);
                     Player.Stake = 0;
                     //Player wins
-                    blackjackHandData.GameResult = "W_N";
+                    if (blackjackHandData != null)
+                        blackjackHandData.GameResult = "W_N";
+                    return true;
                 }
                 //Player and dealer have natural
                 else
                 {
                     Console.WriteLine("Player Has a natural");
                     Console.WriteLine("Dealer Has a natural");
-                    blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
-                    blackjackHandData.DealersDecisions = "DEALER_NATURAL";
+                    if (blackjackHandData != null)
+                        blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
+                    if (blackjackHandData != null)
+                        blackjackHandData.DealersDecisions = "DEALER_NATURAL";
                     Console.WriteLine("Game Result: TIE");
                     Player.Chips += Player.Stake;
                     //TIE
-                    blackjackHandData.GameResult = "D_N";
+                    if (blackjackHandData != null)
+                        blackjackHandData.GameResult = "D_N";
+                    return true;
                 }
 
             }
@@ -478,11 +437,14 @@ namespace BlackjackLogic
                 if (!Player.hand.handValues.Contains(21))
                 {
                     Console.WriteLine("Dealer Has a natural");
-                    blackjackHandData.DealersDecisions = "DEALER_NATURAL";
+                    if (blackjackHandData != null)
+                        blackjackHandData.DealersDecisions = "DEALER_NATURAL";
                     Console.WriteLine("Game Result: Dealer Wins");
                     Player.Stake = 0;
                     //Player loses
-                    blackjackHandData.GameResult = "L_N";
+                    if (blackjackHandData != null)
+                        blackjackHandData.GameResult = "L_N";
+                    return true;
                 }
                 //Player and dealer have a natural
                 else
@@ -490,13 +452,19 @@ namespace BlackjackLogic
                     Console.WriteLine("Player Has a Natural");
                     Console.WriteLine("Dealer Has a natural");
                     Console.WriteLine("Game Result: TIE");
-                    blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
-                    blackjackHandData.DealersDecisions = "DEALER_NATURAL";
+                    if (blackjackHandData != null)
+                        blackjackHandData.PlayersDecisions = "PLAYER_NATURAL";
+                    if (blackjackHandData != null)
+                        blackjackHandData.DealersDecisions = "DEALER_NATURAL";
                     Player.Chips += Player.Stake;
                     //TIE
-                    blackjackHandData.GameResult = "D_N";
+                    if (blackjackHandData != null)
+                        blackjackHandData.GameResult = "D_N";
+                    return true;
                 }
             }
+
+            return false;
         }
 
         /// <summary>
