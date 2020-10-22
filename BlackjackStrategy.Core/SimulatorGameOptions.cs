@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlackjackLogic
+namespace BlackjackStrategy.Core
 {
     public class SimulatorGameOptions
     {

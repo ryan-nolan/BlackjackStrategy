@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BlackjackLogic.Game;
+using BlackjackStrategy.Core.Game;
 
-namespace BlackjackLogic.Strategies
+namespace BlackjackStrategy.Core.Strategies
 {
-    public class SimplePointCountStrategy : Player
+    public class BasicStrategy : Player
     {
-        public override string StrategyName => "SimplePointCount";
-        public override string CountType => "simplepointcount";
+        public override string StrategyName => "BasicStrategy";
+        public override string CountType => "basic";
 
+        //split on true, ignore on false
         private readonly bool[,] _pairSplitting = new bool[10, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
@@ -23,7 +24,7 @@ namespace BlackjackLogic.Strategies
             {false,false,false,false,false,false,false,false,false,false},//(10,10)
             {true,true,true,true,true,true,true,true,true,true },//(A,A)
         };
-
+        //Double down on true, ignore on false
         private readonly bool[,] _hardDoubleDown = new bool[4, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
@@ -32,7 +33,7 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,false,false},//10
             {true,true,true,true,true,true,true,true,true,true },//11
         };
-
+        //Double down on true, ignore on false
         private readonly bool[,] _softDoubleDown = new bool[7, 5]
         {
             //2    3     4     5     6    
@@ -68,94 +69,25 @@ namespace BlackjackLogic.Strategies
             {true,true,true,true,true,true,true,true,true,true},//19
 
         };
-
         /// <summary>
-        /// Returns Count*MinBet if count > 1
-        /// Else returns minBet
+        /// Always returns min bet
         /// </summary>
         /// <param name="minBet"></param>
         /// <param name="maxBet"></param>
-        /// <returns>Bet</returns>
+        /// <returns></returns>
         public override int CalculateBet(int minBet, int maxBet)
         {
-            if (Count[0] <= 0)
-            {
-                return minBet;
-            }
-            else if (Count[0] >= 1)
-            {
-                return minBet * Count[0];
-            }
             return minBet;
         }
         /// <summary>
-        /// Updates count base on game state
-        /// A,10,J,Q,K = -1
-        /// 2,3,4,5,6 = 1
-        /// 7,8,9 = 0
+        /// Basic strategy contains no count
         /// </summary>
         /// <param name="deck"></param>
         /// <param name="burntCards"></param>
         /// <param name="dealersUpCard"></param>
-        /// <returns>Count</returns>
+        /// <returns></returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
-            Count[0] = 0;
-            if (hand.cards.Count > 0)
-            {
-                foreach (var c in hand.cards)
-                {
-                    if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six)
-                    {
-                        Count[0]++;
-                    }
-                    if (c.Face == Face.Ace || c.Value == 10)
-                    {
-                        Count[0]--;
-                    }
-                }
-            }
-            if (splitHand != null)
-            {
-                if (splitHand.cards.Count > 0)
-                {
-                    foreach (var c in splitHand.cards)
-                    {
-                        if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six)
-                        {
-                            Count[0]++;
-                        }
-                        if (c.Face == Face.Ace || c.Value == 10)
-                        {
-                            Count[0]--;
-                        }
-                    }
-                }
-
-            }
-            if (dealersUpCard != null)
-            {
-                if (dealersUpCard.Face == Face.Two || dealersUpCard.Face == Face.Three || dealersUpCard.Face == Face.Four || dealersUpCard.Face == Face.Five || dealersUpCard.Face == Face.Six)
-                {
-                    Count[0]++;
-                }
-                if (dealersUpCard.Face == Face.Ace || dealersUpCard.Value == 10)
-                {
-                    Count[0]--;
-                }
-
-            }
-            foreach (var c in burntCards)
-            {
-                if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six)
-                {
-                    Count[0]++;
-                }
-                if (c.Face == Face.Ace || c.Value == 10)
-                {
-                    Count[0]--;
-                }
-            }
             return Count;
         }
         /// <summary>
@@ -165,7 +97,7 @@ namespace BlackjackLogic.Strategies
         /// <param name="stateToChange"></param>
         /// <param name="hand"></param>
         /// <param name="count"></param>
-        /// <returns></returns>
+        /// <returns>PlayerState</returns>
         public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)
@@ -293,7 +225,6 @@ namespace BlackjackLogic.Strategies
                 stateToChange = PlayerState.Stand;
                 return PlayerState.Stand;
             }
-            //IF NOT
             if (_hardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
             {
                 stateToChange = PlayerState.Stand;
@@ -309,5 +240,4 @@ namespace BlackjackLogic.Strategies
             return PlayerState.Stand;
         }
     }
-
 }

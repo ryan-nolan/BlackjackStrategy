@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using BlackjackLogic;
-using BlackjackLogic.Game;
+using BlackjackStrategy.Core;
+using BlackjackStrategy.Core.Game;
 
 namespace CoreTest
 {

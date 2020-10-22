@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlackjackLogic.Game
+namespace BlackjackStrategy.Core.Game
 {
     public class Hand
     {

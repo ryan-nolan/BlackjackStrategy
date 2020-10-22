@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BlackjackLogic.Game;
+using BlackjackStrategy.Core.Game;
 
-namespace BlackjackLogic.Strategies
+namespace BlackjackStrategy.Core.Strategies
 {
     public class FiveCountStrategy : Player
     {

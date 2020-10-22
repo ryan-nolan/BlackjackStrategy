@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F9334013-3A70-4240-9C96-BAA43C075BF8}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>BlackjackStrategy</RootNamespace>
-    <AssemblyName>BlackjackStrategy</AssemblyName>
+    <RootNamespace>BlackjackStrategy.ConsoleApp</RootNamespace>
+    <AssemblyName>BlackjackStrategy.ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -56,7 +56,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlackjackLogic\BlackjackStrategy.Core.csproj">
+    <ProjectReference Include="..\BlackjackStrategy.Core\BlackjackStrategy.Core.csproj">
       <Project>{c137cbae-1e51-4219-bbf9-a990236d50a4}</Project>
       <Name>BlackjackStrategy.Core</Name>
     </ProjectReference>

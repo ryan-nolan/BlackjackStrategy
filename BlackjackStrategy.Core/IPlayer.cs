@@ -1,7 +1,7 @@
-﻿using BlackjackLogic.Game;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BlackjackStrategy.Core.Game;
 
-namespace BlackjackLogic
+namespace BlackjackStrategy.Core
 {
     public interface IPlayer
     {

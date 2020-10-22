@@ -1,5 +1,6 @@
 ﻿using System;
-using BlackjackLogic;
+using System.Reflection;
+using BlackjackStrategy.Core;
 
 namespace BlackjackStrategy.ConsoleApp
 {
@@ -17,7 +18,7 @@ namespace BlackjackStrategy.ConsoleApp
             int startChips = 10000;
             string strategyName = "knockoutcount";
             int deckSize = 52;
-            string path = @".\Data\";
+            string path = System.AppDomain.CurrentDomain.BaseDirectory + @".\Data\";
 
             for (int i = 0; i<args.Length;i++)
             {
@@ -128,8 +129,6 @@ namespace BlackjackStrategy.ConsoleApp
             };
             Simulator sim = new Simulator(options);
             sim.RunGame();
-
-            Console.WriteLine(sim.blackjackData.WinRate);
         }
     }
 }

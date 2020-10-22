@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BlackjackStrategy.Web.Models;
-using BlackjackLogic;
+using BlackjackStrategy.Core;
 
 namespace BlackjackStrategy.Web.Controllers
 {

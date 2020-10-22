@@ -7,8 +7,8 @@
     <ProjectGuid>{C137CBAE-1E51-4219-BBF9-A990236D50A4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlackjackLogic</RootNamespace>
-    <AssemblyName>BlackjackLogic</AssemblyName>
+    <RootNamespace>BlackjackStrategy.Core</RootNamespace>
+    <AssemblyName>BlackjackStrategy.Core</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

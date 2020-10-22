@@ -1,4 +1,4 @@
-﻿namespace BlackjackLogic.Game
+﻿namespace BlackjackStrategy.Core.Game
 {
     /// <summary>
     /// Suit enum

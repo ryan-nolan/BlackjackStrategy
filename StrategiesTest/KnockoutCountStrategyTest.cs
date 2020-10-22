@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-using BlackjackLogic;
-using BlackjackLogic.Strategies;
-using BlackjackLogic.Game;
+using BlackjackStrategy.Core;
+using BlackjackStrategy.Core.Strategies;
+using BlackjackStrategy.Core.Game;
 
 namespace StrategiesTest
 {

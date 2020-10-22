@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy.ConsoleApp", "BlackjackStrategy\BlackjackStrategy.ConsoleApp.csproj", "{F9334013-3A70-4240-9C96-BAA43C075BF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy.ConsoleApp", "BlackjackStrategy.ConsoleApp\BlackjackStrategy.ConsoleApp.csproj", "{F9334013-3A70-4240-9C96-BAA43C075BF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy.Core", "BlackjackLogic\BlackjackStrategy.Core.csproj", "{C137CBAE-1E51-4219-BBF9-A990236D50A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackStrategy.Core", "BlackjackStrategy.Core\BlackjackStrategy.Core.csproj", "{C137CBAE-1E51-4219-BBF9-A990236D50A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategiesTest", "StrategiesTest\StrategiesTest.csproj", "{80549704-091F-4D6C-AFB2-89F91F35C82F}"
 EndProject

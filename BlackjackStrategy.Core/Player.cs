@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlackjackLogic.Game;
+using BlackjackStrategy.Core.Game;
 
-namespace BlackjackLogic
+namespace BlackjackStrategy.Core
 {
 
 

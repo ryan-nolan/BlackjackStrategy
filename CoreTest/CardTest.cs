@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BlackjackLogic.Game;
+using BlackjackStrategy.Core.Game;
 
 namespace CoreTest
 {

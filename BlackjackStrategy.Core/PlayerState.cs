@@ -1,4 +1,4 @@
-﻿namespace BlackjackLogic
+﻿namespace BlackjackStrategy.Core
 {
     /// <summary>
     /// States an actor can hold

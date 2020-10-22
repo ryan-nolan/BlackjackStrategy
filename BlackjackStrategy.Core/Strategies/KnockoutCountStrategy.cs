@@ -1,18 +1,16 @@
-﻿using System;
-using BlackjackLogic.Game;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using BlackjackStrategy.Core.Game;
 
-namespace BlackjackLogic.Strategies
+namespace BlackjackStrategy.Core.Strategies
 {
-    public class AceToFiveStrategy : Player
+    public class KnockoutCountStrategy : Player
     {
-        public override string StrategyName => "AceToFive";
+        public override string StrategyName => "KnockoutCount";
+        public override string CountType => "knockoutcount";
 
-        public override string CountType => "acetofive";
-
-        //Pair splitting bool matrix
-        private readonly bool[,] _pairSplitting = {
+        private readonly bool[,] _pairSplitting = new bool[10, 10]
+        {
             //2   3    4    5    6    7    8    9    10   A
             {true,true,true,true,true,true,false,false,false,false },//(2,2)
             {true,true,true,true,true,true,false,false,false,false },//(3,3)
@@ -25,16 +23,18 @@ namespace BlackjackLogic.Strategies
             {false,false,false,false,false,false,false,false,false,false},//(10,10)
             {true,true,true,true,true,true,true,true,true,true },//(A,A)
         };
-        //Hard double down bool matrix
-        private readonly bool[,] _hardDoubleDown = {
+
+        private readonly bool[,] _hardDoubleDown = new bool[4, 10]
+        {
             //2   3    4    5    6    7    8    9    10   A
             {false,false,false,false,false,false,false,false,false,false},//8
             {true,true,true,true,true,false,false,false,false,false },//9
             {true,true,true,true,true,true,true,true,false,false},//10
             {true,true,true,true,true,true,true,true,true,true },//11
         };
-        //Soft double down bool matrix
-        private readonly bool[,] _softDoubleDown = {
+
+        private readonly bool[,] _softDoubleDown = new bool[7, 5]
+        {
             //2    3     4     5     6    
             {false,false,false,true,true},//(A,A)
             {false,false,true,true,true},//(A,2)
@@ -48,7 +48,8 @@ namespace BlackjackLogic.Strategies
         //Hard Stand on true, hit on false
         //Always draw on less than or equal to 11
         //Account for optimisations
-        private readonly bool[,] _hardHitOrStand = {
+        private readonly bool[,] _hardHitOrStand = new bool[6, 10]
+        {
             //2   3    4    5    6    7    8    9    10   A
             {false,false,true,true,true,false,false,false,false,false },//12
             {true,true,true,true,true,false,false,false,false,false},//13
@@ -60,7 +61,8 @@ namespace BlackjackLogic.Strategies
         };
         //Soft Stand on true, hit on false
         //Hit on anything >= 17, stand on anything 19 or more
-        private readonly bool[,] _softHitOrStand = {
+        private readonly bool[,] _softHitOrStand = new bool[2, 10]
+        {
             //2   3    4    5    6    7    8    9    10   A
             {true,true,true,true,true,true,true,false,false,true},//18
             {true,true,true,true,true,true,true,true,true,true},//19
@@ -68,25 +70,34 @@ namespace BlackjackLogic.Strategies
         };
 
         /// <summary>
-        /// Returns max bet if count > 2
-        /// Otherwise returns min bet
+        /// Returns Count*MinBet if count > 1
+        /// Else returns minBet
         /// </summary>
         /// <param name="minBet"></param>
         /// <param name="maxBet"></param>
-        /// <returns>Bet size based on count</returns>
-        public override int CalculateBet(int minBet, int maxBet) =>
-            Count[0] >= (Deck.DeckSize / 52) * 2 ? maxBet : minBet;
-
+        /// <returns>Bet</returns>
+        public override int CalculateBet(int minBet, int maxBet)
+        {
+            if (Count[0] <= 0)
+            {
+                return minBet;
+            }
+            else if (Count[0] >= 1)
+            {
+                return minBet * Count[0];
+            }
+            return minBet;
+        }
         /// <summary>
-        /// Counts number of Fives and Aces in deck, burntCards and the dealers upCard
-        /// Five has value +1
-        /// Ace has value -1
-        /// Updates count accordingly
+        /// Updates count base on game state
+        /// A,10,J,Q,K = -1
+        /// 2,3,4,5,6,7 = 1
+        /// 8,9 = 0
         /// </summary>
         /// <param name="deck"></param>
         /// <param name="burntCards"></param>
         /// <param name="dealersUpCard"></param>
-        /// <returns></returns>
+        /// <returns>Count</returns>
         public override List<int> UpdateCount(Deck deck, List<Card> burntCards, Card dealersUpCard)
         {
             Count[0] = 0;
@@ -94,14 +105,13 @@ namespace BlackjackLogic.Strategies
             {
                 foreach (var c in hand.cards)
                 {
-                    switch (c.Face)
+                    if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six || c.Face == Face.Seven)
                     {
-                        case Face.Five:
-                            Count[0]++;
-                            break;
-                        case Face.Ace:
-                            Count[0]--;
-                            break;
+                        Count[0]++;
+                    }
+                    if (c.Face == Face.Ace || c.Value == 10)
+                    {
+                        Count[0]--;
                     }
                 }
             }
@@ -111,14 +121,13 @@ namespace BlackjackLogic.Strategies
                 {
                     foreach (var c in splitHand.cards)
                     {
-                        switch (c.Face)
+                        if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six || c.Face == Face.Seven)
                         {
-                            case Face.Five:
-                                Count[0]++;
-                                break;
-                            case Face.Ace:
-                                Count[0]--;
-                                break;
+                            Count[0]++;
+                        }
+                        if (c.Face == Face.Ace || c.Value == 10)
+                        {
+                            Count[0]--;
                         }
                     }
                 }
@@ -126,39 +135,38 @@ namespace BlackjackLogic.Strategies
             }
             if (dealersUpCard != null)
             {
-                switch (dealersUpCard.Face)
+                if (dealersUpCard.Face == Face.Two || dealersUpCard.Face == Face.Three || dealersUpCard.Face == Face.Four || dealersUpCard.Face == Face.Five || dealersUpCard.Face == Face.Six || dealersUpCard.Face == Face.Seven)
                 {
-                    case Face.Five:
-                        Count[0]++;
-                        break;
-                    case Face.Ace:
-                        Count[0]--;
-                        break;
+                    Count[0]++;
                 }
+                if (dealersUpCard.Face == Face.Ace || dealersUpCard.Value == 10)
+                {
+                    Count[0]--;
+                }
+
             }
             foreach (var c in burntCards)
             {
-                switch (c.Face)
+                if (c.Face == Face.Two || c.Face == Face.Three || c.Face == Face.Four || c.Face == Face.Five || c.Face == Face.Six || c.Face == Face.Seven)
                 {
-                    case Face.Five:
-                        Count[0]++;
-                        break;
-                    case Face.Ace:
-                        Count[0]--;
-                        break;
+                    Count[0]++;
+                }
+                if (c.Face == Face.Ace || c.Value == 10)
+                {
+                    Count[0]--;
                 }
             }
             return Count;
         }
         /// <summary>
-        /// Returns playerstate based on game state and decision matrices
+        /// Reacts to the game state and makes decision base on decision matrices
         /// </summary>
         /// <param name="dealersUpCard"></param>
         /// <param name="stateToChange"></param>
         /// <param name="hand"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)//Change Hand Param as its already a member of IPlayer
+        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
             if (hand.handValues.First() > 21)
             {
@@ -224,6 +232,7 @@ namespace BlackjackLogic.Strategies
                 }
             }
 
+
             //no 
             //draw? check table
 
@@ -284,6 +293,7 @@ namespace BlackjackLogic.Strategies
                 stateToChange = PlayerState.Stand;
                 return PlayerState.Stand;
             }
+            //IF NOT
             if (_hardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
             {
                 stateToChange = PlayerState.Stand;
@@ -300,4 +310,3 @@ namespace BlackjackLogic.Strategies
         }
     }
 }
-

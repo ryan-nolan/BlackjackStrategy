@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace BlackjackLogic.Game
+namespace BlackjackStrategy.Core.Game
 {
     public class Dealer : Actor
     {

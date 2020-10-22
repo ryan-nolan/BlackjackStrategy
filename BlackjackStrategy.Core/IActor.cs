@@ -1,4 +1,4 @@
-﻿namespace BlackjackLogic
+﻿namespace BlackjackStrategy.Core
 {
     interface IActor
     {

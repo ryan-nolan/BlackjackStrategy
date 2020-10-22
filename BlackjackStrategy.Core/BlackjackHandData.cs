@@ -1,8 +1,8 @@
-﻿using BlackjackLogic.Game;
-using System;
+﻿using System;
 using System.Linq;
+using BlackjackStrategy.Core.Game;
 
-namespace BlackjackLogic
+namespace BlackjackStrategy.Core
 {
     public class BlackjackHandData
     {

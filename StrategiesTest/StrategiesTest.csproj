@@ -65,7 +65,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlackjackLogic\BlackjackStrategy.Core.csproj">
+    <ProjectReference Include="..\BlackjackStrategy.Core\BlackjackStrategy.Core.csproj">
       <Project>{c137cbae-1e51-4219-bbf9-a990236d50a4}</Project>
       <Name>BlackjackStrategy.Core</Name>
     </ProjectReference>

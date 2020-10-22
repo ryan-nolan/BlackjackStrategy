@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace BlackjackLogic.Game
+namespace BlackjackStrategy.Core.Game
 {
     public class Deck
     {

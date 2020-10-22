@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlackjackLogic\BlackjackStrategy.Core.csproj" />
+    <ProjectReference Include="..\BlackjackStrategy.Core\BlackjackStrategy.Core.csproj" />
   </ItemGroup>
 
 </Project>
