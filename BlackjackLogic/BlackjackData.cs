@@ -15,7 +15,7 @@ namespace BlackjackLogic
             blackjackHandDataCollection = new List<BlackjackHandData>();
         }
 
-        public double CalculateWinRate()
+        private double CalculateWinRate()
         {
             int wins = 0, losses = 0;
             foreach (var data in blackjackHandDataCollection)

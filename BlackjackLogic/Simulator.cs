@@ -89,14 +89,14 @@ namespace BlackjackLogic
                 Console.WriteLine();
 
                 //Store counts and deck has for file
-                blackjackHandData.FirstCountBeforeHandForFile = Player.Count[0];
+                blackjackHandData.FirstCountBeforeHand = Player.Count[0];
                 blackjackHandData.CurrentTurnDeckHash = Deck.GetDeckHash();
                 blackjackHandData.AmountOfCardsInDeckBeforeTurn = Deck.Cards.Count;
-                blackjackHandData.PlayersDecisions = "";//FOR FILE
-                blackjackHandData.PlayersSplitHandDecisions = "";//FOR FILE
-                blackjackHandData.DealersDecisions = "";//FOR FILE
-                blackjackHandData.DoesPlayerSplit = "N"; //FOR FILE
-                blackjackHandData.PlayerStartingChips = Player.Chips;//FOR FILE
+                blackjackHandData.PlayersDecisions = "";
+                blackjackHandData.PlayersSplitHandDecisions = "";
+                blackjackHandData.DealersDecisions = "";
+                blackjackHandData.DoesPlayerSplit = "N";
+                blackjackHandData.PlayerStartingChips = Player.Chips;
 
                 //Get Bet function
                 Player.AddBet(Player.CalculateBet(_options.MinBet, _options.MaxBet), ref Player.Stake);
@@ -104,15 +104,15 @@ namespace BlackjackLogic
                 blackjackHandData.CountOneAtTimeOfBet = Player.Count[1]; //FOR FILE
                 //Write player stake to console
                 Console.WriteLine($"Player's starting stake:\t{Player.Stake}");
-                blackjackHandData.PlayerStakeForFile = Player.Stake; //FOR FILE
+                blackjackHandData.PlayerStake = Player.Stake; //FOR FILE
 
                 //Deal Cards
                 DealHand();
                 blackjackHandData.PlayersStartingHandPreSplit = Player.hand.ToString();//FOR FILE
 
                 //Set Starting Hand Values for file
-                blackjackHandData.PlayersStartingHardHandValueForFile = Player.hand.handValues.First();//FOR FILE
-                blackjackHandData.PlayersStartingSoftHandValueForFile = 
+                blackjackHandData.PlayersStartingHardHandValue = Player.hand.handValues.First();//FOR FILE
+                blackjackHandData.PlayersStartingSoftHandValue = 
                     Player.hand.handValues.Count > 1 ? Player.hand.handValues.Last() : 0;
 
                 //Dealer reveals upcard //Reference to first card in hand
@@ -352,29 +352,28 @@ namespace BlackjackLogic
                 //If there was a split hand this turn, document split hand values
                 if (Player.splitHand != null)
                 {
-                    blackjackHandData.PlayersStartingSplitHandForFile = Player.splitHand.cards[0] + " " + Player.splitHand.cards[1];
-                    blackjackHandData.PlayersStartingSplitHardHandValueForFile = Player.splitHand.handValues.First().ToString();
-                    blackjackHandData.PlayersStartingSplitSoftHandValueForFile = Player.splitHand.handValues.Last().ToString();
+                    blackjackHandData.PlayersStartingSplitHand = Player.splitHand.cards[0] + " " + Player.splitHand.cards[1];
+                    blackjackHandData.PlayersStartingSplitHardHandValue = Player.splitHand.handValues.First().ToString();
+                    blackjackHandData.PlayersStartingSplitSoftHandValue = Player.splitHand.handValues.Last().ToString();
                     blackjackHandData.PlayersEndSplitHand = Player.splitHand.ToString();
                     blackjackHandData.PlayersEndSplitHandValue = Player.splitHand.handValues.Last().ToString();
                 }
                 //If no split hand change all split hand values to N/A
                 else
                 {
-                    blackjackHandData.PlayersStartingSplitHandForFile = "N/A";
-                    blackjackHandData.PlayersStartingSplitHardHandValueForFile = "N/A";
-                    blackjackHandData.PlayersStartingSplitSoftHandValueForFile = "N/A";
+                    blackjackHandData.PlayersStartingSplitHand = "N/A";
+                    blackjackHandData.PlayersStartingSplitHardHandValue = "N/A";
+                    blackjackHandData.PlayersStartingSplitSoftHandValue = "N/A";
                     blackjackHandData.PlayersEndSplitHand = "N/A";
                     blackjackHandData.PlayersEndSplitHandValue = "N/A";
                     blackjackHandData.PlayersSplitHandDecisions = "N/A";
                     blackjackHandData.PlayersStartingHandPreSplit = "N/A";
                     blackjackHandData.SplitGameResult = "N/A";
                 }
-                blackjackHandData.FirstCountAfterHandForFile = Player.UpdateCount(Deck, _burntCards, Dealer.upCard).First();
-                blackjackData.blackjackHandDataCollection.Add(blackjackHandData);
+                blackjackHandData.FirstCountAfterHand = Player.UpdateCount(Deck, _burntCards, Dealer.upCard).First();
+
                 //Write all relevant information to file after every hand
-                f.WriteLine(blackjackHandData.GetHandData(Player, HandsPlayed, Dealer, Deck));
-                //blackjackFileData.WriteToFile(f, player, HandsPlayed, dealer, deck);
+                f.WriteLine(blackjackHandData.GetHandDataAsString(Player, HandsPlayed, Dealer, Deck));
 
                 //Cleanup hand and Update Counts
                 CleanupHand();
