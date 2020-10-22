@@ -11,7 +11,7 @@ namespace CoreTest
         public void StandOnSoft17Test()
         {
 
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Dealer dealer = new Dealer
             {
                 hand = new Hand
@@ -30,7 +30,7 @@ namespace CoreTest
         public void HitOnLessThanHard17Test()
         {
 
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             Dealer dealer = new Dealer
             {
                 hand = new Hand
@@ -49,7 +49,7 @@ namespace CoreTest
         public void StandOnGreaterThanHard17Test()
         {
 
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Dealer dealer = new Dealer
             {
                 hand = new Hand
@@ -86,7 +86,7 @@ namespace CoreTest
         [TestMethod]
         public void SoftBustCheck()
         {
-            PlayerState expectedState = PlayerState.BUST;
+            PlayerState expectedState = PlayerState.Bust;
             Dealer dealer = new Dealer
             {
                 hand = new Hand

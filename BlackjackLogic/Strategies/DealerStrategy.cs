@@ -31,12 +31,12 @@ namespace BlackjackLogic.Strategies
         /// <summary>
         /// Mimics dealer decisions
         /// </summary>
-        /// <param name="DealersUpCard"></param>
+        /// <param name="dealersUpCard"></param>
         /// <param name="stateToChange"></param>
         /// <param name="hand"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public override PlayerState React(Card DealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
+        public override PlayerState React(Card dealersUpCard, ref PlayerState stateToChange, Hand hand, List<int> count)
         {
 
             hand.SetHandValues();
@@ -44,24 +44,24 @@ namespace BlackjackLogic.Strategies
             {
                 if (hand.handValues[1] >= 17)
                 {
-                    CurrentState = PlayerState.STAND;
-                    return PlayerState.STAND;
+                    CurrentState = PlayerState.Stand;
+                    return PlayerState.Stand;
                 }
             }
             if (hand.handValues.First() > 21)
             {
-                CurrentState = PlayerState.BUST;
-                return PlayerState.BUST;
+                CurrentState = PlayerState.Bust;
+                return PlayerState.Bust;
             }
             else if (hand.handValues.First() < 16)
             {
-                CurrentState = PlayerState.HIT;
-                return PlayerState.HIT;
+                CurrentState = PlayerState.Hit;
+                return PlayerState.Hit;
             }
             else
             {
-                CurrentState = PlayerState.STAND;
-                return PlayerState.STAND;
+                CurrentState = PlayerState.Stand;
+                return PlayerState.Stand;
             }
 
         }

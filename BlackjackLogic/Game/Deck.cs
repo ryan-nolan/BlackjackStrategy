@@ -15,7 +15,7 @@ namespace BlackjackLogic.Game
         //Static deck size so deck sizing can be check without instantiated object
         public static int DeckSize = 52;
         //PRNG for shuffle
-        static Random rand = new Random();
+        static Random _rand = new Random();
         /// <summary>
         /// Initialises deck of size deckSize
         /// Defaults to 52 if invalid deckSize is given
@@ -66,7 +66,7 @@ namespace BlackjackLogic.Game
             Card[] deck = Cards.ToArray();
             for (int n = deck.Length - 1; n > 0; --n)
             {
-                int k = rand.Next(n + 1);
+                int k = _rand.Next(n + 1);
                 Card temp = deck[n];
                 deck[n] = deck[k];
                 deck[k] = temp;

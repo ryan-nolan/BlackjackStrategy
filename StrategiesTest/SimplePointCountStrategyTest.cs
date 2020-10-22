@@ -47,7 +47,7 @@ namespace StrategiesTest
         public void SoftStandingNumberPlayer18Dealer9()
         {
 
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
@@ -68,7 +68,7 @@ namespace StrategiesTest
         public void SoftStandingNumberPlayer19()
         {
 
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
@@ -89,7 +89,7 @@ namespace StrategiesTest
         public void SoftStandingNumberPlayer18()
         {
 
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
@@ -109,7 +109,7 @@ namespace StrategiesTest
         [TestMethod]
         public void DoubleDownExceptSixTwoTest()
         {
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
@@ -129,7 +129,7 @@ namespace StrategiesTest
         [TestMethod]
         public void StandHoldingSevenSevenAgainstTenTest()
         {
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Player player = new SimplePointCountStrategy
             {
                 Chips = 500,
@@ -149,7 +149,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HoldingHard16Against10Test()
         {
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             Player player = new SimplePointCountStrategy
             {
                 Chips = 500,

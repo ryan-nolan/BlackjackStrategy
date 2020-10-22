@@ -13,7 +13,7 @@ namespace BlackjackLogic.Strategies
 
         //Split if ratio < number in matrix
         //* indicated number should be read in reverse (ratio > num in matrix)
-        readonly float[,] PairSplitting = new float[10, 10]
+        private readonly float[,] _pairSplitting = new float[10, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
             {3.1f,3.8f,50,50,50,1.1f,3.8f,0,0,0 },//(2,2) //Last 2 numbers are asterisk*
@@ -28,7 +28,7 @@ namespace BlackjackLogic.Strategies
             {4.0f,4.1f,4.5f,4.9f,5.0f,3.8f,3.3f,3.1f,3.2f,2.6f },//(A,A)
         };
         //CHECKED
-        readonly float[,] HardDoubleDown = new float[7, 10]
+        private readonly float[,] _hardDoubleDown = new float[7, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
             {0,0,1.0f,1.1f,1.1f,0,0,0,0,0 },//3,2
@@ -40,7 +40,7 @@ namespace BlackjackLogic.Strategies
             {3.9f,4.2f,4.8f,5.5f,5.5f,3.7f,3.0f,2.6f,2.8f,2.2f } //11
         };
         //CHECKED
-        readonly float[,] SoftDoubleDown = new float[8, 6]
+        private readonly float[,] _softDoubleDown = new float[8, 6]
         {
             //2    3     4     5     6    
             {1.5f,1.7f,2.1f,2.6f,2.7f,0},//(A,2)
@@ -57,7 +57,7 @@ namespace BlackjackLogic.Strategies
         //Hard Stand on true, hit on false
         //Always draw on less than or equal to 11
         //Account for optimisations
-        readonly float[,] HardHitOrStand = new float[6, 10]
+        private readonly float[,] _hardHitOrStand = new float[6, 10]
         {
             //2   3    4    5    6    7    8    9    10   A
             {2.0f,2.1f,2.2f,2.4f,2.3f,0,0,0,1.1f,1.0f},//12
@@ -70,7 +70,7 @@ namespace BlackjackLogic.Strategies
 
         //50 = SHADED = STAND
         //0 = NOT SHADED = HIT
-        readonly float[,] SoftHitOrStand = new float[2, 10]
+        private readonly float[,] _softHitOrStand = new float[2, 10]
         {
            //2 3 4 5 6 7 8 9 10 A
             {50,50,50,50,50,50,50,0,0,2.2f},//18 soft standing number for 18 is any ratio < 2.2
@@ -159,8 +159,8 @@ namespace BlackjackLogic.Strategies
         {
             if (hand.handValues.First() > 21)
             {
-                stateToChange = PlayerState.BUST;
-                return PlayerState.BUST;
+                stateToChange = PlayerState.Bust;
+                return PlayerState.Bust;
             }
             //Do you have pair
             //yes, split?
@@ -169,40 +169,40 @@ namespace BlackjackLogic.Strategies
                 //4,4 against 6 double down
                 if (hand.cards.First().Face == Face.Four && dealersUpCard.Face == Face.Six)
                 {
-                    stateToChange = PlayerState.DOUBLE_DOWN;
-                    return PlayerState.DOUBLE_DOWN;
+                    stateToChange = PlayerState.DoubleDown;
+                    return PlayerState.DoubleDown;
                 }
                 //8 against 10 greater than exception
                 if ((hand.cards.First().Face == Face.Eight && dealersUpCard.Value == 10))
                 {
-                    if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                    if (othersOverTenRatio >= _pairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                     {
-                        stateToChange = PlayerState.SPLIT;
-                        return PlayerState.SPLIT;
+                        stateToChange = PlayerState.Split;
+                        return PlayerState.Split;
                     }
                 }
                 //3 against 7 or 8 greater than exception
                 if ((hand.cards.First().Face == Face.Three && (dealersUpCard.Value == 7 || dealersUpCard.Value == 8)))
                 {
-                    if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                    if (othersOverTenRatio >= _pairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                     {
-                        stateToChange = PlayerState.SPLIT;
-                        return PlayerState.SPLIT;
+                        stateToChange = PlayerState.Split;
+                        return PlayerState.Split;
                     }
                 }
                 //2 against 7,8,9 or 10 greater than exception
                 if ((hand.cards.First().Face == Face.Two && (dealersUpCard.Value == 7 || dealersUpCard.Value == 8 || dealersUpCard.Value == 9 || dealersUpCard.Value == 10)))
                 {
-                    if (othersOverTenRatio >= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                    if (othersOverTenRatio >= _pairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                     {
-                        stateToChange = PlayerState.SPLIT;
-                        return PlayerState.SPLIT;
+                        stateToChange = PlayerState.Split;
+                        return PlayerState.Split;
                     }
                 }
-                else if (othersOverTenRatio <= PairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
+                else if (othersOverTenRatio <= _pairSplitting[hand.cards.First().Value - 2, dealersUpCard.Value - 2])
                 {
-                    stateToChange = PlayerState.SPLIT;
-                    return PlayerState.SPLIT;
+                    stateToChange = PlayerState.Split;
+                    return PlayerState.Split;
                 }
             }
 
@@ -217,16 +217,16 @@ namespace BlackjackLogic.Strategies
                     //Always split aces
                     if (hand.cards.First().Face == Face.Ace && hand.cards.Last().Face == Face.Ace)
                     {
-                        stateToChange = PlayerState.DOUBLE_DOWN;
-                        return PlayerState.DOUBLE_DOWN;
+                        stateToChange = PlayerState.DoubleDown;
+                        return PlayerState.DoubleDown;
                     }
                     var cardNotAceInHand = hand.cards.Find(x => x.Face != Face.Ace);
                     if (dealersUpCard.Value < 8 && cardNotAceInHand.Value != 10)
                     {
-                        if (othersOverTenRatio <= SoftDoubleDown[cardNotAceInHand.Value - 2, dealersUpCard.Value - 2])
+                        if (othersOverTenRatio <= _softDoubleDown[cardNotAceInHand.Value - 2, dealersUpCard.Value - 2])
                         {
-                            stateToChange = PlayerState.DOUBLE_DOWN;
-                            return PlayerState.DOUBLE_DOWN;
+                            stateToChange = PlayerState.DoubleDown;
+                            return PlayerState.DoubleDown;
                         }
                     }
                 }
@@ -237,16 +237,16 @@ namespace BlackjackLogic.Strategies
                     {
                         if ((hand.handValues.First() == 6 || hand.handValues.First() == 5) && (hand.cards.First().Value != hand.cards.Last().Value))
                         {
-                            if (othersOverTenRatio <= HardDoubleDown[hand.handValues.First() - 5, dealersUpCard.Value - 2])
+                            if (othersOverTenRatio <= _hardDoubleDown[hand.handValues.First() - 5, dealersUpCard.Value - 2])
                             {
-                                stateToChange = PlayerState.DOUBLE_DOWN;
-                                return PlayerState.DOUBLE_DOWN;
+                                stateToChange = PlayerState.DoubleDown;
+                                return PlayerState.DoubleDown;
                             }
                         }
-                        if ((othersOverTenRatio <= HardDoubleDown[hand.handValues.First() - 5, dealersUpCard.Value - 2]) && hand.handValues.First() > 6)
+                        if ((othersOverTenRatio <= _hardDoubleDown[hand.handValues.First() - 5, dealersUpCard.Value - 2]) && hand.handValues.First() > 6)
                         {
-                            stateToChange = PlayerState.DOUBLE_DOWN;
-                            return PlayerState.DOUBLE_DOWN;
+                            stateToChange = PlayerState.DoubleDown;
+                            return PlayerState.DoubleDown;
                         }
                     }
                 }
@@ -263,44 +263,44 @@ namespace BlackjackLogic.Strategies
                 //Hit on less than 17
                 if (hand.handValues.Max() <= 17)
                 {
-                    stateToChange = PlayerState.HIT;
-                    return PlayerState.HIT;
+                    stateToChange = PlayerState.Hit;
+                    return PlayerState.Hit;
                 }
                 //Stand on greater than 19
                 if (hand.handValues.Max() > 19)
                 {
-                    stateToChange = PlayerState.STAND;
-                    return PlayerState.STAND;
+                    stateToChange = PlayerState.Stand;
+                    return PlayerState.Stand;
                 }
                 if (hand.handValues.Max() == 18)
                 {
-                    if (othersOverTenRatio <= SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                    if (othersOverTenRatio <= _softHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                     {
-                        stateToChange = PlayerState.STAND;
-                        return PlayerState.STAND;
+                        stateToChange = PlayerState.Stand;
+                        return PlayerState.Stand;
                     }
-                    else if (othersOverTenRatio > (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
+                    else if (othersOverTenRatio > (_softHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
                     {
-                        stateToChange = PlayerState.HIT;
-                        return PlayerState.HIT;
+                        stateToChange = PlayerState.Hit;
+                        return PlayerState.Hit;
                     }
                 }
                 else if (hand.handValues.Max() == 19)
                 {
                     if (dealersUpCard.Face == Face.Ace && othersOverTenRatio > 2.2)
                     {
-                        stateToChange = PlayerState.STAND;
-                        return PlayerState.STAND;
+                        stateToChange = PlayerState.Stand;
+                        return PlayerState.Stand;
                     }
-                    if (othersOverTenRatio > SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
+                    if (othersOverTenRatio > _softHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2])
                     {
-                        stateToChange = PlayerState.STAND;
-                        return PlayerState.STAND;
+                        stateToChange = PlayerState.Stand;
+                        return PlayerState.Stand;
                     }
-                    else if (othersOverTenRatio < (SoftHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
+                    else if (othersOverTenRatio < (_softHitOrStand[hand.handValues.Max() - 18, dealersUpCard.Value - 2]))
                     {
-                        stateToChange = PlayerState.HIT;
-                        return PlayerState.HIT;
+                        stateToChange = PlayerState.Hit;
+                        return PlayerState.Hit;
                     }
                 }
             }
@@ -309,8 +309,8 @@ namespace BlackjackLogic.Strategies
             //Always hit on 11 or less
             if (hand.handValues.First() <= 11)
             {
-                stateToChange = PlayerState.HIT;
-                return PlayerState.HIT;
+                stateToChange = PlayerState.Hit;
+                return PlayerState.Hit;
             }
             //Always stand on 18 or more, unless you have 18 vs Ace up and ratio < 3.1
             else if (hand.handValues.First() >= 18)
@@ -319,28 +319,28 @@ namespace BlackjackLogic.Strategies
                 {
                     if (othersOverTenRatio < 3.1)
                     {
-                        stateToChange = PlayerState.HIT;
-                        return PlayerState.HIT;
+                        stateToChange = PlayerState.Hit;
+                        return PlayerState.Hit;
                     }
                 }
-                stateToChange = PlayerState.STAND;
-                return PlayerState.STAND;
+                stateToChange = PlayerState.Stand;
+                return PlayerState.Stand;
             }
 
 
-            if (othersOverTenRatio <= HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
+            if (othersOverTenRatio <= _hardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
             {
-                stateToChange = PlayerState.STAND;
-                return PlayerState.STAND;
+                stateToChange = PlayerState.Stand;
+                return PlayerState.Stand;
             }
-            else if (othersOverTenRatio > HardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
+            else if (othersOverTenRatio > _hardHitOrStand[hand.handValues.Max() - 12, dealersUpCard.Value - 2])
             {
-                stateToChange = PlayerState.HIT;
-                return PlayerState.HIT;
+                stateToChange = PlayerState.Hit;
+                return PlayerState.Hit;
             }
 
-            stateToChange = PlayerState.STAND;
-            return PlayerState.STAND;
+            stateToChange = PlayerState.Stand;
+            return PlayerState.Stand;
         }
     }
 }

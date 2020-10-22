@@ -158,7 +158,7 @@ namespace StrategiesTest
         //(A,4) against 3 with a count of 1.7 //Should double down if count < 1.9
         public void SoftDoublingLessThanTest()
         {
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -181,7 +181,7 @@ namespace StrategiesTest
         //(A,4) against 3 with a count of 2 //Should not double down if count > 1.9
         public void SoftDoublingGreaterThanTest()
         {
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -204,7 +204,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HardDoublingLessThanTest()
         {
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -226,7 +226,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HardDoublingGreaterThanTest()
         {
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -249,7 +249,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HardDoublingEqualToTest()
         {
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -272,7 +272,7 @@ namespace StrategiesTest
         [TestMethod]
         public void PairSplittingLessThanTest()
         {
-            PlayerState expectedState = PlayerState.SPLIT;
+            PlayerState expectedState = PlayerState.Split;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -294,7 +294,7 @@ namespace StrategiesTest
         [TestMethod]
         public void PairSplittingShadedTest()
         {
-            PlayerState expectedState = PlayerState.SPLIT;
+            PlayerState expectedState = PlayerState.Split;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -316,7 +316,7 @@ namespace StrategiesTest
         [TestMethod]
         public void PairSplittingGreaterThanTest()
         {
-            PlayerState expectedState = PlayerState.SPLIT;
+            PlayerState expectedState = PlayerState.Split;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -339,7 +339,7 @@ namespace StrategiesTest
         [TestMethod]
         public void SoftStandingLessThanShadedTest()
         {
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -361,7 +361,7 @@ namespace StrategiesTest
         [TestMethod]
         public void SoftStandingNonShadedTest()
         {
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -383,7 +383,7 @@ namespace StrategiesTest
         [TestMethod]
         public void SoftStandingLessThanTest()
         {
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -405,7 +405,7 @@ namespace StrategiesTest
         [TestMethod]
         public void SoftStandingGreaterThanTest()
         {
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -427,7 +427,7 @@ namespace StrategiesTest
         [TestMethod]
         public void Soft19AgainstAceGreaterThanTest()
         {
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -450,7 +450,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HardStandingLessThanTest()
         {
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -472,7 +472,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HardStandingGreaterThanTest()
         {
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -495,7 +495,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HardStandingNonShadedTest()
         {
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,
@@ -518,7 +518,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HardStandingShadedTest()
         {
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             TenCountStrategy player = new TenCountStrategy
             {
                 Chips = 500,

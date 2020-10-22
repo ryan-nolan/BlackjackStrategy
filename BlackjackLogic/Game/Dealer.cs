@@ -29,24 +29,24 @@ namespace BlackjackLogic.Game
             {
                 if (hand.handValues[1] >= 17)
                 {
-                    CurrentState = PlayerState.STAND;
-                    return PlayerState.STAND;
+                    CurrentState = PlayerState.Stand;
+                    return PlayerState.Stand;
                 }
             }
             if (hand.handValues.First() > 21)
             {
-                CurrentState = PlayerState.BUST;
-                return PlayerState.BUST;
+                CurrentState = PlayerState.Bust;
+                return PlayerState.Bust;
             }
             else if (hand.handValues.First() < 17)
             {
-                CurrentState = PlayerState.HIT;
-                return PlayerState.HIT;
+                CurrentState = PlayerState.Hit;
+                return PlayerState.Hit;
             }
             else
             {
-                CurrentState = PlayerState.STAND;
-                return PlayerState.STAND;
+                CurrentState = PlayerState.Stand;
+                return PlayerState.Stand;
             }
         }
         /// <summary>

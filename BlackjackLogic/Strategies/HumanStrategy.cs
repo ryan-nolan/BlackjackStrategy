@@ -62,8 +62,8 @@ namespace BlackjackLogic.Strategies
             //Console.Write("Enter an action: ");
             if (hand.handValues.First() > 21)
             {
-                CurrentState = PlayerState.BUST;
-                return PlayerState.BUST;
+                CurrentState = PlayerState.Bust;
+                return PlayerState.Bust;
             }
             else
             {
@@ -76,18 +76,18 @@ namespace BlackjackLogic.Strategies
                     switch (action)
                     {
                         case "HIT":
-                            stateToChange = PlayerState.HIT;
-                            return PlayerState.HIT;
+                            stateToChange = PlayerState.Hit;
+                            return PlayerState.Hit;
                         case "STAND":
-                            stateToChange = PlayerState.STAND;
-                            return PlayerState.STAND;
+                            stateToChange = PlayerState.Stand;
+                            return PlayerState.Stand;
                         case "SPLIT":
                             if (hand.cards.Count == 2)
                             {
                                 if (hand.cards.First().Value == hand.cards.Last().Value)
                                 {
-                                    stateToChange = PlayerState.SPLIT;
-                                    return PlayerState.SPLIT;
+                                    stateToChange = PlayerState.Split;
+                                    return PlayerState.Split;
                                 }
                             }
                             //CurrentState = PlayerState.SPLIT;
@@ -96,16 +96,16 @@ namespace BlackjackLogic.Strategies
                             Console.WriteLine("Invalid Action: Can't split with two different values");
                             break;
                         case "DOUBLE_DOWN":
-                            stateToChange = PlayerState.DOUBLE_DOWN;
-                            return PlayerState.DOUBLE_DOWN;
+                            stateToChange = PlayerState.DoubleDown;
+                            return PlayerState.DoubleDown;
                         default:
                             Console.WriteLine("Invalid Action: Possible actions are HIT, STAND, SPLIT and DOUBLE_DOWN");
                             action = null;
                             break;
                     }
                 }
-                stateToChange = PlayerState.BUST;
-                return PlayerState.BUST;
+                stateToChange = PlayerState.Bust;
+                return PlayerState.Bust;
             }
         }
 

@@ -4,10 +4,10 @@
 /// </summary>
 public enum PlayerState
 {
-    HIT,
-    STAND,
-    SPLIT,
-    DOUBLE_DOWN,
-    BUST,
+    Hit,
+    Stand,
+    Split,
+    DoubleDown,
+    Bust,
 
 }

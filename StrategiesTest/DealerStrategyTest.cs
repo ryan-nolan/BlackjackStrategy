@@ -13,7 +13,7 @@ namespace StrategiesTest
         public void StandOnSoft17Test()
         {
 
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Player player = new DealerStrategy
             {
                 Chips = 500,
@@ -33,7 +33,7 @@ namespace StrategiesTest
         public void HitOnLessThanHard17Test()
         {
 
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             Player player = new DealerStrategy
             {
                 Chips = 500,
@@ -53,7 +53,7 @@ namespace StrategiesTest
         public void StandOnGreaterThanHard17Test()
         {
 
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Player player = new DealerStrategy
             {
                 Chips = 500,

@@ -90,7 +90,7 @@ namespace StrategiesTest
         public void SoftStandingNumberPlayer18Dealer9()
         {
 
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             //Deck deck = new Deck(52);
             Player player = new FiveCountStrategy
             {
@@ -115,7 +115,7 @@ namespace StrategiesTest
         public void SoftStandingNumberPlayer19()
         {
 
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Player player = new FiveCountStrategy
             {
                 Chips = 500,
@@ -137,7 +137,7 @@ namespace StrategiesTest
         public void SoftStandingNumberPlayer18()
         {
 
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Player player = new FiveCountStrategy
             {
                 Chips = 500,
@@ -160,7 +160,7 @@ namespace StrategiesTest
         public void NoFivesSplit10Dealer6Test()
         {
 
-            PlayerState expectedState = PlayerState.SPLIT;
+            PlayerState expectedState = PlayerState.Split;
             //Deck deck = new Deck(52);
             Player player = new FiveCountStrategy
             {
@@ -185,7 +185,7 @@ namespace StrategiesTest
         public void NoFivesSoftDoubleTest()
         {
 
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             //Deck deck = new Deck(52);
             Player player = new FiveCountStrategy
             {
@@ -209,7 +209,7 @@ namespace StrategiesTest
         public void HardDoubleTest()
         {
 
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             //Deck deck = new Deck(52);
             Player player = new FiveCountStrategy
             {
@@ -233,7 +233,7 @@ namespace StrategiesTest
         public void HardStandTest()
         {
 
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             //Deck deck = new Deck(52);
             Player player = new FiveCountStrategy
             {
@@ -258,7 +258,7 @@ namespace StrategiesTest
         public void DoubleOnFourFourAgainstFourTest()
         {
 
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             //Deck deck = new Deck(52);
             Player player = new FiveCountStrategy
             {
@@ -282,7 +282,7 @@ namespace StrategiesTest
         [TestMethod]
         public void DoubleDownExceptSixTwoTest()
         {
-            PlayerState expectedState = PlayerState.DOUBLE_DOWN;
+            PlayerState expectedState = PlayerState.DoubleDown;
             Player player = new FiveCountStrategy
             {
                 Chips = 500,
@@ -303,7 +303,7 @@ namespace StrategiesTest
         [TestMethod]
         public void StandHoldingSevenSevenAgainstTenTest()
         {
-            PlayerState expectedState = PlayerState.STAND;
+            PlayerState expectedState = PlayerState.Stand;
             Player player = new FiveCountStrategy
             {
                 Chips = 500,
@@ -324,7 +324,7 @@ namespace StrategiesTest
         [TestMethod]
         public void HoldingHard16Against10Test()
         {
-            PlayerState expectedState = PlayerState.HIT;
+            PlayerState expectedState = PlayerState.Hit;
             Player player = new FiveCountStrategy
             {
                 Chips = 500,
